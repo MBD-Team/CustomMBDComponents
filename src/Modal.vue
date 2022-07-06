@@ -39,7 +39,7 @@
                   <span v-else class="me-3 spinner-border spinner-border-sm text-warning"></span>
                 </template>
                 <template v-if="affirmText">
-                  <button @click="affirm()" v-if="!affirmLoading" type="submit" class="btn btn-primary">
+                  <button @click="affirm()" v-if="!affirmLoading" type="submit" :class="affirmClass">
                     {{ affirmText }}
                   </button>
                   <span v-else class="me-3 spinner-border spinner-border-sm text-primary"></span>
@@ -48,7 +48,7 @@
                   <button
                     v-if="!negativeLoading"
                     type="submit"
-                    class="btn btn-secondary"
+                    :class="negativeClass"
                     @click="
                       () => {
                         showModal = false;
@@ -87,20 +87,34 @@ const props = withDefaults(
     title: string;
     affirmText: string;
     affirmAction: () => Promise<void>;
+    affirmClass?: string;
     affirmAltText?: string;
-    affirmAltClass?: string;
     affirmAltAction?: () => Promise<void>;
+    affirmAltClass?: string;
     negativeText?: string;
     negativeAction?: () => Promise<void>;
+    negativeClass?: string;
   }>(),
   {
     modelValue: undefined,
-    affirmText: '',
-    negativeText: '',
+    affirmClass: 'btn btn-primary',
+    negativeClass: 'btn btn-secondary',
     affirmAltClass: 'btn btn-warning',
   }
 );
-const { modelValue, title, affirmText, affirmAction, negativeText, negativeAction, affirmAltText, affirmAltAction } = toRefs(props);
+const {
+  modelValue,
+  title,
+  affirmText,
+  affirmAction,
+  affirmClass,
+  negativeText,
+  negativeAction,
+  negativeClass,
+  affirmAltText,
+  affirmAltAction,
+  affirmAltClass,
+} = toRefs(props);
 // if v model updates, update showModal, and if showModal changes, emit event that its updated
 // this allows for an optional v-model that can be used to open/close the modal
 const showModal = ref(!!modelValue?.value);
