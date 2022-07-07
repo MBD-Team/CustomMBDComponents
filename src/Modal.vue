@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, ref, watchEffect, watch } from 'vue';
+import { toRefs, ref, watch } from 'vue';
 const affirmLoading = ref(false);
 const affirmAltLoading = ref(false);
 const negativeLoading = ref(false);
@@ -86,13 +86,13 @@ const props = withDefaults(
     modelValue?: boolean;
     title: string;
     affirmText: string;
-    affirmAction: () => Promise<void>;
+    affirmAction: () => Promise<void> | void;
     affirmClass?: string;
     affirmAltText?: string;
-    affirmAltAction?: () => Promise<void>;
+    affirmAltAction?: () => Promise<void> | void;
     affirmAltClass?: string;
     negativeText?: string;
-    negativeAction?: () => Promise<void>;
+    negativeAction?: () => Promise<void> | void;
     negativeClass?: string;
   }>(),
   {

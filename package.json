@@ -6,7 +6,7 @@
   "browser": "index.ts",
   "module": "index.ts",
   "files": [
-    "src/**/*.vue",
+    "src/*.vue",
     "src/utils/**/*.*"
   ],
   "scripts": {
