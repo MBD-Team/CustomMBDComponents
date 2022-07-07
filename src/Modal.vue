@@ -32,18 +32,6 @@
                 <slot></slot>
               </div>
               <div class="modal-footer" v-if="affirmText || negativeText">
-                <template v-if="affirmAltText">
-                  <button @click="affirmAlt()" v-if="!affirmAltLoading" type="submit" :class="affirmAltClass">
-                    {{ affirmAltText }}
-                  </button>
-                  <span v-else class="me-3 spinner-border spinner-border-sm text-warning"></span>
-                </template>
-                <template v-if="affirmText">
-                  <button @click="affirm()" v-if="!affirmLoading" type="submit" :class="affirmClass">
-                    {{ affirmText }}
-                  </button>
-                  <span v-else class="me-3 spinner-border spinner-border-sm text-primary"></span>
-                </template>
                 <template v-if="negativeText">
                   <button
                     v-if="!negativeLoading"
@@ -58,6 +46,18 @@
                     "
                   >
                     {{ negativeText }}
+                  </button>
+                  <span v-else class="me-3 spinner-border spinner-border-sm text-primary"></span>
+                </template>
+                <template v-if="affirmAltText">
+                  <button @click="affirmAlt()" v-if="!affirmAltLoading" type="submit" :class="affirmAltClass">
+                    {{ affirmAltText }}
+                  </button>
+                  <span v-else class="me-3 spinner-border spinner-border-sm text-warning"></span>
+                </template>
+                <template v-if="affirmText">
+                  <button @click="affirm()" v-if="!affirmLoading" type="submit" :class="affirmClass">
+                    {{ affirmText }}
                   </button>
                   <span v-else class="me-3 spinner-border spinner-border-sm text-primary"></span>
                 </template>
