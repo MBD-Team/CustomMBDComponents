@@ -1,2 +1,3 @@
-export { default as SexyButton } from './src/Button.vue';
 export { default as Modal } from './src/Modal.vue';
+export { default as Spinner } from './src/Spinner.vue';
+export { default as LoadingButton } from './src/LoadingButton.vue';

@@ -1,5 +1,4 @@
 import { Meta, StoryFn } from '@storybook/vue3';
-import { ref } from 'vue';
 import { screen, userEvent } from '@storybook/testing-library';
 
 import Modal from './Modal.vue';
@@ -7,6 +6,7 @@ import Modal from './Modal.vue';
 export default {
   title: 'Modal',
   component: Modal,
+  argTypes: {},
 };
 
 const ModalFromTemplate =
@@ -27,6 +27,7 @@ const ModalFromTemplate =
 //👇 We create a “template” of how args map to rendering
 export const ExampleModal = ModalFromTemplate(
   args => String.raw`
+  <i>affirm, affirmAlt, and negative buttons only appear if they have text assigned</i><br><br>
     <Modal title="ModalTitle" affirmText="affirm" affirmClass="btn btn-success" affirmAltText="affirm alternative" affirmAltClass="btn btn-info" 
         negativeText="negative" negativeClass="btn btn-danger" ${args}>
       <p>test modal body contet</p>
@@ -39,7 +40,13 @@ export const ExampleModal = ModalFromTemplate(
       <p class="text-center text-secondary mt-4">click on the image to open the modal</p>
     `
 );
-
+export const BasicModal = ModalFromTemplate(
+  args => String.raw`
+  <Modal title="Title">
+    basic Content
+    <template #button><button role="button" class="btn btn-primary">Open Modal Button</button></template>
+  </Modal>`
+);
 export const FormModal = ModalFromTemplate(
   args => String.raw`
     <Modal title="FormModal" affirmText="submit form" affirmClass="btn btn-primary"  negativeText="cancel" negativeClass="btn btn-secondary" ${args}>
@@ -55,20 +62,12 @@ export const FormModal = ModalFromTemplate(
   `
 );
 
-export const BasicModal = ModalFromTemplate(
-  args => String.raw`
-  <Modal>
-    <form><input data-testid="input" class="form-control" type="text" placeholder="text"></form>
-    <template #button><button role="button" class="btn btn-primary">Open Modal Button</button></template>
-  </Modal>`
-);
+// BasicModal.play = async () => {
+//   const button = screen.getByRole('button');
+//   await userEvent.click(button);
 
-BasicModal.play = async () => {
-  const button = screen.getByRole('button');
-  await userEvent.click(button);
-
-  const input = screen.getByTestId('input');
-  await userEvent.type(input, 'testtesttesttesttest', {
-    delay: 800,
-  });
-};
+//   const input = screen.getByTestId('input');
+//   await userEvent.type(input, 'testtesttesttesttest', {
+//     delay: 50,
+//   });
+// };
