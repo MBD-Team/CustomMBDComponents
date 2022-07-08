@@ -1,3 +1,4 @@
-export { default as Modal } from './src/Modal.vue';
-export { default as Spinner } from './src/Spinner.vue';
-export { default as LoadingButton } from './src/LoadingButton.vue';
+export { default as Modal } from './src/components/Modal.vue';
+export { default as Spinner } from './src/components/Spinner.vue';
+export { default as LoadingButton } from './src/components/LoadingButton.vue';
+export { default as Calendar } from './src/components/Calendar/Calendar.vue';

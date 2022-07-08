@@ -1,4 +1,4 @@
-import LoadingButton from './LoadingButton.vue';
+import LoadingButton from '../components/LoadingButton.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 

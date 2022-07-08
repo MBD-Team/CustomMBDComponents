@@ -6,8 +6,8 @@
   "browser": "index.ts",
   "module": "index.ts",
   "files": [
-    "src/*.vue",
-    "src/utils/**/*.*"
+    "src/utils/**/*.*",
+    "src/components/**/*.vue"
   ],
   "scripts": {
     "dev": "vite",
