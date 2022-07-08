@@ -1,5 +1,5 @@
 <template>
-  <button class="" :class="`btn btn-${buttonColor}`" type="button">
+  <button :class="className" :disabled="loading">
     <Spinner v-if="loading" :color="spinnerColor" class="me-2" :size="spinnerSize"></Spinner>
     <slot></slot>
   </button>
@@ -10,17 +10,17 @@ import Spinner from './Spinner.vue';
 
 const props = withDefaults(
   defineProps<{
-    spinnerColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'danger' | 'warning' | 'info' | 'success' | 'muted' | 'white' | 'black' | '';
-    buttonColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'danger' | 'warning' | 'info' | 'success' | 'muted' | 'white' | 'black';
+    spinnerColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'danger' | 'warning' | 'info' | 'success' | '';
+    class?: string;
     spinnerSize?: string;
     loading: boolean;
   }>(),
   {
     spinnerColor: '',
-    buttonColor: 'primary',
+    class: 'btn btn-primary',
     spinnerSize: '1em',
   }
 );
-const { spinnerColor, spinnerSize } = toRefs(props);
+const { spinnerColor, spinnerSize, class: className } = toRefs(props);
 </script>
 <style lang="scss" scoped></style>

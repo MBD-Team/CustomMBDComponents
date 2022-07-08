@@ -12,10 +12,7 @@ export default {
       control: { type: 'select' },
       options: ['', 'primary', 'secondary', 'light', 'dark', 'danger', 'warning', 'info', 'success'],
     },
-    buttonColor: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'light', 'dark', 'danger', 'warning', 'info', 'success'],
-    },
+    class: { type: 'string' },
   },
 };
 
@@ -38,26 +35,27 @@ const LoadingButtonFromTemplate =
 //👇 Each story then reuses that template
 export const BasicLoadingButton = LoadingButtonFromTemplate(
   args => String.raw`
-  <LoadingButton :loading="true" class="me-3"  ${args}> I am Loading</LoadingButton>
+  <LoadingButton :loading="true" ${args}> I am Loading</LoadingButton>
+  <div class="my-3"></div>
   <LoadingButton :loading="false" ${args} >I am not Loading</LoadingButton>
     `
 );
 export const ColoredLoadingButtons = LoadingButtonFromTemplate(
   args => String.raw`
-  <div style="display: grid; grid-template-columns: repeat(3,1fr)">
-    <LoadingButton :loading="true" class="m-3" spinnerColor="danger"  ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" spinnerColor="info" ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" spinnerColor="light" ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" spinnerColor="warning" ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" spinnerColor="primary" ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" spinnerColor="secondary"  ${args}> I am Loading</LoadingButton>
+  <div style="display: grid; grid-template-columns: repeat(3,1fr);gap:1em">
+    <LoadingButton :loading="true" spinnerColor="danger" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" spinnerColor="info" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" spinnerColor="light" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" spinnerColor="warning" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" spinnerColor="primary" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" spinnerColor="secondary"  ${args}> I am Loading</LoadingButton>
 
-    <LoadingButton :loading="true" class="m-3" buttonColor="primary" ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" buttonColor="success"   ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" buttonColor="danger"  ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" buttonColor="dark"  ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" buttonColor="info"  ${args}> I am Loading</LoadingButton>
-    <LoadingButton :loading="true" class="m-3" buttonColor="secondary"  ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" class="btn btn-primary" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" class="btn btn-primary" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" class="btn btn-danger" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" class="btn btn-dark" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" class="btn btn-info" ${args}> I am Loading</LoadingButton>
+    <LoadingButton :loading="true" class="btn btn-secondary" ${args}> I am Loading</LoadingButton>
     </div>
     <i>all bootstrap colors are possible</i>
       `
