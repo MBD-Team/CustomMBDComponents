@@ -86,13 +86,13 @@ const props = withDefaults(
     modelValue?: boolean;
     title?: string;
     affirmText?: string;
-    affirmAction?: () => Promise<void> | void;
+    affirmAction?: () => Promise<void> | (() => void);
     affirmClass?: string;
     affirmAltText?: string;
-    affirmAltAction?: () => Promise<void> | void;
+    affirmAltAction?: () => Promise<void> | (() => void);
     affirmAltClass?: string;
     negativeText?: string;
-    negativeAction?: () => Promise<void> | void;
+    negativeAction?: () => Promise<void> | (() => void);
     negativeClass?: string;
   }>(),
   {
@@ -122,6 +122,7 @@ const emit = defineEmits(['update:modelValue']);
 watch([showModal], () => emit('update:modelValue', showModal.value));
 watch([modelValue], () => modelValue?.value !== undefined && showModal.value != modelValue.value && (showModal.value = modelValue.value));
 async function affirm() {
+  if (!affirmAction?.value) return;
   resetError();
   affirmLoading.value = true;
   try {
