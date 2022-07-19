@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { computed, defineProps, defineEmits, toRefs } from 'vue';
 import { DateTime } from 'luxon';
-import type { Event } from './Calendar.vue';
+import type { Event } from '../../utils/types';
 
 const props =
   defineProps<{

@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import { DateTime } from 'luxon';
 import { computed, defineProps, toRefs, defineEmits } from 'vue';
-import type { Event } from './Calendar.vue';
+import type { Event } from '../../utils/types';
 
 const props =
   defineProps<{

@@ -224,34 +224,12 @@
   </div>
 </template>
 
-<script lang="ts">
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-export type Event = {
-  start: string;
-  end: string;
-  name: string;
-  id: number;
-  color?: string;
-  group_id: number | null;
-};
-
-export type Group = {
-  name: string;
-  id: number | null;
-  checked: boolean;
-  color?: string;
-};
-
-export type Layout = {
-  groupSize: number;
-  groupIndex: number;
-};
-</script>
+<script lang="ts"></script>
 
 <script lang="ts" setup>
 import Vue from 'vue';
 import { DateTime } from 'luxon';
+import type{ Event, Group } from '../../utils/types';
 
 import { computed, defineProps, ref, toRefs, defineEmits, nextTick, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';
