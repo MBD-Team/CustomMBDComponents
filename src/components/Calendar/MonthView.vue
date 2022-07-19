@@ -98,7 +98,7 @@
 import { DateTime } from 'luxon';
 
 import { defineProps, toRefs, defineEmits, computed } from 'vue';
-import { Event } from '../../utils/types';
+import { Event } from './types';
 
 const props =
   defineProps<{

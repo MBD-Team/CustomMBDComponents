@@ -229,7 +229,7 @@
 <script lang="ts" setup>
 import Vue from 'vue';
 import { DateTime } from 'luxon';
-import type{ Event, Group } from '../../utils/types';
+import type { Event, Group } from './types';
 
 import { computed, defineProps, ref, toRefs, defineEmits, nextTick, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';

@@ -13,8 +13,3 @@ export type Group = {
   checked: boolean;
   color?: string;
 };
-
-// export type Layout = {
-//   groupSize: number;
-//   groupIndex: number;
-// };

@@ -9,7 +9,7 @@
             resetError();
           "
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" :class="modalSize" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">{{ title }}</h5>
@@ -94,6 +94,7 @@ const props = withDefaults(
     negativeText?: string;
     negativeAction?: () => Promise<void> | (() => void);
     negativeClass?: string;
+    modalSize?: string;
   }>(),
   {
     modelValue: undefined,
@@ -114,6 +115,7 @@ const {
   affirmAltText,
   affirmAltAction,
   affirmAltClass,
+  modalSize,
 } = toRefs(props);
 // if v model updates, update showModal, and if showModal changes, emit event that its updated
 // this allows for an optional v-model that can be used to open/close the modal
