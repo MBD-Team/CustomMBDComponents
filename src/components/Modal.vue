@@ -84,9 +84,9 @@ const error = ref('');
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
-    title: string;
-    affirmText: string;
-    affirmAction: () => Promise<void> | void;
+    title?: string;
+    affirmText?: string;
+    affirmAction?: () => Promise<void> | void;
     affirmClass?: string;
     affirmAltText?: string;
     affirmAltAction?: () => Promise<void> | void;
