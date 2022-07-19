@@ -26,7 +26,38 @@ const CalendarButtonFromTemplate =
         return {
           args,
           console,
-          groups: ref([{ id: 1, name: 'Group1', checked: true }]),
+          groups: ref([
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+            { id: 1, name: 'Group1', checked: true },
+          ]),
           events: ref([
             {
               start: new Date().toISOString().split('T')[0] + ' 12:00',
@@ -45,7 +76,7 @@ const CalendarButtonFromTemplate =
 //👇 Each story then reuses that template
 export const BasicCalendar = CalendarButtonFromTemplate(
   args => String.raw`
-   <Calendar
+ <Calendar
         hash="calendar"
         :displayHours="[7, 20]"
         :events='events'

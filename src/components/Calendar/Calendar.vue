@@ -48,7 +48,7 @@
         >
           Alle auswählen
         </button>
-        <div style="height: 335px; overflow: auto">
+        <div style="max-height: 100vh; overflow: auto">
           <div
             class="p-1 ps-2"
             v-for="(group, index) of groups"
@@ -90,7 +90,7 @@
         >
           Alle auswählen
         </button>
-        <div style="flex: 1; overflow: auto">
+        <div style="flex: 1; overflow: auto; max-height: 45vh">
           <div
             class="p-1 ps-2"
             v-for="(group, index) of groups"
