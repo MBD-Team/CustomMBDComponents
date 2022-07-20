@@ -83,13 +83,7 @@
         <div class="m-2">
           <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
         </div>
-        <button
-          style="padding-left: 3.75rem; padding-right: 3.75rem"
-          class="btn btn-secondary ms-2 mb-2 me-2"
-          @click="groups.forEach(g => (g.checked = true))"
-        >
-          Alle auswählen
-        </button>
+        <button class="btn btn-secondary ms-2 mb-2 me-2" @click="groups.forEach(g => (g.checked = true))">Alle auswählen</button>
         <div style="flex: 1; overflow: auto; max-height: 45vh">
           <div
             class="p-1 ps-2"
