@@ -59,7 +59,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { useCalcSideWidth } from './global.js';
+import { useCalcSideWidth } from './Inputs.js';
 import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(
