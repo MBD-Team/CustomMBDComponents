@@ -36,6 +36,7 @@
                   <Button
                     v-if="negativeText"
                     style="height: 2rem; font-size: 1rem"
+                    class="border-0"
                     :loading="negativeLoading"
                     :class="negativeClass"
                     @click="
@@ -56,12 +57,20 @@
                     :class="affirmAltClass"
                     @click="affirmAlt()"
                     style="height: 2rem; font-size: 1rem"
+                    class="border-0"
                   >
                     {{ affirmAltText }}
                   </Button>
                 </div>
                 <div>
-                  <Button v-if="affirmText" :loading="affirmLoading" :class="affirmClass" @click="affirm()" style="height: 2rem; font-size: 1rem">
+                  <Button
+                    v-if="affirmText"
+                    :loading="affirmLoading"
+                    :class="affirmClass"
+                    @click="affirm()"
+                    style="height: 2rem; font-size: 1rem"
+                    class="border-0"
+                  >
                     {{ affirmText }}
                   </Button>
                 </div>

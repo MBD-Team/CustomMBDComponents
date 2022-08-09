@@ -28,8 +28,8 @@ const ModalFromTemplate =
 export const ExampleModal = ModalFromTemplate(
   args => String.raw`
   <i>affirm, affirmAlt, and negative buttons only appear if they have text assigned</i><br><br>
-    <Modal title="ModalTitle" affirmText="affirm" affirmClass="bg-success text-light" affirmAltText="affirm alternative" affirmAltClass="bg-info" 
-        negativeText="negative" negativeClass="bg-danger text-light" ${args}>
+    <Modal title="ModalTitle" affirmText="affirm" affirmClass="btn-success" affirmAltText="affirm alternative" affirmAltClass="" 
+        negativeText="negative" negativeClass=" btn-danger " ${args}>
       <p>test modal body contet</p>
       <img src="https://i.picsum.photos/id/629/200/300.jpg?hmac=YTSnJIQbXgJTOWUeXAqVeQYHZDodXXFFJxd5RTKs7yU">
       <p>test modal body contet</p>

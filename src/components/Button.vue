@@ -29,14 +29,12 @@ const { spinnerColor, spinnerSize } = toRefs(props);
 </script>
 <style scoped lang="scss">
 button {
+  box-shadow: none !important;
   height: 2.5rem;
   width: 100%;
-  color: black;
   padding-inline: 0.8rem;
   font-size: 1.3rem;
   line-height: 1rem;
-  border-color: black;
-  border-width: 1px;
   border-radius: 0.5rem;
   transition: all 0.25s ease-out;
   &:hover {
