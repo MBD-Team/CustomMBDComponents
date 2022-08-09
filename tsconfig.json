@@ -13,14 +13,5 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true
   },
-  "include": [
-    "index.ts",
-    "src/components/SexyInputs/Inputs.ts",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "dev/serve.ts",
-    "dev/serve.vue"
-  ]
+  "include": ["index.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "dev/serve.ts", "dev/serve.vue"]
 }
