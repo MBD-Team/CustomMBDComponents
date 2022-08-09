@@ -3,8 +3,8 @@
     <Modal title="ModalTitle" affirmText="test" :affirmAction="() => console.log('test')">
       <template #button><button class="btn btn-primary m-5">this is the open Modal Button</button></template>
     </Modal>
-    <LoadingButton @click="loading = !loading" :loading="loading" class="btn btn-primary me-5">I am a Loading Button</LoadingButton>
-    <LoadingButton @click="loading = !loading" :loading="!loading">I am a Loading Button</LoadingButton>
+    <Button @click="loading = !loading" :loading="loading" class="btn btn-primary me-5">I am a Loading Button</Button>
+    <Button @click="loading = !loading" :loading="!loading">I am a Loading Button</Button>
     <div class="m-5">
       <Spinner :color="'danger'" :size="'2em'" />
     </div>
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import Modal from '../src/components/Modal.vue';
-import LoadingButton from '../src/components/LoadingButton.vue';
+import Button from '../src/components/Button.vue';
 import Spinner from '../src/components/Spinner.vue';
 import Calendar from '../src/components/Calendar/Calendar.vue';
 import { ref } from 'vue';
