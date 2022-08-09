@@ -32,10 +32,11 @@
                 <slot></slot>
               </div>
               <div class="modal-footer" v-if="affirmText || negativeText">
-                <template v-if="negativeText">
-                  <button
-                    v-if="!negativeLoading"
-                    type="submit"
+                <div>
+                  <Button
+                    v-if="negativeText"
+                    style="height: 2rem; font-size: 1rem"
+                    :loading="negativeLoading"
                     :class="negativeClass"
                     @click="
                       () => {
@@ -46,21 +47,24 @@
                     "
                   >
                     {{ negativeText }}
-                  </button>
-                  <span v-else class="me-3 spinner-border spinner-border-sm text-primary"></span>
-                </template>
-                <template v-if="affirmAltText">
-                  <button @click="affirmAlt()" v-if="!affirmAltLoading" type="submit" :class="affirmAltClass">
+                  </Button>
+                </div>
+                <div>
+                  <Button
+                    v-if="affirmAltText"
+                    :loading="affirmAltLoading"
+                    :class="affirmAltClass"
+                    @click="affirmAlt()"
+                    style="height: 2rem; font-size: 1rem"
+                  >
                     {{ affirmAltText }}
-                  </button>
-                  <span v-else class="me-3 spinner-border spinner-border-sm text-warning"></span>
-                </template>
-                <template v-if="affirmText">
-                  <button @click="affirm()" v-if="!affirmLoading" type="submit" :class="affirmClass">
+                  </Button>
+                </div>
+                <div>
+                  <Button v-if="affirmText" :loading="affirmLoading" :class="affirmClass" @click="affirm()" style="height: 2rem; font-size: 1rem">
                     {{ affirmText }}
-                  </button>
-                  <span v-else class="me-3 spinner-border spinner-border-sm text-primary"></span>
-                </template>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -77,6 +81,7 @@
 
 <script lang="ts" setup>
 import { toRefs, ref, watch } from 'vue';
+import Button from './Button.vue';
 const affirmLoading = ref(false);
 const affirmAltLoading = ref(false);
 const negativeLoading = ref(false);
@@ -98,9 +103,9 @@ const props = withDefaults(
   }>(),
   {
     modelValue: undefined,
-    affirmClass: 'btn btn-primary',
-    negativeClass: 'btn btn-secondary',
-    affirmAltClass: 'btn btn-warning',
+    affirmClass: 'bg-primary',
+    negativeClass: 'bg-secondary',
+    affirmAltClass: 'bg-warning',
   }
 );
 const {
