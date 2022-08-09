@@ -1,5 +1,5 @@
 <template>
-  <div :class="color ? `text-${color}` : ``" class="spinner-border" :style="{ width: size, height: size }" role="status">
+  <div :class="color ? `text-${color}` : ``" class="spinner-border spinner-border-sm" :style="{ width: size, height: size }" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </template>
