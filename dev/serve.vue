@@ -1,8 +1,8 @@
 <template>
-  <div id="app" style="height: 100vh">
-    <Carousel :itemArray="items" :itemsPerPage="items.length < 10 ? items.length : 10" v-slot="slotProps">
-      <div class="d-flex justify-content-center">{{ slotProps.item.name }}{{ slotProps.item.value }}</div>
-    </Carousel>
+  <div id="app" style="height: 100vh" class="d-flex justify-content-center align-items-center flex-column">
+    <CheckboxGroup :options="items" class="test"></CheckboxGroup>
+    <RadioGroup :options="items" class=""></RadioGroup>
+    <ButtonGroup :options="items" class="bg-primary text-light"></ButtonGroup>
   </div>
 </template>
 
@@ -12,18 +12,21 @@ import Button from '../src/components/Button.vue';
 import Spinner from '../src/components/Spinner.vue';
 import Calendar from '../src/components/Calendar/Calendar.vue';
 import Carousel from '../src/components/Carousel.vue';
+import CheckboxGroup from '../src/components/SexyInputs/CheckboxGroup.vue';
+import RadioGroup from '../src/components/SexyInputs/RadioGroup.vue';
+import ButtonGroup from '../src/components/SexyInputs/ButtonGroup.vue';
 import { ref } from 'vue';
 
 const console = window.console;
 
 const items = ref([
-  { name: 'test', value: 1 },
-  { name: 'abc', value: 2 },
-  { name: 'a', value: 1 },
-  { name: 'b', value: 2 },
+  { text: 'testdsvgfhjsbvdhj', value: 1, function: () => console.log('test') },
+  { text: 'abc', value: 2, function: () => console.log('abc') },
+  { text: 'a', value: 3, function: () => console.log('a') },
+  { text: 'b', value: 4, function: () => console.log('b') },
 ]);
 
 const loading = ref(false);
 const groups = ref([{ id: 1, name: 'Group1', checked: true }]);
 </script>
-<style lang="css" scoped></style>
+<style lang="scss"></style>

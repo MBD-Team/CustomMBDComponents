@@ -1,6 +1,7 @@
 export { default as Modal } from './src/components/Modal.vue';
 export { default as Spinner } from './src/components/Spinner.vue';
 export { default as Button } from './src/components/Button.vue';
+export { default as Carousel } from './src/components/Carousel.vue';
 export { default as Calendar } from './src/components/Calendar/Calendar.vue';
 export type { Group as CalendarGroup, Event as CalendarEvent } from './src/components/Calendar/types';
 
@@ -19,3 +20,6 @@ export { default as SelectInput } from './src/components/SexyInputs/Select.vue';
 export { default as MultiSelectInput } from './src/components/SexyInputs/MultiSelect.vue';
 export { default as CheckboxInput } from './src/components/SexyInputs/Checkbox.vue';
 export { default as RadiobuttonsInput } from './src/components/SexyInputs/Radiobuttons.vue';
+export { default as RadioGroup } from './src/components/SexyInputs/RadioGroup.vue';
+export { default as CheckboxGroup } from './src/components/SexyInputs/CheckboxGroup.vue';
+export { default as ButtonGroup } from './src/components/SexyInputs/ButtonGroup.vue';

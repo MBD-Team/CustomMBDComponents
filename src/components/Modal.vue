@@ -191,6 +191,9 @@ function resetError() {
 .modal-wrapper {
   display: table-cell;
 }
+.modal-content {
+  border-radius: 0.5rem;
+}
 .modal-container {
   width: 300px;
   margin: 0px auto;

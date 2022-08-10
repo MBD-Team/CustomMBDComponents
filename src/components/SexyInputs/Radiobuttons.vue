@@ -11,11 +11,6 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 const emit = defineEmits(['update:modelValue']);
