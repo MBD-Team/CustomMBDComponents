@@ -1,31 +1,31 @@
-import Select from '../components/SexyInputs/Select.vue';
+import Date from '../../components/SexyInputs/Date.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: Select,
+  component: Date,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const SelectFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Select> =>
+const DateFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Date> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Select },
+      components: { Date },
       setup() {
-        return { args, console, StringVModel: ref('') };
+        return { args, console, DateVmodel: ref('') };
       },
       template: template(otherArgs),
     };
   };
-export const BasicSelect = SelectFromTemplate(
+export const BasicDate = DateFromTemplate(
   args =>
     String.raw`
-            <Select placeholder="Select" v-model="StringVModel" :options="['1','2','3']" ${args}></Select>
-          `
+    <Date placeholder="date" v-model="DateVmodel" ${args}></Date>
+  `
 );

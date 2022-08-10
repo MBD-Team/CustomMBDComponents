@@ -1,4 +1,4 @@
-import MultiFile from '../components/SexyInputs/MultiFile.vue';
+import MultiFile from '../../components/SexyInputs/MultiFile.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';

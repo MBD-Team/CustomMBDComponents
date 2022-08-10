@@ -1,4 +1,4 @@
-import Spinner from '../components/Spinner.vue';
+import Spinner from '../../components/Spinner.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 

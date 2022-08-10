@@ -1,31 +1,31 @@
-import Time from '../components/SexyInputs/Time.vue';
+import Range from '../../components/SexyInputs/Range.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: Time,
+  component: Range,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const TimeFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Time> =>
+const RangeFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Range> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Time },
+      components: { Range },
       setup() {
-        return { args, console, DateVmodel: ref('') };
+        return { args, console, NumberVModel: ref(0) };
       },
       template: template(otherArgs),
     };
   };
-export const BasicTime = TimeFromTemplate(
+export const BasicRange = RangeFromTemplate(
   args =>
     String.raw`
-        <Time placeholder="Time" v-model="DateVmodel" ${args}></Time>
-      `
+            <Range placeholder="Range" min="-5" max="50" v-model="NumberVModel" ${args}></Range>
+          `
 );

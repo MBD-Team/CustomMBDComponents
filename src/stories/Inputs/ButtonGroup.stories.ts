@@ -1,4 +1,4 @@
-import ButtonGroup from '../components/SexyInputs/ButtonGroup.vue';
+import ButtonGroup from '../../components/SexyInputs/ButtonGroup.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';

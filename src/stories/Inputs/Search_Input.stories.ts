@@ -1,4 +1,4 @@
-import Search from '../components/SexyInputs/Search.vue';
+import Search from '../../components/SexyInputs/Search.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';

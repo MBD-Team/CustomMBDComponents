@@ -1,32 +1,33 @@
-import CheckboxGroup from '../components/SexyInputs/CheckboxGroup.vue';
+import RadioGroup from '../../components/SexyInputs/RadioGroup.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: CheckboxGroup,
+  component: RadioGroup,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const CheckboxGroupFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof CheckboxGroup> =>
+const RadioGroupFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof RadioGroup> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { CheckboxGroup },
+      components: { RadioGroup },
       setup() {
         return {
           args,
           console,
           items: ref([
-            { text: 'testdsvgfhjsbvdhj', value: 1, active: false },
-            { text: 'abc', value: 2, active: false },
-            { text: 'a', value: 3, active: false },
-            { text: 'b', value: 4, active: false },
+            { text: 'testdsvgfhjsbvdhj', value: 1 },
+            { text: 'abc', value: 2 },
+            { text: 'a', value: 3 },
+            { text: 'b', value: 4 },
           ]),
+          RadioVModel: ref(2),
         };
       },
       template: template(otherArgs),
@@ -34,9 +35,9 @@ const CheckboxGroupFromTemplate =
   };
 
 //👇 Each story then reuses that template
-export const BasicCheckboxGroup = CheckboxGroupFromTemplate(
+export const BasicRadioGroup = RadioGroupFromTemplate(
   args =>
     String.raw`
-    <CheckboxGroup :options="items" ${args}></CheckboxGroup>
+    <RadioGroup :options="items" v-model="RadioVModel" ${args}></RadioGroup>
   `
 );

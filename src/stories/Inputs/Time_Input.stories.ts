@@ -1,33 +1,31 @@
-import Button from '../components/Button.vue';
+import Time from '../../components/SexyInputs/Time.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
-  title: 'Button',
-  component: Button,
+  title: 'Inputs',
+  component: Time,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const ButtonFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Button> =>
+const TimeFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Time> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Button },
+      components: { Time },
       setup() {
-        return { args, console };
+        return { args, console, DateVmodel: ref('') };
       },
       template: template(otherArgs),
     };
   };
-
-//👇 Each story then reuses that template
-export const BasicButton = ButtonFromTemplate(
+export const BasicTime = TimeFromTemplate(
   args =>
     String.raw`
-    <Button  ${args}>test</Button>
-  `
+        <Time placeholder="Time" v-model="DateVmodel" ${args}></Time>
+      `
 );

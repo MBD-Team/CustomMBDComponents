@@ -1,31 +1,33 @@
-import Textarea from '../components/SexyInputs/Textarea.vue';
+import Checkbox from '../../components/SexyInputs/Checkbox.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: Textarea,
+  component: Checkbox,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const TextareaFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Textarea> =>
+const CheckboxFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Checkbox> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Textarea },
+      components: { Checkbox },
       setup() {
-        return { args, console, StringVModel: ref('') };
+        return { args, console };
       },
       template: template(otherArgs),
     };
   };
-export const BasicTextarea = TextareaFromTemplate(
+
+//👇 Each story then reuses that template
+export const BasicCheckbox = CheckboxFromTemplate(
   args =>
     String.raw`
-                <Textarea placeholder="Textarea" v-model="StringVModel"  ${args}></Textarea>
-              `
+    <Checkbox ${args}>test</Checkbox>
+  `
 );

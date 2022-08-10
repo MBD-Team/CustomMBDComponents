@@ -1,31 +1,33 @@
-import Password from '../components/SexyInputs/Password.vue';
+import Button from '../../components/Button.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
-  title: 'Inputs',
-  component: Password,
+  title: 'Button',
+  component: Button,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const PasswordFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Password> =>
+const ButtonFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Button> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Password },
+      components: { Button },
       setup() {
-        return { args, console, StringVModel: ref('') };
+        return { args, console };
       },
       template: template(otherArgs),
     };
   };
-export const BasicPassword = PasswordFromTemplate(
+
+//👇 Each story then reuses that template
+export const BasicButton = ButtonFromTemplate(
   args =>
     String.raw`
-          <Password placeholder="Password" v-model="StringVModel" ${args}></Password>
-        `
+    <Button  ${args}>test</Button>
+  `
 );

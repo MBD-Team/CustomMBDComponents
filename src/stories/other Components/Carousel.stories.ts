@@ -1,4 +1,4 @@
-import Carousel from '../components/Carousel.vue';
+import Carousel from '../../components/Carousel.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';

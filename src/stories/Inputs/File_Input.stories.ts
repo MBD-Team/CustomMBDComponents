@@ -1,31 +1,31 @@
-import Number from '../components/SexyInputs/Number.vue';
+import File from '../../components/SexyInputs/File.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: Number,
+  component: File,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const NumberFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Number> =>
+const FileFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof File> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Number },
+      components: { File },
       setup() {
-        return { args, console, NumberVModel: ref(0) };
+        return { args, console, FileVModel: ref(null) };
       },
       template: template(otherArgs),
     };
   };
-export const BasicNumber = NumberFromTemplate(
+export const BasicFile = FileFromTemplate(
   args =>
     String.raw`
-      <Number placeholder="Number" v-model="FileVModel" ${args}></Number>
+      <File placeholder="FileInput" :preview="true" v-model="FileVModel" ${args}></File>
     `
 );

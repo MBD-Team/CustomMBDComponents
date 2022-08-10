@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 import { screen, userEvent } from '@storybook/testing-library';
 
-import Modal from '../components/Modal.vue';
+import Modal from '../../components/Modal.vue';
 
 export default {
   title: 'Modal',

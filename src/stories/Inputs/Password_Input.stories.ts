@@ -1,31 +1,31 @@
-import Date from '../components/SexyInputs/Date.vue';
+import Password from '../../components/SexyInputs/Password.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: Date,
+  component: Password,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const DateFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Date> =>
+const PasswordFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Password> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Date },
+      components: { Password },
       setup() {
-        return { args, console, DateVmodel: ref('') };
+        return { args, console, StringVModel: ref('') };
       },
       template: template(otherArgs),
     };
   };
-export const BasicDate = DateFromTemplate(
+export const BasicPassword = PasswordFromTemplate(
   args =>
     String.raw`
-    <Date placeholder="date" v-model="DateVmodel" ${args}></Date>
-  `
+          <Password placeholder="Password" v-model="StringVModel" ${args}></Password>
+        `
 );

@@ -1,31 +1,31 @@
-import Range from '../components/SexyInputs/Range.vue';
+import Email from '../../components/SexyInputs/Email.vue';
 
 import { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
 
 export default {
   title: 'Inputs',
-  component: Range,
+  component: Email,
   argTypes: {},
 };
 //👇 We create a “template” of how args map to rendering
-const RangeFromTemplate =
-  (template: (args: string) => string): StoryFn<typeof Range> =>
+const EmailFromTemplate =
+  (template: (args: string) => string): StoryFn<typeof Email> =>
   (args: any) => {
     const otherArgs = Object.entries(args)
       .map(([key, value]) => `:${key}='${JSON.stringify(value)}'`)
       .join(' ');
     return {
-      components: { Range },
+      components: { Email },
       setup() {
-        return { args, console, NumberVModel: ref(0) };
+        return { args, console, StringVModel: ref('') };
       },
       template: template(otherArgs),
     };
   };
-export const BasicRange = RangeFromTemplate(
+export const BasicEmail = EmailFromTemplate(
   args =>
     String.raw`
-            <Range placeholder="Range" min="-5" max="50" v-model="NumberVModel" ${args}></Range>
-          `
+    <Email placeholder="email" ${args}></Email>
+  `
 );
