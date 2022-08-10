@@ -2,6 +2,7 @@ export { default as Modal } from './src/components/Modal.vue';
 export { default as Spinner } from './src/components/Spinner.vue';
 export { default as Button } from './src/components/Button.vue';
 export { default as Carousel } from './src/components/Carousel.vue';
+export { default as ExpBar } from './src/components/ExpBar.vue';
 export { default as Calendar } from './src/components/Calendar/Calendar.vue';
 export type { Group as CalendarGroup, Event as CalendarEvent } from './src/components/Calendar/types';
 
