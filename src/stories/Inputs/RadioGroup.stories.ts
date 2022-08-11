@@ -22,7 +22,7 @@ const RadioGroupFromTemplate =
           args,
           console,
           items: ref([
-            { text: 'testdsvgfhjsbvdhj', value: 1 },
+            { text: 'testdsvgf<br>hjsbvdhj', value: 1 },
             { text: 'abc', value: 2 },
             { text: 'a', value: 3 },
             { text: 'b', value: 4 },

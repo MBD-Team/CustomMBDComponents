@@ -6,8 +6,9 @@
       v-bind="$attrs"
       :class="option.active ? activeClass : defaultClass"
       @click="option.active = !option.active"
+      type="button"
     >
-      {{ option.text }}
+      {{ textWithNewLines(option.text) }}
     </button>
   </div>
 </template>
@@ -31,11 +32,15 @@ const props = withDefaults(
 const { options } = toRefs(props);
 
 const buttonCount = computed(() => options.value.length);
+function textWithNewLines(text: string) {
+  return text.replaceAll(/\n|<br>/g, '\n');
+}
 </script>
 <style lang="scss" scoped>
 .buttonGroup {
   display: grid;
   grid-template-columns: repeat(v-bind(buttonCount), 1fr);
+  white-space: pre-line;
   :first-child {
     border-radius: 0.5rem 0 0 0.5rem;
   }
@@ -46,6 +51,7 @@ const buttonCount = computed(() => options.value.length);
 .button {
   border: 1px solid black;
   padding-inline: 0.8rem;
+  margin: 0;
 
   &:hover {
     @media (pointer: fine) {

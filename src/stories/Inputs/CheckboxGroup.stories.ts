@@ -22,8 +22,8 @@ const CheckboxGroupFromTemplate =
           args,
           console,
           items: ref([
-            { text: 'testdsvgfhjsbvdhj', value: 1, active: false },
-            { text: 'abc', value: 2, active: false },
+            { text: 'testds<br>vgfhjsbvdhj \nerer', value: 1, active: false },
+            { text: 'ab\nc', value: 2, active: false },
             { text: 'a', value: 3, active: false },
             { text: 'b', value: 4, active: false },
           ]),

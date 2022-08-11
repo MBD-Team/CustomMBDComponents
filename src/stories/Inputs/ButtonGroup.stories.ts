@@ -22,10 +22,10 @@ const ButtonGroupFromTemplate =
           args,
           console,
           items: ref([
-            { text: 'testdsvgfhjsbvdhj', value: 1, function: () => console.log('a') },
-            { text: 'abc', value: 2, function: () => console.log('b') },
-            { text: 'a', value: 3, function: () => console.log('c') },
-            { text: 'b', value: 4, function: () => console.log('d') },
+            { text: 'testdsvgfh\njsbvdhj', function: () => console.log('a') },
+            { text: 'abc', function: () => console.log('b') },
+            { text: 'a', function: () => console.log('c') },
+            { text: 'b', function: () => console.log('d') },
           ]),
         };
       },

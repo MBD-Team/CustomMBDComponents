@@ -9,10 +9,6 @@ export default {
   argTypes: {},
 };
 
-const replaceCharAtIndex = (str: string, index: number, replacement: string) => {
-  return str.substring(0, index) + replacement + str.substring(index + replacement.length);
-};
-
 //👇 We create a “template” of how args map to rendering
 const CalendarButtonFromTemplate =
   (template: (args: string) => string): StoryFn<typeof Calendar> =>
