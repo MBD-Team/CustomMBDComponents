@@ -40,7 +40,8 @@ const props = withDefaults(
   defineProps<{
     modelValue: string;
     placeholder: string;
-    error?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
     errorColor?: string;
     labelClass?: string;
     borderColor?: string;

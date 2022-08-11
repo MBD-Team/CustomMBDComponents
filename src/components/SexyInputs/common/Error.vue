@@ -12,16 +12,24 @@ export default {
 import { computed, toRefs } from 'vue';
 const props = withDefaults(
   defineProps<{
-    error: string;
+    error: { [key: string]: string } | string;
     errorColor: string;
+    name?: string;
   }>(),
   {
     error: '',
     errorColor: 'red',
+    name: '',
   }
 );
-const { error, errorColor } = toRefs(props);
-const errorValue = computed(() => error.value.replaceAll(/\\n|<br>/g, '\n'));
+const { error, errorColor, name } = toRefs(props);
+const errorValue = computed(() => {
+  let errorMessage = '';
+  if (typeof error.value !== 'string') {
+    if (error.value[name.value]) errorMessage = error.value[name.value];
+  } else errorMessage = error.value;
+  return errorMessage.replaceAll(/\n|<br>/g, '\n');
+});
 </script>
 <style scoped lang="scss">
 .error {

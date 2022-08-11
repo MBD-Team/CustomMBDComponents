@@ -47,7 +47,8 @@ const emit = defineEmits(['addFile', 'deleteFile']);
 const props = withDefaults(
   defineProps<{
     fileArray: any[];
-    error?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
     errorColor?: string;
     borderColor?: string;
     multiFileClass?: Function;

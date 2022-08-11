@@ -89,7 +89,8 @@ const props = withDefaults(
     selectOnBlur?: boolean;
     noElementMessage?: string;
     listClass?: string;
-    error?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
     errorColor?: string;
     labelClass?: string;
     btnType?: 'button' | 'submit' | 'reset';

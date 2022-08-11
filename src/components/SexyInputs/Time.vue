@@ -39,7 +39,8 @@ const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    error?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
     errorColor?: string;
     labelClass?: string;
     placeholder: string;

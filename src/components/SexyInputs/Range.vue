@@ -52,7 +52,8 @@ const props = withDefaults(
   defineProps<{
     modelValue: number;
     controlInput?: boolean;
-    error?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
     errorColor?: string;
     labelClass?: string;
     btnClass?: string;

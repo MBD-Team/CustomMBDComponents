@@ -36,7 +36,8 @@ const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: any;
-    error?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
     errorColor?: string;
     labelClass?: string;
     placeholder: string;
@@ -54,7 +55,6 @@ const props = withDefaults(
   }
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, preview } = toRefs(props);
-
 
 const borderColorComputed = computed(() => {
   return error?.value ? errorColor?.value : borderColor?.value;
