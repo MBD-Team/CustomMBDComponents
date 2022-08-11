@@ -10,27 +10,39 @@
       </div>
     </div>
   </div>
+  <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
+import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string | number | boolean;
     options: { text: string; value: string | number | boolean }[];
     row?: boolean;
+    name?: string;
+    error?: { [key: string]: string } | string;
+    errorColor?: string;
+    borderColor?: string;
   }>(),
   {
     row: false,
+    error: '',
+    errorColor: 'red',
+    borderColor: '#ccc',
   }
 );
-const { modelValue, options, row } = toRefs(props);
+const { modelValue, options, row, error, errorColor, borderColor } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 function updateValue(event: any) {
   emit('update:modelValue', event?.target.value);
 }
 const number = computed(() => {
   return options.value.length;
+});
+const borderColorComputed = computed(() => {
+  return error?.value ? errorColor?.value : borderColor?.value;
 });
 </script>
 <style scoped lang="scss">
@@ -44,6 +56,7 @@ const number = computed(() => {
 .round label {
   background-color: #fff;
   border: 1px solid #ccc;
+  border-color: v-bind(borderColorComputed);
   border-radius: 50%;
   cursor: pointer;
   height: 28px;

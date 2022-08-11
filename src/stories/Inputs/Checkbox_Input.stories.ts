@@ -28,6 +28,6 @@ const CheckboxFromTemplate =
 export const BasicCheckbox = CheckboxFromTemplate(
   args =>
     String.raw`
-    <Checkbox ${args}>test</Checkbox>
+    <Checkbox  ${args}>test</Checkbox>
   `
 );

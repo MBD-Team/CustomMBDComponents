@@ -4,6 +4,7 @@
       {{ textWithNewLines(option.text) }}
     </button>
   </div>
+  <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
 <script lang="ts">
 export default {
@@ -13,18 +14,26 @@ export default {
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 import Button from '../../exampleStories/Button.vue';
+import Error from './common/Error.vue';
 
 const props = withDefaults(
   defineProps<{
     options: { text: string; function: Function }[];
+    name?: string;
+    error?: { [key: string]: string } | string;
+        errorColor?: string;
+    borderColor?: string;
   }>(),
-  {}
+  { error: '',errorColor: 'red', }
 );
-const { options } = toRefs(props);
+const { options,error,errorColor,borderColor } = toRefs(props);
 const buttonCount = computed(() => options.value.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
 }
+const borderColorComputed = computed(() => {
+  return error?.value ? errorColor?.value : borderColor?.value;
+});
 </script>
 <style lang="scss" scoped>
 .buttonGroup {
@@ -40,6 +49,7 @@ function textWithNewLines(text: string) {
 }
 .button {
   border: 1px solid black;
+   border-color: v-bind(borderColorComputed);
   padding-inline: 0.8rem;
   margin: 0;
 

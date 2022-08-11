@@ -35,7 +35,7 @@
     />
     <!-- /sideInput for rangeInput -->
     <!-- error -->
-    <Error :error="error" :error-color="errorColor" />
+    <Error :error="error" :error-color="errorColor" :name="name" />
     <!-- /error -->
   </div>
 </template>

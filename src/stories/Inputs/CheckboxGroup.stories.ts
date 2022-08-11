@@ -37,6 +37,6 @@ const CheckboxGroupFromTemplate =
 export const BasicCheckboxGroup = CheckboxGroupFromTemplate(
   args =>
     String.raw`
-    <CheckboxGroup :options="items" ${args}></CheckboxGroup>
+    <CheckboxGroup :options="items"  ${args}></CheckboxGroup>
   `
 );

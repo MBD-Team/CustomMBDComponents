@@ -30,6 +30,8 @@ export const BasicRadiobuttons = RadiobuttonsFromTemplate(
               { value: 1, text: 'eins' },
               { value: 2, text: 'zwei' },
               { value: 3, text: 'drei' },
-          ]"${args}></Radiobuttons>
+          ]
+          "
+          ${args}></Radiobuttons>
           `
 );

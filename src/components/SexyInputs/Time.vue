@@ -23,7 +23,7 @@
     </label>
     <!-- /placeholder -->
     <!-- error -->
-    <Error :error="error" :error-color="errorColor" />
+    <Error :error="error" :error-color="errorColor" :name="name" />
     <!-- /error -->
   </div>
 </template>
@@ -45,17 +45,19 @@ const props = withDefaults(
     labelClass?: string;
     placeholder: string;
     borderColor?: string;
+    autoFill?: boolean;
   }>(),
   {
     error: '',
     errorColor: 'red',
     sideWidth: '20%',
+    autoFill: false,
   }
 );
-const { modelValue, error, errorColor, labelClass, placeholder, borderColor } = toRefs(props);
+const { modelValue, error, errorColor, labelClass, placeholder, borderColor, autoFill } = toRefs(props);
 onMounted(() => {
   //set standard value to current time
-  if (modelValue.value.length != 5) {
+  if (modelValue.value.length != 5 && autoFill.value) {
     const date = new Date();
     let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
     updateValue(time);

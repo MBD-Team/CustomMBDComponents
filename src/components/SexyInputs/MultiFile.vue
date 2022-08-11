@@ -32,7 +32,7 @@
   </div>
   <!-- /multiFile list -->
   <!-- error -->
-  <Error :error="error" :error-color="errorColor" />
+  <Error :error="error" :error-color="errorColor" :name="name" />
   <!-- /error -->
 </template>
 <script lang="ts">

@@ -6,6 +6,7 @@
     </div>
     <label class="ms-4" :for="id" style="cursor: pointer"><slot></slot></label>
   </div>
+  <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
 <script lang="ts">
 export default {
@@ -13,21 +14,27 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { computed, ref, toRefs } from 'vue';
+import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;
-    id?: string;
+    name?: string;
+    error?: { [key: string]: string } | string;
+    errorColor?: string;
+    borderColor?: string;
   }>(),
-  {
-    id: JSON.stringify(Math.random()),
-  }
+  { errorColor: 'red', borderColor: '#ccc' }
 );
-const { modelValue } = toRefs(props);
+const id = ref(JSON.stringify(Math.random()));
+const { modelValue, error, errorColor, borderColor } = toRefs(props);
 function updateValue() {
   emit('update:modelValue', !modelValue.value);
 }
+const borderColorComputed = computed(() => {
+  return error?.value ? errorColor?.value : borderColor?.value;
+});
 </script>
 <style scoped lang="scss">
 .round {
@@ -36,6 +43,7 @@ function updateValue() {
 .round label {
   background-color: #fff;
   border: 1px solid #ccc;
+  border-color: v-bind(borderColorComputed);
   border-radius: 50%;
   cursor: pointer;
   height: 28px;
