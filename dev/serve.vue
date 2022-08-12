@@ -1,8 +1,8 @@
 <template>
   <div id="app" style="height: 100vh" class="d-flex justify-content-center align-items-center flex-column">
-    <CheckboxGroup :options="items" class="test"></CheckboxGroup>
-    <RadioGroup :options="items" class=""></RadioGroup>
-    <ButtonGroup :options="items" class="bg-primary text-light"></ButtonGroup>
+    <tooltip :tooltip="'test'" direction="top">
+      <Search placeholder="test"></Search>
+    </tooltip>
   </div>
 </template>
 
@@ -15,6 +15,8 @@ import Carousel from '../src/components/Carousel.vue';
 import CheckboxGroup from '../src/components/SexyInputs/CheckboxGroup.vue';
 import RadioGroup from '../src/components/SexyInputs/RadioGroup.vue';
 import ButtonGroup from '../src/components/SexyInputs/ButtonGroup.vue';
+import tooltip from '../src/components/tooltip.vue';
+import Search from '../src/components/SexyInputs/Search.vue';
 import { ref } from 'vue';
 
 const console = window.console;
