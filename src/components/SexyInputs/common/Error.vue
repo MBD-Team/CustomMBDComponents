@@ -10,6 +10,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
+import { getErrorMessage } from '../Index';
 const props = withDefaults(
   defineProps<{
     error: { [key: string]: string | string[] } | string;
@@ -24,14 +25,7 @@ const props = withDefaults(
 );
 const { error, errorColor, name } = toRefs(props);
 const errorValue = computed(() => {
-  let errorMessage = '';
-  if (typeof error.value === 'string') {
-    errorMessage = error.value;
-  } else if (typeof error.value[name.value] === 'string') {
-    errorMessage = error.value[name.value] as string;
-  } else {
-    errorMessage = (error.value[name.value] as string[])?.join('\n') || '';
-  }
+  let errorMessage = getErrorMessage(error.value, name.value);
   return errorMessage.replaceAll(/\n|<br>/g, '\n');
 });
 </script>

@@ -53,7 +53,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth } from './Index';
 import Error from './common/Error.vue';
 
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
@@ -81,6 +81,7 @@ const props = withDefaults(
     controlInput: true,
     errorColor: 'red',
     sideWidth: 20,
+    name: '',
   }
 );
 const {
@@ -99,12 +100,13 @@ const {
   sideInputVModel,
   placeholder,
   borderColor,
+  name,
 } = toRefs(props);
 const isInputFocus = ref(false);
 const slots = useSlots();
 
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 const checkIcon = computed(() => {
   return !!slots.icon;

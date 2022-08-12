@@ -16,6 +16,7 @@ export default {
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
+import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
@@ -25,15 +26,15 @@ const props = withDefaults(
     errorColor?: string;
     borderColor?: string;
   }>(),
-  { errorColor: 'red', borderColor: '#ccc' }
+  { errorColor: 'red', borderColor: '#ccc', error: '', name: '' }
 );
 const id = ref(JSON.stringify(Math.random()));
-const { modelValue, error, errorColor, borderColor } = toRefs(props);
+const { modelValue, error, errorColor, borderColor, name } = toRefs(props);
 function updateValue() {
   emit('update:modelValue', !modelValue.value);
 }
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 </script>
 <style scoped lang="scss">

@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
+import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
@@ -31,9 +32,10 @@ const props = withDefaults(
     error: '',
     errorColor: 'red',
     borderColor: '#ccc',
+    name: '',
   }
 );
-const { modelValue, options, row, error, errorColor, borderColor } = toRefs(props);
+const { modelValue, options, row, error, errorColor, borderColor, name } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 function updateValue(event: any) {
   emit('update:modelValue', event?.target.value);
@@ -42,7 +44,7 @@ const number = computed(() => {
   return options.value.length;
 });
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 </script>
 <style scoped lang="scss">

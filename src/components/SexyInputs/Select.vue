@@ -78,7 +78,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots, useAttrs } from 'vue';
-import { useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth } from './Index';
 import Error from './common/Error.vue';
 const attrs = useAttrs();
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInput', 'onFocus', 'selectItem', 'onBlur']);
@@ -122,6 +122,7 @@ const props = withDefaults(
     listItemClass: (item: any) => {
       return '';
     },
+    name: '',
   }
 );
 const {
@@ -146,13 +147,14 @@ const {
   optionProjection,
   options,
   matchFromStart,
+  name,
 } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 const isListVisible = ref(false);
 
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 const checkIcon = computed(() => {
   return !!slots.icon;

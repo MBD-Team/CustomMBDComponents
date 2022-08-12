@@ -35,6 +35,7 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, ref, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
+import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
@@ -52,9 +53,10 @@ const props = withDefaults(
     errorColor: 'red',
     sideWidth: '20%',
     autoFill: false,
+    name: '',
   }
 );
-const { modelValue, error, errorColor, labelClass, placeholder, borderColor, autoFill } = toRefs(props);
+const { modelValue, error, errorColor, labelClass, placeholder, borderColor, autoFill, name } = toRefs(props);
 onMounted(() => {
   //set standard value to current time
   if (modelValue.value.length != 5 && autoFill.value) {
@@ -68,7 +70,7 @@ const isInputFocus = ref(false);
 const slots = useSlots();
 
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 const checkIcon = computed(() => {
   return !!slots.icon;

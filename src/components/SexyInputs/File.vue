@@ -32,6 +32,7 @@ export default {
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import Error from './common/Error.vue';
+import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
@@ -52,12 +53,13 @@ const props = withDefaults(
     fileClass: (item: any) => {
       return '';
     },
+    name: '',
   }
 );
-const { modelValue, error, errorColor, labelClass, placeholder, borderColor, preview } = toRefs(props);
+const { modelValue, error, errorColor, labelClass, placeholder, borderColor, preview, name } = toRefs(props);
 
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 
 function updateValue(event: any) {

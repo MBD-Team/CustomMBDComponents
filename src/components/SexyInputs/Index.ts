@@ -12,3 +12,11 @@ export function useCalcSideWidth(sideWidth: Ref<number>) {
     })
     return { inputWidth, sideWidthComputed }
 }
+
+export function getErrorMessage(error: { [key: string]: string | string[] } | string | undefined, fieldName: string) {
+    if (!error) return ''
+    if (typeof error === 'string') return error;
+    const fieldError = error[fieldName];
+    if (typeof fieldError === 'string') return fieldError;
+    return fieldError?.join('\n') || '';
+}

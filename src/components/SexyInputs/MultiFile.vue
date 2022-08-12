@@ -43,6 +43,7 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
+import { getErrorMessage } from './Index';
 const emit = defineEmits(['addFile', 'deleteFile']);
 const props = withDefaults(
   defineProps<{
@@ -62,12 +63,13 @@ const props = withDefaults(
     multiFileClass: (item: any) => {
       return '';
     },
+    name: '',
   }
 );
-const { fileArray, error, errorColor, borderColor, preview, multiFileClass } = toRefs(props);
+const { fileArray, error, errorColor, borderColor, preview, multiFileClass, name } = toRefs(props);
 
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 
 onMounted(() => {

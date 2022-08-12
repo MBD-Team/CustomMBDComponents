@@ -99,7 +99,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth } from './Index';
 import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInput', 'onFocus', 'selectItem', 'onBlur', 'deleteItem']);
 const props = withDefaults(
@@ -147,6 +147,7 @@ const props = withDefaults(
     multiSelectClass: (item: any) => {
       return '';
     },
+    name: '',
   }
 );
 const {
@@ -172,13 +173,14 @@ const {
   options,
   multiSelect,
   matchFromStart,
+  name,
 } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 const isListVisible = ref(false);
 
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 const checkIcon = computed(() => {
   return !!slots.icon;

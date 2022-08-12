@@ -7,6 +7,7 @@
       type="button"
       :class="modelValue == option.value ? activeClass : defaultClass"
       @click="modelValue = option.value"
+      :key="option.value"
     >
       {{ textWithNewLines(option.text) }}
     </button>
@@ -22,6 +23,7 @@ export default {
 import { computed, ref, toRefs } from 'vue';
 import Button from '../../exampleStories/Button.vue';
 import Error from './common/Error.vue';
+import { getErrorMessage } from './Index';
 const props = withDefaults(
   defineProps<{
     options: { text: string; value: string | number | boolean }[];
@@ -33,15 +35,15 @@ const props = withDefaults(
     errorColor?: string;
     borderColor?: string;
   }>(),
-  { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red' }
+  { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red', name: '' }
 );
-const { options, error, errorColor, borderColor } = toRefs(props);
+const { options, error, errorColor, borderColor, name } = toRefs(props);
 const buttonCount = computed(() => options.value.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
 }
 const borderColorComputed = computed(() => {
-  return error?.value ? errorColor?.value : borderColor?.value;
+  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 </script>
 <style lang="scss" scoped>
