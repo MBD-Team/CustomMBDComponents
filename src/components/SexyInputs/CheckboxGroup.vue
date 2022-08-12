@@ -28,7 +28,7 @@ const props = withDefaults(
     activeClass?: string;
     defaultClass?: string;
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     borderColor?: string;
   }>(),

@@ -20,13 +20,13 @@ const props = withDefaults(
   defineProps<{
     options: { text: string; function: Function }[];
     name?: string;
-    error?: { [key: string]: string } | string;
-        errorColor?: string;
+    error?: { [key: string]: string | string[] } | string;
+    errorColor?: string;
     borderColor?: string;
   }>(),
-  { error: '',errorColor: 'red', }
+  { error: '', errorColor: 'red' }
 );
-const { options,error,errorColor,borderColor } = toRefs(props);
+const { options, error, errorColor, borderColor } = toRefs(props);
 const buttonCount = computed(() => options.value.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
@@ -49,7 +49,7 @@ const borderColorComputed = computed(() => {
 }
 .button {
   border: 1px solid black;
-   border-color: v-bind(borderColorComputed);
+  border-color: v-bind(borderColorComputed);
   padding-inline: 0.8rem;
   margin: 0;
 

@@ -37,7 +37,7 @@ const props = withDefaults(
   defineProps<{
     modelValue: any;
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
     placeholder: string;

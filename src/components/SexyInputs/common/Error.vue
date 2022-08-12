@@ -12,7 +12,7 @@ export default {
 import { computed, toRefs } from 'vue';
 const props = withDefaults(
   defineProps<{
-    error: { [key: string]: string } | string;
+    error: { [key: string]: string | string[] } | string;
     errorColor: string;
     name?: string;
   }>(),
@@ -25,9 +25,13 @@ const props = withDefaults(
 const { error, errorColor, name } = toRefs(props);
 const errorValue = computed(() => {
   let errorMessage = '';
-  if (typeof error.value !== 'string') {
-    if (error.value[name.value]) errorMessage = error.value[name.value];
-  } else errorMessage = error.value;
+  if (typeof error.value === 'string') {
+    errorMessage = error.value;
+  } else if (typeof error.value[name.value] === 'string') {
+    errorMessage = error.value[name.value] as string;
+  } else {
+    errorMessage = (error.value[name.value] as string[]).join('\n');
+  }
   return errorMessage.replaceAll(/\n|<br>/g, '\n');
 });
 </script>

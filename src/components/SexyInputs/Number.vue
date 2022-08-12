@@ -62,7 +62,7 @@ const props = withDefaults(
     modelValue: string;
     controlInput?: boolean;
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
     btnType?: 'button' | 'submit' | 'reset';

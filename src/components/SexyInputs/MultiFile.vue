@@ -48,7 +48,7 @@ const props = withDefaults(
   defineProps<{
     fileArray: any[];
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     borderColor?: string;
     multiFileClass?: Function;

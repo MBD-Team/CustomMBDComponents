@@ -21,7 +21,7 @@ const props = withDefaults(
   defineProps<{
     modelValue: boolean;
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     borderColor?: string;
   }>(),

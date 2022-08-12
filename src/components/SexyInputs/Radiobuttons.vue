@@ -22,7 +22,7 @@ const props = withDefaults(
     options: { text: string; value: string | number | boolean }[];
     row?: boolean;
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     borderColor?: string;
   }>(),

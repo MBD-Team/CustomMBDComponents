@@ -41,7 +41,7 @@ const props = withDefaults(
     modelValue: string;
     placeholder: string;
     name?: string;
-    error?: { [key: string]: string } | string;
+    error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     borderColor?: string;
     labelClass?: string;
