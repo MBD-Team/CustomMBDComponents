@@ -7,7 +7,8 @@
   "module": "index.ts",
   "files": [
     "src/utils/**/*.*",
-    "src/components/**/*.vue"
+    "src/components/**/*.vue",
+    "src/components/**/*.ts"
   ],
   "scripts": {
     "dev": "vite",
