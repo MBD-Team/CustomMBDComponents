@@ -30,7 +30,7 @@ const errorValue = computed(() => {
   } else if (typeof error.value[name.value] === 'string') {
     errorMessage = error.value[name.value] as string;
   } else {
-    errorMessage = (error.value[name.value] as string[]).join('\n');
+    errorMessage = (error.value[name.value] as string[])?.join('\n') || '';
   }
   return errorMessage.replaceAll(/\n|<br>/g, '\n');
 });
