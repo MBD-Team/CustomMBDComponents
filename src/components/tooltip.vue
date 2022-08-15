@@ -30,7 +30,7 @@ const directionStyles = computed(() => {
     default:
     case 'bottom':
       return {
-        top: 'calc(100% + 0.5rem)',
+        top: 'calc(100% + 0.2rem)',
         left: '10%',
         bottom: 'auto',
         right: 'auto',
@@ -39,7 +39,7 @@ const directionStyles = computed(() => {
       return {
         top: 'auto',
         left: '10%',
-        bottom: 'calc(100% + 0.5rem)',
+        bottom: 'calc(100% + 0.2rem)',
         right: 'auto',
       };
     case 'left':
@@ -47,12 +47,12 @@ const directionStyles = computed(() => {
         top: '-2px',
         left: 'auto',
         bottom: 'auto',
-        right: 'calc(100% + 0.5rem)',
+        right: 'calc(100% + 0.2rem)',
       };
     case 'right':
       return {
         top: '-2px',
-        left: 'calc(100% + 0.5rem)',
+        left: 'calc(100% + 0.2rem)',
         bottom: 'auto',
         right: 'auto',
       };
