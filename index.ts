@@ -25,3 +25,5 @@ export { default as RadiobuttonsInput } from './src/components/SexyInputs/Radiob
 export { default as RadioGroup } from './src/components/SexyInputs/RadioGroup.vue';
 export { default as CheckboxGroup } from './src/components/SexyInputs/CheckboxGroup.vue';
 export { default as ButtonGroup } from './src/components/SexyInputs/ButtonGroup.vue';
+
+export { handleClick } from './src/utils/clickHandler';
