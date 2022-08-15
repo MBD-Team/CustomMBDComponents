@@ -1,8 +1,15 @@
 <template>
   <div id="app" style="height: 100vh" class="d-flex justify-content-center align-items-center flex-column">
-    <tooltip :tooltip="'test'" direction="top">
-      <Search placeholder="test"></Search>
-    </tooltip>
+    <Button
+      @click="
+        handleClick(
+          () => {},
+          () => console.log('b')
+        )
+      "
+    >
+      test
+    </Button>
   </div>
 </template>
 
@@ -17,6 +24,7 @@ import RadioGroup from '../src/components/SexyInputs/RadioGroup.vue';
 import ButtonGroup from '../src/components/SexyInputs/ButtonGroup.vue';
 import tooltip from '../src/components/tooltip.vue';
 import Search from '../src/components/SexyInputs/Search.vue';
+import { handleClick } from '../src/utils/clickHandler';
 import { ref } from 'vue';
 
 const console = window.console;

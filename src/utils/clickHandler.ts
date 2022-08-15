@@ -1,12 +1,17 @@
 import { Ref } from 'vue';
 
 let singleClickTimer: any;
-export function handleClick(singleClick: Ref<boolean>, singleClickFunction?: () => void, doubleClickFunction?: () => void, delay: number = 1000) {
-  singleClick.value = !singleClick.value;
+export function handleClick(
+  singleClickFunction?: () => void,
+  doubleClickFunction?: () => void,
+  singleClick: { singleClick: boolean } = { singleClick: false },
+  delay: number = 200
+) {
+  singleClick.singleClick = !singleClick.singleClick;
   if (!singleClickTimer) {
     singleClickTimer = setTimeout(() => {
       if (singleClickFunction) singleClickFunction();
-      singleClick.value = false;
+      singleClick.singleClick = false;
       singleClickTimer = null;
     }, delay);
   } else {
