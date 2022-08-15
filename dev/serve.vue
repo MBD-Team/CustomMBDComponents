@@ -1,15 +1,19 @@
 <template>
   <div id="app" style="height: 100vh" class="d-flex justify-content-center align-items-center flex-column">
-    <Button
-      @click="
-        handleClick(
-          () => console.log('a'),
-          () => console.log('b')
-        )
-      "
+    <Wizard
+      :steps="[{ iconName: 'map-marked-alt' }, { iconName: 'futbol' }, { iconName: 'building' }, { iconName: 'people-arrows' }]"
+      :title="'testTitle'"
+      :showStepIndices="true"
+      :initialStepIndex="0"
+      :onSubmit="save"
+      :showCompletionBtn="false"
     >
-      test
-    </Button>
+      <!-- this is possible to optimize using Dynamic Slot Names: #[dynamicSlotName], need computed property tho-->
+      <template #step0 v-if="currentSteps[0]">1</template>
+      <template #step1 v-if="currentSteps[1]">2</template>
+      <template #step2 v-if="currentSteps[2]">3</template>
+      <template #step3 v-if="currentSteps[3]">4</template>
+    </Wizard>
   </div>
 </template>
 
@@ -22,12 +26,14 @@ import Carousel from '../src/components/Carousel.vue';
 import CheckboxGroup from '../src/components/SexyInputs/CheckboxGroup.vue';
 import RadioGroup from '../src/components/SexyInputs/RadioGroup.vue';
 import ButtonGroup from '../src/components/SexyInputs/ButtonGroup.vue';
-import tooltip from '../src/components/tooltip.vue';
+import Tooltip from '../src/components/Tooltip.vue';
 import Search from '../src/components/SexyInputs/Search.vue';
 import { handleClick } from '../src/utils/clickHandler';
+import Wizard from '../src/components/Wizard.vue';
 import { ref } from 'vue';
 
 const console = window.console;
+const currentSteps = ref([true, true, true, true]);
 
 const items = ref([
   { text: 'testdsvgfhjsbvdhj', value: 1, function: () => console.log('test') },
