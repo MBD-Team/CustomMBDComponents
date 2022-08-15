@@ -32,9 +32,9 @@
                 <slot></slot>
               </div>
               <div class="modal-footer" v-if="affirmText || negativeText">
-                <div>
+                <div v-if="negativeText">
                   <Button
-                    v-if="negativeText"
+                    
                     style="height: 2rem; font-size: 1rem"
                     class="border-0"
                     :loading="negativeLoading"
@@ -50,9 +50,9 @@
                     {{ negativeText }}
                   </Button>
                 </div>
-                <div>
+                <div v-if="affirmAltText">
                   <Button
-                    v-if="affirmAltText"
+                    
                     :loading="affirmAltLoading"
                     :class="affirmAltClass"
                     @click="affirmAlt()"
@@ -62,9 +62,9 @@
                     {{ affirmAltText }}
                   </Button>
                 </div>
-                <div>
+                <div v-if="affirmText">
                   <Button
-                    v-if="affirmText"
+                    
                     :loading="affirmLoading"
                     :class="affirmClass"
                     @click="affirm()"
