@@ -3,7 +3,7 @@
     <Button
       @click="
         handleClick(
-          () => {},
+          () => console.log('a'),
           () => console.log('b')
         )
       "

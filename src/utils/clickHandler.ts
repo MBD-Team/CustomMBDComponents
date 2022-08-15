@@ -1,5 +1,3 @@
-import { Ref } from 'vue';
-
 let singleClickTimer: any;
 export function handleClick(
   singleClickFunction?: () => void,
