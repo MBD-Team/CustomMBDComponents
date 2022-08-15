@@ -112,9 +112,9 @@ const props = withDefaults(
   }>(),
   {
     modelValue: undefined,
-    affirmClass: 'bg-primary',
-    negativeClass: 'bg-secondary',
-    affirmAltClass: 'bg-warning',
+    affirmClass: 'btn-primary',
+    negativeClass: 'btn-secondary',
+    affirmAltClass: 'btn-warning',
   }
 );
 const {
