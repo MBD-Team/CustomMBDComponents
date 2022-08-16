@@ -30,8 +30,8 @@ export const BasicAlert = AlertFromTemplate(
   args =>
     String.raw`
     <div class="w-25 m-5"><Button type="button" @click="props.show = true">spawn alert</Button></div>
-    <Alert :show="props"  alertClass="alert-primary w-100" ${args}>
-        <div>testdyfbdfbdgfbdfbebresövnfjaiwbvaewbvibvbi</div>
+    <Alert :show="props"  alertClass="alert-danger w-25" ${args}>
+        <div>testdyfbdfbdgfbdfbebresövnfjaiwb nvaewbvibvbi</div>
         <div>testdsvihvjibdfsvbsjibvdjisbvdsb vdfsbvkjsb vkbdvskjvbsjibvkisdb vo</div>
     </Alert>
   `

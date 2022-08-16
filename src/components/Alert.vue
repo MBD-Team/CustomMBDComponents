@@ -1,12 +1,6 @@
 <template>
-  <div v-if="show.show" @click="dismiss()" class="alert" :class="alertClass" role="alert" style="position: relative">
-    <button
-      v-if="closeBtn"
-      style="position: absolute; top: 16px; right: 16px"
-      type="button"
-      class="btn-close shadow-none"
-      aria-label="Close"
-    ></button>
+  <div v-if="show.show" @click="dismiss()" class="alert" :class="alertClass" role="alert">
+    <button v-if="closeBtn && dissmissable" style="float: right" type="button" class="btn-close shadow-none" aria-label="Close"></button>
     <slot></slot>
   </div>
 </template>
