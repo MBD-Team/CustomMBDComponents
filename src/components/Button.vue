@@ -33,7 +33,7 @@ button {
   height: 2.5rem;
   width: 100%;
   padding-inline: 0.8rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   line-height: 1rem;
   border-radius: 0.5rem;
   transition: all 0.25s ease-out;

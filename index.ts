@@ -4,6 +4,7 @@ export { default as Button } from './src/components/Button.vue';
 export { default as Carousel } from './src/components/Carousel.vue';
 export { default as ProgressBar } from './src/components/ProgressBar.vue';
 export { default as Tooltip } from './src/components/Tooltip.vue';
+export { default as Wizard } from './src/components/Wizard.vue';
 export { default as Calendar } from './src/components/Calendar/Calendar.vue';
 export type { Group as CalendarGroup, Event as CalendarEvent } from './src/components/Calendar/types';
 
