@@ -1,6 +1,6 @@
 <template>
-  <h2 class="p-2 w-100" :class="titleClass">{{ title }}</h2>
-  <div class="d-grid w-100" :style="{ gridTemplateColumns: steps.map(_ => '1fr').join(' '), marginTop: '-30px' }">
+  <h2 class="p-2 w-100" :class="titleClass" v-if="title">{{ title }}</h2>
+  <div class="d-grid w-100" :style="{ gridTemplateColumns: steps.map(_ => '1fr').join(' ') }">
     <div
       v-for="step in steps.map((e, i) => ({ ...e, stepIndex: i }))"
       :key="step.stepIndex"
@@ -70,7 +70,7 @@ import Button from './Button.vue';
 const props = withDefaults(
   defineProps<{
     steps: { iconName: string; title?: string }[];
-    title: string;
+    title?: string;
     onNext?: () => void;
     onSubmit: () => void;
     showStepIndices?: boolean;
