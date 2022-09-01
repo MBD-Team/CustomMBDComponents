@@ -100,13 +100,13 @@ const props = withDefaults(
     modelValue?: boolean;
     title?: string;
     affirmText?: string;
-    affirmAction?: () => Promise<void> | (() => void);
+    affirmAction?: () => Promise<void> | void;
     affirmClass?: string;
     affirmAltText?: string;
-    affirmAltAction?: () => Promise<void> | (() => void);
+    affirmAltAction?: () => Promise<void> | void;
     affirmAltClass?: string;
     negativeText?: string;
-    negativeAction?: () => Promise<void> | (() => void);
+    negativeAction?: () => Promise<void> | void;
     negativeClass?: string;
     modalSize?: string;
   }>(),
