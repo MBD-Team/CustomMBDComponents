@@ -16,7 +16,7 @@
                 <button
                   type="button"
                   class="btn-close p-3"
-                  @click="
+                  @click.stop="
                     showModal = false;
                     resetError();
                   "
@@ -34,12 +34,11 @@
               <div class="modal-footer" v-if="affirmText || negativeText">
                 <div v-if="negativeText">
                   <Button
-                    
                     style="height: 2rem; font-size: 1rem"
                     class="border-0"
                     :loading="negativeLoading"
                     :class="negativeClass"
-                    @click="
+                    @click.stop="
                       () => {
                         showModal = false;
                         resetError();
@@ -52,10 +51,9 @@
                 </div>
                 <div v-if="affirmAltText">
                   <Button
-                    
                     :loading="affirmAltLoading"
                     :class="affirmAltClass"
-                    @click="affirmAlt()"
+                    @click.stop="affirmAlt()"
                     style="height: 2rem; font-size: 1rem"
                     class="border-0"
                   >
@@ -63,14 +61,7 @@
                   </Button>
                 </div>
                 <div v-if="affirmText">
-                  <Button
-                    
-                    :loading="affirmLoading"
-                    :class="affirmClass"
-                    @click="affirm()"
-                    style="height: 2rem; font-size: 1rem"
-                    class="border-0"
-                  >
+                  <Button :loading="affirmLoading" :class="affirmClass" @click.stop="affirm()" style="height: 2rem; font-size: 1rem" class="border-0">
                     {{ affirmText }}
                   </Button>
                 </div>
@@ -81,7 +72,7 @@
       </div>
     </transition>
   </Teleport>
-  <div @click="showModal = true">
+  <div @click.stop="showModal = true">
     <slot name="button">
       <button class="btn btn-primary my-2 me-4">Open Modal</button>
     </slot>
