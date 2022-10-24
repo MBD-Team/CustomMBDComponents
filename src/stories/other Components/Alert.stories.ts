@@ -19,7 +19,7 @@ const AlertFromTemplate =
     return {
       components: { Alert, Button },
       setup() {
-        return { args, console, props: ref({ show: true }) };
+        return { args, console, props: ref(false) };
       },
       template: template(otherArgs),
     };
@@ -29,8 +29,8 @@ const AlertFromTemplate =
 export const BasicAlert = AlertFromTemplate(
   args =>
     String.raw`
-    <div class="w-25 m-5"><Button type="button" @click="props.show = true">spawn alert</Button></div>
-    <Alert :show="props"  alertClass="alert-danger w-25" ${args}>
+    <div class="w-25 m-5"><Button type="button" @click="props=true">spawn alert</Button></div>
+    <Alert v-model="props" ${args}>
         <div>testdyfbdfbdgfbdfbebresövnfjaiwb nvaewbvibvbi</div>
         <div>testdsvihvjibdfsvbsjibvdjisbvdsb vdfsbvkjsb vkbdvskjvbsjibvkisdb vo</div>
     </Alert>
