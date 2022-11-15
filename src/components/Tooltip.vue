@@ -15,7 +15,7 @@ const props = withDefaults(
   }>(),
   {
     tooltipColor: 'black',
-    tooltipBgColor: '#ddd',
+    tooltipBgColor: '#eee',
     direction: 'bottom',
   }
 );
@@ -71,7 +71,7 @@ const { tooltip } = toRefs(props);
   content: '' attr(data-title);
   background-color: v-bind(tooltipBgColor);
   color: v-bind(tooltipColor);
-  font-size: 100%;
+  font-size: 0.7rem;
   position: absolute;
   padding: 1px 5px 1px 5px;
   top: v-bind(top);
