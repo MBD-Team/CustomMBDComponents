@@ -1,10 +1,11 @@
 <template>
   <div class="d-flex mb-2">
+    <label v-if="textLeft" class="me-3" :for="id" style="cursor: pointer"><slot></slot></label>
     <div class="round">
       <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" />
       <label :for="id"></label>
     </div>
-    <label class="ms-3" :for="id" style="cursor: pointer"><slot></slot></label>
+    <label v-if="!textLeft" class="ms-3" :for="id" style="cursor: pointer"><slot></slot></label>
   </div>
   <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
@@ -23,10 +24,11 @@ const props = withDefaults(
     modelValue: boolean;
     name?: string;
     error?: { [key: string]: string | string[] } | string;
+    textLeft?: boolean;
     errorColor?: string;
     borderColor?: string;
   }>(),
-  { errorColor: 'red', borderColor: '#ccc', error: '', name: '' }
+  { errorColor: 'red', borderColor: '#ccc', error: '', name: '', textLeft: false }
 );
 const id = ref(JSON.stringify(Math.random()));
 const { modelValue, error, errorColor, borderColor, name } = toRefs(props);
