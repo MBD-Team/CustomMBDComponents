@@ -4,7 +4,7 @@
       <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" />
       <label :for="id"></label>
     </div>
-    <label class="ms-4" :for="id" style="cursor: pointer"><slot></slot></label>
+    <label class="ms-3" :for="id" style="cursor: pointer"><slot></slot></label>
   </div>
   <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
@@ -40,6 +40,7 @@ const borderColorComputed = computed(() => {
 <style scoped lang="scss">
 .round {
   position: relative;
+  scale: 0.7;
 }
 .round label {
   background-color: #fff;

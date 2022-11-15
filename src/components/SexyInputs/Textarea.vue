@@ -71,6 +71,7 @@ function updateValue(event: any) {
     padding-left: 1rem;
     padding-top: 0.5rem;
     width: 100%;
+    height: 5rem;
     border: 1px solid;
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
@@ -79,9 +80,6 @@ function updateValue(event: any) {
       @media (pointer: fine) {
         filter: brightness(95%);
       }
-    }
-    &:focus {
-      border-width: 2px;
     }
     &:focus {
       border-width: 2px;
@@ -112,7 +110,7 @@ function updateValue(event: any) {
     font-size: 0.9rem;
     padding: 0 0.3rem;
     color: black;
-    transform: translate(0, -1rem);
+    transform: translate(0, -0.9rem);
     height: 0.9rem;
   }
 }

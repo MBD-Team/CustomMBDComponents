@@ -95,7 +95,7 @@ function updateValue(event: any) {
   input {
     text-align: start;
     padding-left: 1rem;
-    padding-top: 0.5rem;
+    padding-top: 0.4rem;
     height: 2.5rem;
     width: 100%;
     border: 1px solid;

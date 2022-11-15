@@ -6,7 +6,7 @@
           <input type="radio" :name="id" :id="option.text + id" :value="option.value" @change="updateValue" :checked="modelValue == option.value" />
           <label :for="option.text + id"></label>
         </div>
-        <label class="ms-4" :for="option.text + id" style="cursor: pointer">{{ option.text }}</label>
+        <label class="ms-3" :for="option.text + id" style="cursor: pointer">{{ option.text }}</label>
       </div>
     </div>
   </div>
@@ -54,6 +54,7 @@ const borderColorComputed = computed(() => {
 }
 .round {
   position: relative;
+  scale: 0.7;
 }
 .round label {
   background-color: #fff;
