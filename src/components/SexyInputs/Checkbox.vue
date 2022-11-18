@@ -2,7 +2,7 @@
   <div class="d-flex mb-2">
     <label v-if="textLeft" class="me-3" :for="id" style="cursor: pointer"><slot></slot></label>
     <div class="round">
-      <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" />
+      <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" :checked="modelValue" />
       <label :for="id"></label>
     </div>
     <label v-if="!textLeft" class="ms-3" :for="id" style="cursor: pointer"><slot></slot></label>
