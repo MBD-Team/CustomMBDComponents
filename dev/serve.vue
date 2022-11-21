@@ -6,7 +6,7 @@
       v-model:selected="selectedArray"
       :options="array"
       :optionProjection=" (e:any) =>e.name"
-      :key-extractor="keyExtractor"
+      :key-extractor="(e: any) => e.id"
     ></MultiSelect>
   </div>
 </template>
@@ -32,7 +32,7 @@ import Wizard from '../src/components/Wizard.vue';
 import { ref } from 'vue';
 
 const console = window.console;
-const keyExtractor = (e: any) => e.id;
+
 const items = ref([
   { text: 'testdsvgfhjsbvdhj', value: 1, function: () => console.log('test') },
   { text: 'abc', value: 2, function: () => console.log('abc') },

@@ -1,6 +1,6 @@
 <template>
   <div :id="CarouselId" class="carousel slide" data-bs-ride="false" style="height: 100%" :data-bs-interval="slideInterval">
-    <div class="carousel-indicators" v-if="itemArray.chunk(itemsPerPage).length > 1">
+    <div class="carousel-indicators" v-if="chunk(itemArray, itemsPerPage).length > 1">
       <button type="button" :data-bs-target="`#${CarouselId}`" :data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
       <button
         v-for="index in Math.ceil(itemArray.length / itemsPerPage - 1)"
@@ -13,7 +13,7 @@
       ></button>
     </div>
     <div class="carousel-inner">
-      <div v-for="(array, index) of itemArray.chunk(itemsPerPage)" class="carouselItemGrid carousel-item" :class="{ active: index == 0 }">
+      <div v-for="(array, index) of chunk(itemArray, itemsPerPage)" class="carouselItemGrid carousel-item" :class="{ active: index == 0 }">
         <template v-for="item of array">
           <slot :item="item"></slot>
         </template>
@@ -32,14 +32,12 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
 
-Object.defineProperty(Array.prototype, 'chunk', {
-  value: function (chunkSize: number) {
-    if (!chunkSize) return;
-    var R = [];
-    for (var i = 0; i < this.length; i += chunkSize) R.push(this.slice(i, i + chunkSize));
-    return R;
-  },
-});
+function chunk(array: any[], chunkSize: number) {
+  if (!chunkSize) return [];
+  var R = [];
+  for (var i = 0; i < array.length; i += chunkSize) R.push(array.slice(i, i + chunkSize));
+  return R;
+}
 
 const CarouselId = 'Carousel' + (Math.random() + '').slice(2, 15);
 
