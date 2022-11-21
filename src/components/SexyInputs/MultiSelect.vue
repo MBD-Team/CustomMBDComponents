@@ -38,11 +38,13 @@
           class="simple-typeahead-list-item"
           :class="listItemClass(item)"
           v-for="(item, index) in filteredItems"
-          :key="index"
+          :key="Math.random()"
           @mousedown.prevent
-          @click.stop="selectItem(item)"
+          @click.stop="selectItem(item, index)"
         >
-          <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
+          <Checkbox :value="selected.some(e => keyExtractor(e) == keyExtractor(item))">
+            <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
+          </Checkbox>
         </div>
         <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
           {{ noElementMessage }}
@@ -71,13 +73,14 @@
     <!-- /error -->
     <!-- multiSelect list -->
     <div
-      v-for="(multi, index) of multiSelect"
-      :key="JSON.stringify(multi + index)"
+      v-if="showSelected"
+      v-for="(multi, index) of selected"
+      :key="Math.random()"
       class="mt-1 d-flex justify-content-between px-2"
       :class="multiSelectClass(multi)"
     >
-      {{ multi }}
-      <span @click="emit('deleteItem', index)" style="cursor: pointer">
+      {{ optionProjection(options.find(e => keyExtractor(e) == keyExtractor(multi))) }}
+      <span @click="deleteItem(multi, index)" style="cursor: pointer">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
           <path
             d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -98,15 +101,26 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, ref, toRefs, useSlots } from 'vue';
+import { computed, ref, toRefs, useSlots, watch } from 'vue';
 import { getErrorMessage, useCalcSideWidth } from './Index';
 import Error from './common/Error.vue';
-const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInput', 'onFocus', 'selectItem', 'onBlur', 'deleteItem']);
+import Checkbox from './Checkbox.vue';
+const emit = defineEmits([
+  'update:selected',
+  'update:modelValue',
+  'update:sideInputVModel',
+  'onInput',
+  'onFocus',
+  'selectItem',
+  'onBlur',
+  'deleteItem',
+]);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    controlInput?: boolean;
-    selectOnBlur?: boolean;
+    options: any[];
+    selected: any[];
+    placeholder: string;
     noElementMessage?: string;
     listClass?: string;
     name?: string;
@@ -121,14 +135,13 @@ const props = withDefaults(
     sideInputClass?: string;
     sideInputMaxLength?: string;
     sideInputVModel?: any;
-    placeholder: string;
     borderColor?: string;
     optionProjection?: Function;
     listItemClass?: Function;
     multiSelectClass?: Function;
-    options: any[];
-    multiSelect: any[];
     matchFromStart?: boolean;
+    showSelected?: boolean;
+    keyExtractor?: Function;
   }>(),
   {
     error: '',
@@ -147,13 +160,15 @@ const props = withDefaults(
     multiSelectClass: (item: any) => {
       return '';
     },
+    keyExtractor: (item: any) => {
+      return JSON.stringify(item);
+    },
     name: '',
+    showSelected: true,
   }
 );
 const {
   modelValue,
-  selectOnBlur,
-  controlInput,
   noElementMessage,
   listClass,
   error,
@@ -171,9 +186,11 @@ const {
   borderColor,
   optionProjection,
   options,
-  multiSelect,
+  selected,
   matchFromStart,
   name,
+  showSelected,
+  keyExtractor,
 } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
@@ -196,17 +213,10 @@ const filteredItems = computed(() => {
   else regexp = new RegExp(escapeRegExp(modelValue.value), 'i');
   let array = [] as any[];
   try {
-    array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
-    if (!array.length) array = array.concat(options.value?.filter((item: any) => item.match(regexp)));
+    array = options.value?.filter(item => optionProjection.value?.(typeof item == 'number' ? item.toString() : item).match(regexp));
+    if (!array.length) array = array.concat(options.value?.filter((item: any) => (typeof item == 'number' ? item.toString() : item).match(regexp)));
   } catch {
     array = [];
-  }
-  for (let element of multiSelect.value) {
-    if (array.findIndex(e => e == element) != -1)
-      array.splice(
-        array.findIndex(e => e == element),
-        1
-      );
   }
   if (array.length > 50) return array.slice(0, 50);
   else return array;
@@ -236,48 +246,45 @@ function onFocus() {
 function onBlur() {
   //is executed when the selectInput is no longer focused
   isListVisible.value = false;
-  if (controlInput.value) {
-    if (!filteredItems.value?.some(e => optionProjection.value(e) == modelValue.value)) {
-      updateValue('');
-      return;
-    }
-  }
-  if (selectOnBlur.value) {
-    if (options?.value.find(e => optionProjection.value(e) == modelValue.value)) {
-      emit(
-        'selectItem',
-        options?.value.find(e => optionProjection.value(e) == modelValue.value)
-      );
-    } else {
-      if (options?.value.find(e => e == modelValue.value))
-        emit(
-          'selectItem',
-          options?.value.find(e => e == modelValue.value)
-        );
-    }
-  }
+
+  if (options?.value.find(e => e == modelValue.value))
+    emit(
+      'selectItem',
+      options?.value.find(e => e == modelValue.value)
+    );
+
   emit('onBlur', {
     modelValue: modelValue.value,
     options: filteredItems.value,
   });
 }
-async function selectItem(item: any) {
+async function selectItem(item: any, index: number) {
   //will be executed when an option is selected
-  await updateValue(optionProjection.value(item));
-  document.getElementById(id.value)?.blur();
-  if (!selectOnBlur) emit('selectItem', item);
+  if (!selected.value.some(e => keyExtractor.value(e) == keyExtractor.value(item))) {
+    emit('update:selected', [...selected.value, item]);
+    emit('selectItem', item);
+  } else {
+    deleteItem(item, index);
+  }
+}
+function deleteItem(item: any, index: number) {
+  emit(
+    'update:selected',
+    selected.value.filter(e => keyExtractor.value(e) != keyExtractor.value(item))
+  );
+  emit('deleteItem', item);
 }
 function escapeRegExp(string: string) {
   //filters unwanted characters from a string
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return string.toString().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 function boldMatchText(text: string) {
   //makes the text you entered in searchInput bold in options
   const regexp = new RegExp(`(${escapeRegExp(modelValue.value)})`, 'ig');
-  return text.replace(regexp, '<strong>$1</strong>');
+  return text.toString().replace(regexp, '<strong>$1</strong>');
 }
 function updateValue(event: any) {
-  if (typeof event == 'string') emit('update:modelValue', event);
+  if (typeof event == 'string' || typeof event == 'number') emit('update:modelValue', event);
   else emit('update:modelValue', event.target.value);
 }
 function updateSideValue(event: any) {

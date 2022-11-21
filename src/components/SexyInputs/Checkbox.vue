@@ -2,7 +2,7 @@
   <div class="d-flex mb-2">
     <label v-if="textLeft" class="me-3" :for="id" style="cursor: pointer"><slot></slot></label>
     <div class="round">
-      <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" :checked="modelValue" />
+      <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" :checked="modelValue || value" />
       <label :for="id"></label>
     </div>
     <label v-if="!textLeft" class="ms-3" :for="id" style="cursor: pointer"><slot></slot></label>
@@ -21,17 +21,18 @@ import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
-    modelValue: boolean;
+    modelValue?: boolean;
     name?: string;
     error?: { [key: string]: string | string[] } | string;
     textLeft?: boolean;
     errorColor?: string;
     borderColor?: string;
+    value?: boolean;
   }>(),
-  { errorColor: 'red', borderColor: '#ccc', error: '', name: '', textLeft: false }
+  { errorColor: 'red', borderColor: '#ccc', error: '', name: '', textLeft: false, modelValue: false, value: false }
 );
 const id = ref(JSON.stringify(Math.random()));
-const { modelValue, error, errorColor, borderColor, name } = toRefs(props);
+const { modelValue, error, errorColor, borderColor, name, value } = toRefs(props);
 function updateValue() {
   emit('update:modelValue', !modelValue.value);
 }

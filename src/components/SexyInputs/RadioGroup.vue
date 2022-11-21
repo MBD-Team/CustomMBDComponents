@@ -6,7 +6,7 @@
       v-bind="$attrs"
       type="button"
       :class="modelValue == option.value ? activeClass : defaultClass"
-      @click="modelValue = option.value"
+      @click="updateValue(option.value)"
       :key="option.value"
     >
       {{ textWithNewLines(option.text) }}
@@ -38,6 +38,7 @@ const props = withDefaults(
   { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red', name: '' }
 );
 const { options, error, errorColor, borderColor, name } = toRefs(props);
+const emit = defineEmits(['update:modelValue']);
 const buttonCount = computed(() => options.value.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
@@ -45,6 +46,9 @@ function textWithNewLines(text: string) {
 const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
+function updateValue(value: any) {
+  emit('update:modelValue', value);
+}
 </script>
 <style lang="scss" scoped>
 .buttonGroup {
