@@ -2,9 +2,13 @@
   <div id="app" style="height: 100vh" class="d-flex align-items-center flex-column">
     <div>
       <Accordion :items="items">
-        <template #test><div @click="test('f')">test</div></template>
-        <template #test2>hurtesw</template>
-        <template #unnamed>unnamedTest</template>
+        <template #test>
+          <div @click="test('f')" class="p-2">test</div>
+          <div @click="test('g')" class="p-2">test2</div>
+        </template>
+        <template #test2><div class="p-2">gfjkdl</div></template>
+        <template #test3><div class="p-3" @click="test('h')">gfjkdl</div></template>
+        <template #test4><div class="p-2">gfjkdl</div></template>
       </Accordion>
     </div>
   </div>
@@ -36,6 +40,8 @@ const console = window.console;
 const items = ref([
   { title: 'test', hash: 'test' },
   { title: 'hfgh', hash: 'test2' },
+  { title: 'hfghfg', hash: 'test3', noAccordion: true },
+  { title: 'vhjds', hash: 'test4' },
 ]);
 const inhalt = ref('');
 const loading = ref(false);

@@ -1,62 +1,74 @@
 <template>
   <div class="accordion" :id="id">
-    <div class="accordion-item" v-for="(item, index) in items">
-      <h2 class="accordion-header" :id="`heading-${index}-${item.hash}`">
-        <button
-          class="accordion-button collapsed shadow-none"
-          type="button"
-          data-bs-toggle="collapse"
-          :data-bs-target="`#collapse-${index}-${item.hash}`"
-          aria-expanded="false"
-          :aria-controls="`collapse-${index}-${item.hash}`"
-        >
-          {{ item.title }}
-        </button>
-      </h2>
-      <div
-        :id="`collapse-${index}-${item.hash}`"
-        class="accordion-collapse collapse"
-        :aria-labelledby="`heading-${index}-${item.hash}`"
-        :data-bs-parent="`#${id}`"
-      >
-        <div class="accordion-body">
-          <slot :name="item.hash"></slot>
-        </div>
+    <div class="accordion-item" :class="itemClass" v-for="(item, index) in items">
+      <div class="accordion-header" v-if="item.noAccordion">
+        <slot :name="item.hash"></slot>
       </div>
+      <template v-else>
+        <h2 class="accordion-header" :id="`heading-${index}-${item.hash}`">
+          <button
+            class="accordion-button collapsed shadow-none p-3"
+            :class="titleClass"
+            type="button"
+            data-bs-toggle="collapse"
+            :data-bs-target="`#collapse-${index}-${item.hash}`"
+            aria-expanded="false"
+            :aria-controls="`collapse-${index}-${item.hash}`"
+          >
+            {{ item.title }}
+          </button>
+        </h2>
+        <div
+          :id="`collapse-${index}-${item.hash}`"
+          class="accordion-collapse collapse"
+          :aria-labelledby="`heading-${index}-${item.hash}`"
+          :data-bs-parent="`#${id}`"
+        >
+          <div class="accordion-body p-0">
+            <slot :name="item.hash"></slot>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs, ref, watch, computed } from 'vue';
+import { toRefs } from 'vue';
 
 const id = 'id' + JSON.stringify(Math.random()).slice(2);
-const props = withDefaults(defineProps<{ items: { title: string; hash: string }[]; initialTabHash?: string }>(), { initialTabHash: '' });
-const { items, initialTabHash } = toRefs(props);
-const { fullHash, hashValues, setHash, setHashValue } = useHash(initialTabHash.value);
-
-function useHash(initialValue?: string, seperator?: string) {
-  const fullHash = ref(window.location.hash?.slice(1) || initialValue || '');
-  const hashValues = computed(() => fullHash.value.split(seperator || ':'));
-
-  const setHash = (value: string) => {
-    fullHash.value = value;
-  };
-  const setHashValue = (value: string, index: number) => {
-    const values = fullHash.value.split(seperator || ':');
-    fullHash.value = [...values.slice(0, index), value, ...values.slice(index + 1)].join(':');
-  };
-
-  watch(fullHash, () => {
-    window.location.hash = `#${fullHash.value}`;
-  });
-  // this might be useful
-  // window.addEventListener('hashchange', () => {
-  //     fullHash.value = window.location.hash.slice(1);
-  // });
-
-  return { fullHash, hashValues, setHash, setHashValue };
+const props = withDefaults(
+  defineProps<{ items: { title: string; hash: string; noAccordion?: boolean }[]; titleClass?: string; itemClass?: string }>(),
+  {
+    titleClass: '',
+    itemClass: '',
+  }
+);
+const { items } = toRefs(props);
+</script>
+<style lang="scss" scoped>
+.accordion-item:first-of-type {
+  border-top-right-radius: 0.5rem !important;
+  border-top-left-radius: 0.5rem !important;
+}
+.accordion-item:last-of-type {
+  border-bottom-right-radius: 0.5rem !important;
+  border-bottom-left-radius: 0.5rem !important;
+}
+.accordion-header-item:first-of-type {
+  border-top-right-radius: 0.5rem !important;
+  border-top-left-radius: 0.5rem !important;
+}
+.accordion-header:last-of-type {
+  border-bottom-right-radius: 0.5rem !important;
+  border-bottom-left-radius: 0.5rem !important;
 }
 
-defineExpose({ hashValues, setHash });
-</script>
-<style lang="scss" scoped></style>
+.accordion-button:first-of-type.collapsed {
+  border-top-right-radius: 0.5rem !important;
+  border-top-left-radius: 0.5rem !important;
+}
+.accordion-button:last-of-type.collapsed {
+  border-bottom-right-radius: 0.5rem !important;
+  border-bottom-left-radius: 0.5rem !important;
+}
+</style>
