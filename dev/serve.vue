@@ -1,7 +1,7 @@
 <template>
   <div id="app" style="height: 100vh" class="d-flex align-items-center flex-column">
     <div>
-      <Accordion :items="items" itemClass=" nav-pills" :startShow="2">
+      <Accordion :items="items" itemClass=" nav-pills" :startHash="ksv">
         <template #dashboard>
           <div class="p-3">
             <i class="fas fa-home fa-lg me-2"></i>

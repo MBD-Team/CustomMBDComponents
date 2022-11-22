@@ -8,7 +8,7 @@
         <h2 class="accordion-header" :id="`heading-${index}-${item.hash}`">
           <button
             class="accordion-button shadow-none p-3"
-            :class="[titleClass, index == startShow ? '' : 'collapsed']"
+            :class="[titleClass, item.hash == startHash ? '' : 'collapsed']"
             type="button"
             data-bs-toggle="collapse"
             :data-bs-target="`#collapse-${index}-${item.hash}`"
@@ -22,7 +22,7 @@
         <div
           :id="`collapse-${index}-${item.hash}`"
           class="accordion-collapse collapse"
-          :class="index == startShow ? 'show' : ''"
+          :class="item.hash == startHash ? 'show' : ''"
           :aria-labelledby="`heading-${index}-${item.hash}`"
           :data-bs-parent="`#${id}`"
         >
@@ -43,7 +43,7 @@ const props = withDefaults(
     items: { title: string; titleIcon?: string; hash: string; noAccordion?: boolean }[];
     titleClass?: string;
     itemClass?: string;
-    startShow: number;
+    startHash: string;
   }>(),
   {
     titleClass: '',
