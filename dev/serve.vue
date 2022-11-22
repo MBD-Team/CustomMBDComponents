@@ -1,13 +1,12 @@
 <template>
   <div id="app" style="height: 100vh" class="d-flex align-items-center flex-column">
-    <MultiSelect
-      placeholder="test"
-      v-model="inhalt"
-      v-model:selected="selectedArray"
-      :options="array"
-      :optionProjection=" (e:any) =>e.name"
-      :key-extractor="(e: any) => e.id"
-    ></MultiSelect>
+    <div>
+      <Accordion :items="items">
+        <template #test><div @click="test('f')">test</div></template>
+        <template #test2>hurtesw</template>
+        <template #unnamed>unnamedTest</template>
+      </Accordion>
+    </div>
   </div>
 </template>
 
@@ -29,15 +28,14 @@ import Textarea from '../src/components/SexyInputs/Textarea.vue';
 import MultiSelect from '../src/components/SexyInputs/MultiSelect.vue';
 import { handleClick } from '../src/utils/clickHandler';
 import Wizard from '../src/components/Wizard.vue';
+import Accordion from '../src/components/Accordion.vue';
 import { ref } from 'vue';
 
 const console = window.console;
 
 const items = ref([
-  { text: 'testdsvgfhjsbvdhj', value: 1, function: () => console.log('test') },
-  { text: 'abc', value: 2, function: () => console.log('abc') },
-  { text: 'a', value: 3, function: () => console.log('a') },
-  { text: 'b', value: 4, function: () => console.log('b') },
+  { title: 'test', hash: 'test' },
+  { title: 'hfgh', hash: 'test2' },
 ]);
 const inhalt = ref('');
 const loading = ref(false);
@@ -47,5 +45,8 @@ const array = ref([
   { name: 'test', id: 1 },
 ]);
 const selectedArray = ref([{ name: 'test', id: 0 }]);
+function test(e: any) {
+  console.log(e);
+}
 </script>
 <style lang="scss"></style>

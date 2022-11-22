@@ -32,10 +32,10 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
 
-function chunk(array: any[], chunkSize: number) {
-  if (!chunkSize) return [];
-  var R = [];
-  for (var i = 0; i < array.length; i += chunkSize) R.push(array.slice(i, i + chunkSize));
+function chunk<T>(array: T[], chunkSize: number): T[][] {
+  if (!chunkSize) return [[]];
+  let R = [];
+  for (let i = 0; i < array.length; i += chunkSize) R.push(array.slice(i, i + chunkSize));
   return R;
 }
 
