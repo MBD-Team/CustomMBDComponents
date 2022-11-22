@@ -43,11 +43,12 @@ const props = withDefaults(
     items: { title: string; titleIcon?: string; hash: string; noAccordion?: boolean }[];
     titleClass?: string;
     itemClass?: string;
-    startHash: string;
+    startHash?: string;
   }>(),
   {
     titleClass: '',
     itemClass: '',
+    startHash: '',
   }
 );
 const { items } = toRefs(props);
