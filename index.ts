@@ -7,6 +7,7 @@ export { default as Tooltip } from './src/components/Tooltip.vue';
 export { default as Wizard } from './src/components/Wizard.vue';
 export { default as Alert } from './src/components/Alert.vue';
 export { default as Calendar } from './src/components/Calendar/Calendar.vue';
+export { default as Accordion } from './src/components/Accordion.vue';
 export type { Group as CalendarGroup, Event as CalendarEvent } from './src/components/Calendar/types';
 
 export { default as EmailInput } from './src/components/SexyInputs/Email.vue';

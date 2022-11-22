@@ -7,20 +7,22 @@
       <template v-else>
         <h2 class="accordion-header" :id="`heading-${index}-${item.hash}`">
           <button
-            class="accordion-button collapsed shadow-none p-3"
-            :class="titleClass"
+            class="accordion-button shadow-none p-3"
+            :class="[titleClass, index == startShow ? '' : 'collapsed']"
             type="button"
             data-bs-toggle="collapse"
             :data-bs-target="`#collapse-${index}-${item.hash}`"
             aria-expanded="false"
             :aria-controls="`collapse-${index}-${item.hash}`"
           >
-            {{ item.title }}
+            <i class="me-2" v-if="item.titleIcon" :class="item.titleIcon"></i>
+            <span class="pe-2">{{ item.title }}</span>
           </button>
         </h2>
         <div
           :id="`collapse-${index}-${item.hash}`"
           class="accordion-collapse collapse"
+          :class="index == startShow ? 'show' : ''"
           :aria-labelledby="`heading-${index}-${item.hash}`"
           :data-bs-parent="`#${id}`"
         >
@@ -37,7 +39,12 @@ import { toRefs } from 'vue';
 
 const id = 'id' + JSON.stringify(Math.random()).slice(2);
 const props = withDefaults(
-  defineProps<{ items: { title: string; hash: string; noAccordion?: boolean }[]; titleClass?: string; itemClass?: string }>(),
+  defineProps<{
+    items: { title: string; titleIcon?: string; hash: string; noAccordion?: boolean }[];
+    titleClass?: string;
+    itemClass?: string;
+    startShow: number;
+  }>(),
   {
     titleClass: '',
     itemClass: '',
