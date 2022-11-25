@@ -37,21 +37,22 @@
 <script setup lang="ts">
 import { toRefs } from 'vue';
 
-const id = 'id' + JSON.stringify(Math.random()).slice(2);
 const props = withDefaults(
   defineProps<{
     items: { title: string; titleIcon?: string; hash: string; noAccordion?: boolean }[];
     titleClass?: string;
     itemClass?: string;
     startHash?: string;
+    id?: string;
   }>(),
   {
     titleClass: '',
     itemClass: '',
     startHash: '',
+    id: 'id' + JSON.stringify(Math.random()).slice(2),
   }
 );
-const { items } = toRefs(props);
+const { items, id } = toRefs(props);
 </script>
 <style lang="scss" scoped>
 .accordion-item:first-of-type {
