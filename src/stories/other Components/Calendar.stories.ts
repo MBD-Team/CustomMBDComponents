@@ -22,38 +22,11 @@ const CalendarButtonFromTemplate =
         return {
           args,
           console,
-          groups: ref([
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-            { id: 1, name: 'Group1', checked: true },
-          ]),
+          groups: ref(
+            Array(15)
+              .fill(0)
+              .map((e, i) => ({ id: i, name: 'Group' + i, checked: true }))
+          ),
           events: ref([
             {
               start: new Date().toISOString().split('T')[0] + ' 12:00',
@@ -72,6 +45,7 @@ const CalendarButtonFromTemplate =
 //👇 Each story then reuses that template
 export const BasicCalendar = CalendarButtonFromTemplate(
   args => String.raw`
+  <div class="bg-danger text-light p-1">Calendar breaks on click because Vue3TouchEvents cannot be imported in Storybook because it crashes Storybook for some reason</div>
  <Calendar
         hash="calendar"
         :displayHours="[7, 20]"

@@ -26,7 +26,7 @@ const MultiFileFromTemplate =
 export const BasicMultiFile = MultiFileFromTemplate(
   args =>
     String.raw`
-        <MultiFile placeholder="Multi File" :preview="true" :fileArray="MultiArray"  :preview="true"
+        <MultiFile placeholder="Multi File" :preview="true" :fileArray="MultiArray"
         @addFile="
             newFiles => {
                 console.log(newFiles)
