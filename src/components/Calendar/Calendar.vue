@@ -3,7 +3,7 @@
     <!-- menu bar -->
     <div class="bg-light d-flex justify-content-between text-center p-2 border-bottom flex-wrap pb-0">
       <div class="d-flex mb-2">
-        <a class="btn btn-secondary me-2 shadow-none" data-bs-toggle="collapse" href="#sideControls" @click="toggle = !toggle">☰</a>
+        <a class="btn btn-secondary me-2 shadow-none" data-bs-toggle="collapse" href="#sideControls" @click="toggle = !toggle" v-if="isMobile">☰</a>
         <div class="btn-group me-3">
           <button class="btn btn-outline-secondary shadow-none" @click="currentDay = currentDay.plus({ [timeFrame]: -1 })">⮜</button>
           <button class="btn btn-outline-secondary shadow-none" @click="currentDay = DateTime.now()" style="padding-left: 2rem; padding-right: 2rem">
