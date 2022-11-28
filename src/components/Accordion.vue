@@ -8,7 +8,7 @@
         <h2 class="accordion-header" :id="`heading-${index}-${item.hash}`">
           <button
             class="accordion-button shadow-none p-3"
-            :class="[titleClass, item.hash == startHash ? '' : 'collapsed']"
+            :class="[titleClass, item.hash == startHash ? 'startItem' : 'collapsed']"
             type="button"
             data-bs-toggle="collapse"
             :data-bs-target="`#collapse-${index}-${item.hash}`"
@@ -79,5 +79,28 @@ const { items, id } = toRefs(props);
 .accordion-button:last-of-type.collapsed {
   border-bottom-right-radius: 0.5rem !important;
   border-bottom-left-radius: 0.5rem !important;
+}
+
+#navBarAccordion {
+  .accordion-button::after {
+    filter: brightness(100);
+  }
+  .accordion-button.startItem {
+    background-color: var(--bs-primary) !important;
+  }
+  h2,
+  .accordion-button {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+  }
+  .accordion-button:not(.collapsed) {
+    background-color: var(--bs-accordion-active-bg) !important;
+    color: #343a40 !important;
+    &::after {
+      filter: brightness(0);
+    }
+  }
 }
 </style>
