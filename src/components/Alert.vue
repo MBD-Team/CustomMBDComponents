@@ -36,7 +36,7 @@ const props = withDefaults(
   }>(),
   {
     class: 'alert-primary',
-    timer: 5000,
+    timer: 0,
     dissmissable: true,
     closeBtn: true,
   }
