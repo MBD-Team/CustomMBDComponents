@@ -23,5 +23,12 @@ const errorValue = computed(() => !!error?.value);
 const successValue = computed(() => !!success?.value);
 </script>
 
-<!-- how to use  -->
-<!-- <Message v-model:success="success" v-model:error="error"/> -->
+<script lang="ts">
+/**
+ * how to use:
+ * ```js
+ *   <Message v-model:success="success" v-model:error="error" />
+ * ```
+ */
+export default {};
+</script>
