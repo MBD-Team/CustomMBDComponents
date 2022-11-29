@@ -23,7 +23,7 @@
                 ></button>
               </div>
               <div class="mbd-modal-body" style="max-height: 80vh; overflow: auto">
-                <Message :error="error" />
+                <Message v-model:error="error" />
                 <slot></slot>
               </div>
               <div class="mbd-modal-footer" v-if="affirmText || negativeText">
