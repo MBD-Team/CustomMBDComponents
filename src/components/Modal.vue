@@ -105,9 +105,9 @@ const props = withDefaults(
   }>(),
   {
     modelValue: undefined,
-    affirmClass: 'btn-primary',
-    negativeClass: 'btn-secondary',
-    affirmAltClass: 'btn-warning',
+    affirmClass: 'btn btn-primary',
+    negativeClass: 'btn btn-secondary',
+    affirmAltClass: 'btn btn-warning',
     modalWidth: 800,
   }
 );
