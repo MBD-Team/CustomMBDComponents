@@ -1,8 +1,10 @@
 <template>
-  <Alert :model-value="alertValue" @update:model-value="(error = ''), (success = '')" :class="`alert ${error ? 'alert-danger' : 'alert-success'}`">
-    <div v-if="success">{{ success }}</div>
-    <div v-else-if="typeof error == 'string'">{{ error }}</div>
-    <div v-else-if="Object.values(error).length > 0" style="white-space: pre-wrap">{{ Object.values(error).join('\n') }}</div>
+  <Alert :model-value="successValue" @update:model-value="emit('update:success', '')" class="alert alert-success">
+    {{ success }}
+  </Alert>
+  <Alert :model-value="errorValue" @update:model-value="emit('update:error', '')" class="alert alert-danger">
+    <template v-if="typeof error == 'string'">{{ error }}</template>
+    <div v-else style="white-space: pre-wrap">{{ Object.values(error || {}).join('\n') }}</div>
   </Alert>
 </template>
 <script setup lang="ts">
@@ -15,6 +17,11 @@ const props =
   }>();
 const { error, success } = toRefs(props);
 
-const alertValue = computed(() => !!error?.value || !!success?.value);
+const emit = defineEmits(['update:error', 'update:success']);
+
+const errorValue = computed(() => !!error?.value);
+const successValue = computed(() => !!success?.value);
 </script>
-<style lang="scss" scoped></style>
+
+<!-- how to use  -->
+<!-- <Message v-model:success="success" v-model:error="error"/> -->
