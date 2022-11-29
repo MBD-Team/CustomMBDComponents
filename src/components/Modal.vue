@@ -11,11 +11,11 @@
         >
           <div class="modal-dialog" :class="modalSize" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header" v-if="title">
                 <h5 class="modal-title">{{ title }}</h5>
                 <button
                   type="button"
-                  class="btn-close p-3"
+                  class="btn-close p-3 shadow-none"
                   @click.stop="
                     showModal = false;
                     resetError();
@@ -23,12 +23,7 @@
                 ></button>
               </div>
               <div class="modal-body m-0" style="max-height: 80vh; overflow: auto">
-                <div v-if="error" class="alert alert-danger">
-                  <div v-for="exception in (typeof error == 'string' ? error : JSON.stringify(error)).trim().split('\n')">
-                    {{ exception }}
-                    <hr class="my-1" />
-                  </div>
-                </div>
+                <Message :error="error" />
                 <slot></slot>
               </div>
               <div class="modal-footer" v-if="affirmText || negativeText">
@@ -82,6 +77,7 @@
 <script lang="ts" setup>
 import { toRefs, ref, watch } from 'vue';
 import Button from './Button.vue';
+import Message from './Message.vue';
 const affirmLoading = ref(false);
 const affirmAltLoading = ref(false);
 const negativeLoading = ref(false);
@@ -106,6 +102,7 @@ const props = withDefaults(
     affirmClass: 'btn-primary',
     negativeClass: 'btn-secondary',
     affirmAltClass: 'btn-warning',
+    modalSize: 'modal-lg',
   }
 );
 const {
@@ -168,7 +165,7 @@ function resetError() {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -182,29 +179,11 @@ function resetError() {
 .modal-wrapper {
   display: table-cell;
 }
-.modal-content {
+.modal-dialog {
+  background-color: white;
   border-radius: 0.5rem;
 }
-.modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  font-family: Helvetica, Arial, sans-serif;
-}
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-.modal-body {
-  margin: 20px 0;
-}
-.modal-default-button {
-  display: block;
-  margin-top: 1rem;
-}
+
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.2s ease;
