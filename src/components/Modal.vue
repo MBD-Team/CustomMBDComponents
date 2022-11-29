@@ -1,18 +1,18 @@
 <template>
   <Teleport to="body">
-    <transition name="modal">
-      <div class="modal-mask" v-if="showModal">
+    <transition name="mbd-modal">
+      <div class="mbd-modal-mask" v-if="showModal">
         <div
-          class="modal-wrapper"
+          class="mbd-modal-wrapper"
           @mousedown.self="
             showModal = false;
             resetError();
           "
         >
-          <div class="modal-dialog" :class="modalSize" role="document">
-            <div class="modal-content">
-              <div class="modal-header" v-if="title">
-                <h5 class="modal-title">{{ title }}</h5>
+          <div class="mbd-modal-dialog" :style="{ maxWidth: modalWidth + 'px' }" role="document">
+            <div class="mbd-modal-content">
+              <div class="mbd-modal-header" v-if="title">
+                <h4>{{ title }}</h4>
                 <button
                   type="button"
                   class="btn-close p-3 shadow-none"
@@ -22,11 +22,11 @@
                   "
                 ></button>
               </div>
-              <div class="modal-body m-0" style="max-height: 80vh; overflow: auto">
+              <div class="mbd-modal-body" style="max-height: 80vh; overflow: auto">
                 <Message :error="error" />
                 <slot></slot>
               </div>
-              <div class="modal-footer" v-if="affirmText || negativeText">
+              <div class="mbd-modal-footer" v-if="affirmText || negativeText">
                 <div v-if="negativeText">
                   <Button
                     style="height: 2rem; font-size: 1rem"
@@ -50,13 +50,19 @@
                     :class="affirmAltClass"
                     @click.stop="affirmAlt()"
                     style="height: 2rem; font-size: 1rem"
-                    class="border-0"
+                    class="ms-2 border-0"
                   >
                     {{ affirmAltText }}
                   </Button>
                 </div>
                 <div v-if="affirmText">
-                  <Button :loading="affirmLoading" :class="affirmClass" @click.stop="affirm()" style="height: 2rem; font-size: 1rem" class="border-0">
+                  <Button
+                    :loading="affirmLoading"
+                    :class="affirmClass"
+                    @click.stop="affirm()"
+                    style="height: 2rem; font-size: 1rem"
+                    class="ms-2 border-0"
+                  >
                     {{ affirmText }}
                   </Button>
                 </div>
@@ -95,14 +101,14 @@ const props = withDefaults(
     negativeText?: string;
     negativeAction?: () => Promise<void> | void;
     negativeClass?: string;
-    modalSize?: string;
+    modalWidth?: number;
   }>(),
   {
     modelValue: undefined,
     affirmClass: 'btn-primary',
     negativeClass: 'btn-secondary',
     affirmAltClass: 'btn-warning',
-    modalSize: 'modal-lg',
+    modalWidth: 800,
   }
 );
 const {
@@ -117,7 +123,7 @@ const {
   affirmAltText,
   affirmAltAction,
   affirmAltClass,
-  modalSize,
+  modalWidth,
 } = toRefs(props);
 // if v model updates, update showModal, and if showModal changes, emit event that its updated
 // this allows for an optional v-model that can be used to open/close the modal
@@ -166,7 +172,7 @@ function resetError() {
 </script>
 
 <style scoped lang="scss">
-.modal-mask {
+.mbd-modal-mask {
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -176,28 +182,47 @@ function resetError() {
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
 }
-.modal-wrapper {
+.mbd-modal-wrapper {
   display: table-cell;
 }
-.modal-dialog {
+.mbd-modal-dialog {
   background-color: white;
   border-radius: 0.5rem;
+  margin: 0 auto;
+  margin-top: 10vh;
+}
+.mbd-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0.5rem 0 1rem;
+}
+.mbd-modal-body {
+  padding: 1rem;
+}
+.mbd-modal-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  padding: 0.75rem;
 }
 
-.modal-enter-active,
-.modal-leave-active {
+.mbd-modal-enter-active,
+.mbd-modal-leave-active {
   transition: opacity 0.2s ease;
 }
-.modal-enter-from,
-.modal-leave-to {
+.mbd-modal-enter-from,
+.mbd-modal-leave-to {
   opacity: 0;
 }
-.modal-enter-active .modal-dialog,
-.modal-leave-active .modal-dialog {
+.mbd-modal-enter-active .mbd-modal-dialog,
+.mbd-modal-leave-active .mbd-modal-dialog {
   transition: margin-top 0.2s ease;
 }
-.modal-enter-from .modal-dialog,
-.modal-leave-to .modal-dialog {
+.mbd-modal-enter-from .mbd-modal-dialog,
+.mbd-modal-leave-to .mbd-modal-dialog {
   margin-top: -50px;
 }
 </style>
