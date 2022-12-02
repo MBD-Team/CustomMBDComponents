@@ -107,6 +107,7 @@ const props = withDefaults(
     sideInputVModel?: number | string;
     borderColor?: string;
     optionProjection?: Function;
+    selectProjection?: Function;
     listItemClass?: Function;
     matchFromStart?: boolean;
   }>(),
@@ -121,6 +122,9 @@ const props = withDefaults(
     sideWidth: 20,
     matchFromStart: false,
     optionProjection: (item: any) => {
+      return item;
+    },
+    selectProjection: (item: any) => {
       return item;
     },
     listItemClass: (item: any) => {
@@ -151,6 +155,7 @@ const {
   placeholder,
   borderColor,
   optionProjection,
+  selectProjection,
   options,
   matchFromStart,
   name,
@@ -237,7 +242,7 @@ function onBlur() {
 }
 async function selectItem(item: any) {
   //will be executed when an option is selected
-  await updateValue(optionProjection.value(item));
+  await updateValue(selectProjection.value(item));
   document.getElementById(id.value)?.blur();
   if (!selectOnBlur) emit('selectItem', item);
 }
