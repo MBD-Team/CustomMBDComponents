@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
     <!-- icon -->
     <div v-if="checkIcon" class="icon">
       <slot></slot>
