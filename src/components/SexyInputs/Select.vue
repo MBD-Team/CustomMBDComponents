@@ -107,7 +107,6 @@ const props = withDefaults(
     sideInputVModel?: number | string;
     borderColor?: string;
     optionProjection?: Function;
-    selectProjection?: Function;
     listItemClass?: Function;
     matchFromStart?: boolean;
   }>(),
@@ -122,9 +121,6 @@ const props = withDefaults(
     sideWidth: 20,
     matchFromStart: false,
     optionProjection: (item: any) => {
-      return item;
-    },
-    selectProjection: (item: any) => {
       return item;
     },
     listItemClass: (item: any) => {
@@ -155,7 +151,6 @@ const {
   placeholder,
   borderColor,
   optionProjection,
-  selectProjection,
   options,
   matchFromStart,
   name,
@@ -242,7 +237,7 @@ function onBlur() {
 }
 async function selectItem(item: any) {
   //will be executed when an option is selected
-  await updateValue(selectProjection.value(item));
+  await updateValue(optionProjection.value(item));
   document.getElementById(id.value)?.blur();
   if (!selectOnBlur) emit('selectItem', item);
 }
@@ -269,6 +264,7 @@ function updateSideValue(event: any) {
 .input-contain {
   position: relative;
   border-radius: 0.5rem;
+
   .icon {
     background-color: transparent;
     position: absolute;
@@ -276,6 +272,7 @@ function updateSideValue(event: any) {
     left: 0.3rem;
     z-index: 2;
   }
+
   input {
     text-align: start;
     padding-left: 1rem;
@@ -286,38 +283,46 @@ function updateSideValue(event: any) {
     border: 1px solid;
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
+
     &:hover:not(:focus) + .text,
     &:hover:not(:focus) {
       @media (pointer: fine) {
         filter: brightness(95%);
       }
     }
+
     &:focus {
       border-width: 2px;
     }
   }
+
   button {
     transition: all 0.25s ease-out;
+
     &:hover {
       @media (pointer: fine) {
         filter: brightness(95%);
       }
     }
+
     &:active {
       @media (pointer: fine) {
         filter: brightness(85%);
       }
+
       @media (pointer: coarse) {
         filter: brightness(85%);
       }
     }
   }
+
   input.sideInput {
     &:focus {
       border: 2px solid;
       border-color: v-bind(borderColorComputed);
     }
   }
+
   button,
   input.sideInput {
     align-items: center;
@@ -344,6 +349,7 @@ function updateSideValue(event: any) {
       margin: 0;
     }
   }
+
   input + .text {
     align-items: center;
     position: absolute;
@@ -361,6 +367,7 @@ function updateSideValue(event: any) {
     border-radius: 0.5rem;
     transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out, 0.15s padding ease-in-out;
   }
+
   input:focus + .text,
   input.dirty + .text {
     background-color: inherit;
@@ -372,20 +379,25 @@ function updateSideValue(event: any) {
     height: 0.9rem;
   }
 }
+
 //select
 .simple-typeahead {
   position: relative;
   width: 100%;
+
   & > input {
     margin-bottom: 0;
   }
+
   .simple-typeahead-list {
     position: absolute;
     width: 100%;
     max-height: 60vh;
+
     @media (min-width: 900px) {
       max-height: 30vh;
     }
+
     overflow-y: auto;
     background-color: #fafafa;
     border-radius: 0 0 0.5rem 0.5rem;
@@ -394,28 +406,34 @@ function updateSideValue(event: any) {
     border-top: none;
     z-index: 2;
     cursor: pointer;
+
     .simple-typeahead-list-item {
       border-bottom: 1px solid;
       border-color: v-bind(borderColorComputed);
       padding: 0.6rem 1rem;
       background-color: #fafafa;
+
       &:hover {
         @media (pointer: fine) {
           filter: brightness(95%);
         }
       }
+
       &:last-child {
         border-bottom: none;
       }
     }
+
     &::-webkit-scrollbar-track {
       border-radius: 0 0 0.5rem 0;
       background-color: transparent;
     }
+
     &::-webkit-scrollbar {
       width: 0.5rem;
       background-color: transparent;
     }
+
     &::-webkit-scrollbar-thumb {
       border-radius: 0.5rem;
       background-color: #555;
