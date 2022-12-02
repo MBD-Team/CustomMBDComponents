@@ -96,7 +96,7 @@ const { items, id } = toRefs(props);
     border-top-left-radius: 0 !important;
   }
   .accordion-button:not(.collapsed) {
-    background-color: var(--bs-accordion-active-bg) !important;
+    background-color: rgba(var(--bs-primary-rgb), 0.4) !important;
     color: #343a40 !important;
     &::after {
       filter: brightness(0);
