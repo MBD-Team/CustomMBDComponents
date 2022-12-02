@@ -61,8 +61,11 @@ const props = withDefaults(
 const { modelValue, placeholder, error, errorColor, labelClass, borderColor, autoFill, name } = toRefs(props);
 onMounted(() => {
   //set standard value to current date
-  if (modelValue.value.length != 10 && autoFill.value) {
+  if (!(modelValue.value?.length == 10) && autoFill.value) {
     updateValue(new Date().toISOString().split('T')[0]);
+  }
+  if (modelValue.value?.length > 10) {
+    updateValue(new Date(modelValue.value).toISOString().substring(0, 10));
   }
 });
 
