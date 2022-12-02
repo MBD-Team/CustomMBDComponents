@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <div class="simple-typeahead input-contain">
+    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
         <slot name="icon"></slot>
@@ -85,6 +85,10 @@ const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInpu
 const props = withDefaults(
   defineProps<{
     modelValue: string;
+    placeholder: string;
+    backgroundColor?: string;
+    options: any[];
+    showAll?: boolean;
     controlInput?: boolean;
     selectOnBlur?: boolean;
     noElementMessage?: string;
@@ -101,19 +105,19 @@ const props = withDefaults(
     sideInputClass?: string;
     sideInputMaxLength?: string;
     sideInputVModel?: number | string;
-    placeholder: string;
     borderColor?: string;
     optionProjection?: Function;
     listItemClass?: Function;
-    options: any[];
     matchFromStart?: boolean;
   }>(),
   {
+    showAll: false,
     error: '',
     noElementMessage: 'not found',
     controlInput: true,
     selectOnBlur: true,
     errorColor: 'red',
+    backgroundColor: 'white',
     sideWidth: 20,
     matchFromStart: false,
     optionProjection: (item: any) => {
@@ -127,6 +131,8 @@ const props = withDefaults(
 );
 const {
   modelValue,
+  backgroundColor,
+  showAll,
   selectOnBlur,
   controlInput,
   noElementMessage,
@@ -164,6 +170,7 @@ const checkButton = computed(() => {
 });
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
+  if (showAll.value) return options.value;
   //options that are still possible
   let regexp: RegExp;
   if (matchFromStart.value) regexp = new RegExp('^' + escapeRegExp(modelValue.value), 'i');
@@ -270,6 +277,7 @@ function updateSideValue(event: any) {
     padding-top: 0.5rem;
     height: 2.5rem;
     width: 100%;
+    background-color: v-bind(backgroundColor);
     border: 1px solid;
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
@@ -321,7 +329,7 @@ function updateSideValue(event: any) {
     border-color: v-bind(borderColorComputed);
     border-style: solid;
     border-left: none;
-    background-color: white;
+    background-color: inherit;
     justify-content: center;
     outline: none;
 
@@ -345,13 +353,12 @@ function updateSideValue(event: any) {
     padding: 0 0rem;
     margin: 0 0.6rem;
     transform: translate(0);
-    color: gray;
     border-radius: 0.5rem;
     transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out, 0.15s padding ease-in-out;
   }
   input:focus + .text,
   input.dirty + .text {
-    background-color: white;
+    background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;

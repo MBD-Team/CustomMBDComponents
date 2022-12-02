@@ -47,6 +47,7 @@ const props = withDefaults(
     borderColor?: string;
     labelClass?: string;
     autoFill?: boolean;
+    backgroundColor?: string;
   }>(),
   {
     error: '',
@@ -54,6 +55,7 @@ const props = withDefaults(
     sideWidth: '20%',
     autoFill: false,
     name: '',
+    backgroundColor: 'white',
   }
 );
 const { modelValue, placeholder, error, errorColor, labelClass, borderColor, autoFill, name } = toRefs(props);
@@ -95,6 +97,7 @@ function updateValue(event: any) {
     padding-top: 0.4rem;
     height: 2.5rem;
     width: 100%;
+    background-color: v-bind(backgroundColor);
     border: 1px solid;
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
@@ -132,7 +135,7 @@ function updateValue(event: any) {
     border-radius: 0.5rem;
   }
   input + .text {
-    background-color: white;
+    background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;

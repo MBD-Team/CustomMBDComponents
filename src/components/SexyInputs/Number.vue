@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot name="icon"></slot>
@@ -60,6 +60,7 @@ const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
+    backgroundColor?: string;
     controlInput?: boolean;
     name?: string;
     error?: { [key: string]: string | string[] } | string;
@@ -82,9 +83,11 @@ const props = withDefaults(
     errorColor: 'red',
     sideWidth: 20,
     name: '',
+    backgroundColor: 'white',
   }
 );
 const {
+  backgroundColor,
   modelValue,
   controlInput,
   error,
@@ -157,6 +160,7 @@ function updateSideValue(event: any) {
     padding-top: 0.5rem;
     height: 2.5rem;
     width: 100%;
+    background-color: v-bind(backgroundColor);
     border: 1px solid;
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
@@ -213,7 +217,7 @@ function updateSideValue(event: any) {
     border-color: v-bind(borderColorComputed);
     border-style: solid;
     border-left: none;
-    background-color: white;
+    background-color: inherit;
     justify-content: center;
     outline: none;
     &::-webkit-outer-spin-button,
@@ -236,14 +240,13 @@ function updateSideValue(event: any) {
     padding: 0 0rem;
     margin: 0 0.6rem;
     transform: translate(0);
-    color: gray;
     border-radius: 0.5rem;
     transition: transform 0.15s ease-in-out, font-size 0.15s ease-in-out, background-color 0.2s ease-in-out, color 0.15s ease-in-out,
       0.15s padding ease-in-out;
   }
   input:focus + .text,
   input.dirty + .text {
-    background-color: white;
+    background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;
