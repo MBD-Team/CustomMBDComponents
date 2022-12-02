@@ -4,7 +4,7 @@
   </Alert>
   <Alert :model-value="hasError" @update:model-value="emit('update:error', '')" class="alert alert-danger">
     <template v-if="typeof error == 'string'">{{ error }}</template>
-    <div v-else-if="Object.values(error || {}).length" style="white-space: pre-wrap">{{ Object.values(error || {}).join('\n') }}</div>
+    <div v-else style="white-space: pre-wrap">{{ Object.values(error || {}).join('\n') }}</div>
   </Alert>
 </template>
 <script setup lang="ts">
@@ -19,7 +19,7 @@ const { error, success } = toRefs(props);
 
 const emit = defineEmits(['update:error', 'update:success']);
 
-const hasError = computed(() => !!error?.value);
+const hasError = computed(() => (typeof error?.value === 'string' ? !!error?.value : !!Object.values(error?.value || {}).length));
 const hasSuccess = computed(() => !!success?.value);
 </script>
 
