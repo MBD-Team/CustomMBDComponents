@@ -390,7 +390,7 @@ function updateSideValue(event: any) {
   }
 
   .simple-typeahead-list {
-    position: absolute;
+    position: relative;
     width: 100%;
     max-height: 60vh;
 
