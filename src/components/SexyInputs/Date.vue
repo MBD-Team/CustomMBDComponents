@@ -55,7 +55,7 @@ const props = withDefaults(
     sideWidth: '20%',
     autoFill: false,
     name: '',
-    backgroundColor: 'white',
+    backgroundColor: '#f8fafc',
   }
 );
 const { modelValue, placeholder, error, errorColor, labelClass, borderColor, autoFill, name } = toRefs(props);

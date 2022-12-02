@@ -117,7 +117,7 @@ const props = withDefaults(
     controlInput: true,
     selectOnBlur: true,
     errorColor: 'red',
-    backgroundColor: 'white',
+    backgroundColor: '#f8fafc',
     sideWidth: 20,
     matchFromStart: false,
     optionProjection: (item: any) => {

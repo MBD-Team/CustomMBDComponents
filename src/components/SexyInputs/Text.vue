@@ -80,7 +80,7 @@ const props = withDefaults(
     errorColor: 'red',
     sideWidth: 20,
     name: '',
-    backgroundColor: 'white',
+    backgroundColor: '#f8fafc',
   }
 );
 const {
