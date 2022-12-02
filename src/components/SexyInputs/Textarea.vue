@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
     <textarea
       v-bind="$attrs"
       class="form-control shadow-none"
@@ -37,15 +37,17 @@ const props = withDefaults(
     labelClass?: string;
     placeholder: string;
     borderColor?: string;
+    backgroundColor?: string;
   }>(),
   {
     error: '',
     errorColor: 'red',
     sideWidth: '20%',
     name: '',
+    backgroundColor: '#f8fafc',
   }
 );
-const { modelValue, error, errorColor, labelClass, placeholder, borderColor, name } = toRefs(props);
+const { modelValue, error, errorColor, labelClass, placeholder, borderColor, name, backgroundColor } = toRefs(props);
 
 const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
@@ -73,6 +75,7 @@ function updateValue(event: any) {
     width: 100%;
     height: 5rem;
     border: 1px solid;
+    background-color: v-bind(backgroundColor);
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
     &:hover:not(:focus) + .text,
@@ -99,13 +102,12 @@ function updateValue(event: any) {
     padding: 0 0rem;
     margin: 0 0.6rem;
     transform: translate(0);
-    color: gray;
     border-radius: 0.5rem;
     transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out, 0.15s padding ease-in-out;
   }
   textarea:focus + .text,
   textarea.dirty + .text {
-    background-color: white;
+    background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;
