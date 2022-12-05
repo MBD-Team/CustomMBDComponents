@@ -31,14 +31,14 @@ const directionStyles = computed(() => {
     case 'bottom':
       return {
         top: 'calc(100% + 0.2rem)',
-        left: '10%',
+        left: '2rem',
         bottom: 'auto',
         right: 'auto',
       };
     case 'top':
       return {
         top: 'auto',
-        left: '10%',
+        left: '2rem',
         bottom: 'calc(100% + 0.2rem)',
         right: 'auto',
       };
