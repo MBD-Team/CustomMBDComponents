@@ -97,6 +97,13 @@ function loadFile(file: any) {
         filter: brightness(95%);
       }
     }
+    &:disabled,
+    &:disabled + .text,
+    &:disabled:hover,
+    &:disabled:hover + .text {
+      filter: brightness(85%);
+      cursor: default;
+    }
   }
   input + .text {
     align-items: center;

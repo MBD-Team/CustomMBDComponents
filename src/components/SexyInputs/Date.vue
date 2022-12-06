@@ -121,6 +121,13 @@ function updateValue(event: any) {
       height: 1.5rem;
       width: 1.5rem;
     }
+    &:disabled,
+    &:disabled + .text,
+    &:disabled:hover,
+    &:disabled:hover + .text {
+      filter: brightness(85%);
+      cursor: default;
+    }
   }
   input + .text {
     align-items: center;
