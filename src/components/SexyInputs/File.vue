@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
     <input
       v-bind="$attrs"
       class="form-control shadow-none"
@@ -45,6 +45,7 @@ const props = withDefaults(
     borderColor?: string;
     preview?: boolean;
     fileClass?: Function;
+    backgroundColor?: string;
   }>(),
   {
     error: '',
@@ -54,6 +55,7 @@ const props = withDefaults(
       return '';
     },
     name: '',
+    backgroundColor: '#f8fafc',
   }
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, preview, name } = toRefs(props);
@@ -80,6 +82,7 @@ function loadFile(file: any) {
     padding-top: 0.5rem;
     height: 2.5rem;
     width: 100%;
+    background-color: v-bind(backgroundColor);
     border: 1px solid;
     border-color: v-bind(borderColorComputed);
     border-radius: 0.5rem;
@@ -112,7 +115,7 @@ function loadFile(file: any) {
   }
   input:focus + .text,
   input + .text {
-    background-color: white;
+    background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;
