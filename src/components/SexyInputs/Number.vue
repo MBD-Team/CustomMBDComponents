@@ -178,6 +178,13 @@ function updateSideValue(event: any) {
         filter: brightness(95%);
       }
     }
+    &:disabled,
+    &:disabled + .text,
+    &:disabled:hover,
+    &:disabled:hover + .text {
+      filter: brightness(85%);
+      cursor: default;
+    }
   }
   button {
     transition: all 0.25s ease-out;
