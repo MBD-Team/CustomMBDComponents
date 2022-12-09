@@ -26,9 +26,9 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button v-if="checkButton" :type="btnType" @click="affirm()" :class="btnClass">
-      <slot name="button"></slot>
-    </button>
+
+    <slot name="button"></slot>
+
     <!-- /sideButton -->
     <!-- sideInput -->
     <input
@@ -145,6 +145,10 @@ function updateSideValue(event: any) {
 <style scoped lang="scss">
 @use 'baseStyle';
 @use 'sideInputStyle';
+button,
+input.sideInput {
+  width: v-bind(sideWidthComputed);
+}
 input {
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {

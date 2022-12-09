@@ -1,8 +1,14 @@
 <template>
   <div id="app" style="height: 100vh" class="row g-5 m-5">
-    <div class="col-6"><Time v-model="time" placeholder="time"></Time></div>
+    <div class="col-6">
+      <Time v-model="time" placeholder="time"></Time>
+    </div>
     <div class="col-6"><Date v-model="date" placeholder="date"></Date></div>
-    <div class="col-6"><Number v-model="number" placeholder="number"></Number></div>
+    <div class="col-6">
+      <Number v-model="number" placeholder="number">
+        <template #button><Button class="sideButton" @click="">tets</Button></template>
+      </Number>
+    </div>
     <div class="col-6"><Text v-model="text" placeholder="text"></Text></div>
     <div class="col-6"><Email v-model="text" placeholder="email"></Email></div>
     <div class="col-6"><File v-model="text" placeholder="File"></File></div>
