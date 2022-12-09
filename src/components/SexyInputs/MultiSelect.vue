@@ -406,7 +406,7 @@ function updateSideValue(event: any) {
     margin-bottom: 0;
   }
   .simple-typeahead-list {
-    position: relative;
+    position: absolute;
     width: 100%;
     max-height: 60vh;
     @media (min-width: 900px) {
