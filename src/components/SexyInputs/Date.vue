@@ -84,7 +84,11 @@ function updateValue(event: any) {
 </script>
 <style scoped lang="scss">
 @use 'baseStyle';
-@use 'sideInputStyle';
+
+input {
+  background-color: v-bind(backgroundColor);
+  border-color: v-bind(borderColorComputed);
+}
 .input-contain {
   input {
     background-color: v-bind(backgroundColor);

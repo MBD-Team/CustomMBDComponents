@@ -74,6 +74,13 @@ function loadFile(file: any) {
 <style scoped lang="scss">
 @use 'baseStyle';
 @use 'sideInputStyle';
+input {
+  background-color: v-bind(backgroundColor);
+  border-color: v-bind(borderColorComputed);
+}
+input.sideInput:focus {
+  border-color: v-bind(borderColorComputed);
+}
 .input-contain {
   input {
     cursor: pointer;

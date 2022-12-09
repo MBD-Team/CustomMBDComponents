@@ -297,4 +297,19 @@ function updateSideValue(event: any) {
 @use 'typeAheadStyle';
 @use 'baseStyle';
 @use 'sideInputStyle';
+input {
+  background-color: v-bind(backgroundColor);
+  border-color: v-bind(borderColorComputed);
+}
+input.sideInput:focus {
+  border-color: v-bind(borderColorComputed);
+}
+.simple-typeahead {
+  .simple-typeahead-list {
+    border-color: v-bind(borderColorComputed);
+    .simple-typeahead-list-item {
+      border-color: v-bind(borderColorComputed);
+    }
+  }
+}
 </style>

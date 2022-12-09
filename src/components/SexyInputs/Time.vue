@@ -84,6 +84,7 @@ function updateValue(event: any) {
 </script>
 <style scoped lang="scss">
 @use 'baseStyle';
+
 .input-contain {
   input {
     background-color: v-bind(backgroundColor);

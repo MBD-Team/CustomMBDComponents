@@ -127,4 +127,11 @@ function updateSideValue(event: any) {
 <style scoped lang="scss">
 @use 'sideInputStyle';
 @use 'baseStyle';
+input {
+  background-color: v-bind(backgroundColor);
+  border-color: v-bind(borderColorComputed);
+}
+input.sideInput:focus {
+  border-color: v-bind(borderColorComputed);
+}
 </style>

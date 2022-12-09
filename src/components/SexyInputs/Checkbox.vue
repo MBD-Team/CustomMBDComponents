@@ -42,6 +42,9 @@ const borderColorComputed = computed(() => {
 </script>
 <style scoped lang="scss">
 @use 'checkBoxStyle';
+.round label {
+  border-color: v-bind(borderColorComputed);
+}
 .round input[type='checkbox'] {
   visibility: hidden;
 }

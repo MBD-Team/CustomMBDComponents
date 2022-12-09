@@ -38,4 +38,10 @@ const borderColorComputed = computed(() => {
 </script>
 <style lang="scss" scoped>
 @use 'groupStyle';
+.buttonGroup {
+  grid-template-columns: repeat(v-bind(buttonCount), 1fr);
+}
+.button {
+  border-color: v-bind(borderColorComputed);
+}
 </style>

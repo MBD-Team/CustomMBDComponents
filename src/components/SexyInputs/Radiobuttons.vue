@@ -49,6 +49,9 @@ const borderColorComputed = computed(() => {
 </script>
 <style scoped lang="scss">
 @use 'checkBoxStyle';
+.round label {
+  border-color: v-bind(borderColorComputed);
+}
 .row {
   display: grid;
   grid-template-columns: repeat(v-bind(number), 1fr);
