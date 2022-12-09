@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <div class="simple-typeahead input-contain">
+    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
         <slot name="icon"></slot>
@@ -142,6 +142,7 @@ const props = withDefaults(
     matchFromStart?: boolean;
     showSelected?: boolean;
     keyExtractor?: Function;
+    backgroundColor?: string;
   }>(),
   {
     error: '',
@@ -165,6 +166,7 @@ const props = withDefaults(
     },
     name: '',
     showSelected: true,
+    backgroundColor: '#f8fafc',
   }
 );
 const {
@@ -292,162 +294,7 @@ function updateSideValue(event: any) {
 }
 </script>
 <style scoped lang="scss">
-.input-contain {
-  position: relative;
-  border-radius: 0.5rem;
-
-  .icon {
-    background-color: transparent;
-    position: absolute;
-    top: 0.5rem;
-    left: 0.3rem;
-    z-index: 2;
-  }
-  input {
-    text-align: start;
-    padding-left: 1rem;
-    padding-top: 0.5rem;
-    height: 2.5rem;
-    width: 100%;
-    border: 1px solid;
-    border-color: v-bind(borderColorComputed);
-    border-radius: 0.5rem;
-    &:hover:not(:focus) + .text,
-    &:hover:not(:focus) {
-      @media (pointer: fine) {
-        filter: brightness(95%);
-      }
-    }
-    &:focus {
-      border-width: 2px;
-    }
-  }
-  button {
-    transition: all 0.25s ease-out;
-    &:hover {
-      @media (pointer: fine) {
-        filter: brightness(95%);
-      }
-    }
-    &:active {
-      @media (pointer: fine) {
-        filter: brightness(85%);
-      }
-      @media (pointer: coarse) {
-        filter: brightness(85%);
-      }
-    }
-  }
-  input.sideInput {
-    &:focus {
-      border: 2px solid;
-      border-color: v-bind(borderColorComputed);
-    }
-  }
-  button,
-  input.sideInput {
-    align-items: center;
-    text-align: center;
-    position: absolute;
-    padding: 0;
-    top: 0;
-    bottom: 0;
-    left: v-bind(inputWidth);
-    right: 0;
-    width: v-bind(sideWidthComputed);
-    border-radius: 0 0.5rem 0.5rem 0;
-    border-width: 1px;
-    border-color: v-bind(borderColorComputed);
-    border-style: solid;
-    border-left: none;
-    background-color: white;
-    justify-content: center;
-    outline: none;
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-  input + .text {
-    align-items: center;
-    position: absolute;
-    top: 0.5rem;
-    bottom: 0;
-    left: 0;
-    height: min-content;
-    display: flex;
-    color: gray;
-    pointer-events: none;
-    font-size: 1rem;
-    padding: 0 0rem;
-    margin: 0 0.6rem;
-    transform: translate(0);
-    color: gray;
-    border-radius: 0.5rem;
-    transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out, 0.15s padding ease-in-out;
-  }
-  input:focus + .text,
-  input.dirty + .text {
-    background-color: white;
-    border-radius: 0.5rem 0.5rem 0rem 0rem;
-    font-size: 0.9rem;
-    padding: 0 0.3rem;
-    color: black;
-    transform: translate(0, -1rem);
-    height: 0.9rem;
-  }
-}
-//select
-.simple-typeahead {
-  position: relative;
-  width: 100%;
-  & > input {
-    margin-bottom: 0;
-  }
-  .simple-typeahead-list {
-    position: absolute;
-    width: 100%;
-    max-height: 60vh;
-    @media (min-width: 900px) {
-      max-height: 30vh;
-    }
-    overflow-y: auto;
-    background-color: #fafafa;
-    border-radius: 0 0 0.5rem 0.5rem;
-    border: 2px solid;
-    border-color: v-bind(borderColorComputed);
-    border-top: none;
-    z-index: 2;
-    cursor: pointer;
-    .simple-typeahead-list-item {
-      border-bottom: 1px solid;
-      border-color: v-bind(borderColorComputed);
-      background-color: #fafafa;
-      padding: 0.6rem 1rem;
-      &:hover {
-        @media (pointer: fine) {
-          filter: brightness(95%);
-        }
-      }
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-    &::-webkit-scrollbar-track {
-      border-radius: 0 0 0.5rem 0;
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background-color: #555;
-    }
-  }
-}
+@use 'typeAheadStyle';
+@use 'baseStyle';
+@use 'sideInputStyle';
 </style>

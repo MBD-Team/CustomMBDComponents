@@ -72,53 +72,15 @@ function loadFile(file: any) {
 }
 </script>
 <style scoped lang="scss">
+@use 'baseStyle';
+@use 'sideInputStyle';
 .input-contain {
-  position: relative;
-  border-radius: 0.5rem;
-  background-color: inherit;
   input {
-    text-align: start;
-    padding-left: 1rem;
-    padding-top: 0.5rem;
-    height: 2.5rem;
-    width: 100%;
-    background-color: v-bind(backgroundColor);
-    border: 1px solid;
-    border-color: v-bind(borderColorComputed);
-    border-radius: 0.5rem;
     cursor: pointer;
     &::-webkit-file-upload-button {
       background-color: transparent !important;
       border: none;
     }
-    &:hover:not(:focus) + .text,
-    &:hover:not(:focus) {
-      @media (pointer: fine) {
-        filter: brightness(95%);
-      }
-    }
-    &:disabled,
-    &:disabled + .text,
-    &:disabled:hover,
-    &:disabled:hover + .text {
-      filter: brightness(85%);
-      cursor: default;
-    }
-  }
-  input + .text {
-    align-items: center;
-    position: absolute;
-    top: 0.5rem;
-    bottom: 0;
-    left: 0;
-    height: min-content;
-    display: flex;
-    color: gray;
-    pointer-events: none;
-    font-size: 1rem;
-    padding: 0 0rem;
-    margin: 0 0.6rem;
-    border-radius: 0.5rem;
   }
   input:focus + .text,
   input + .text {

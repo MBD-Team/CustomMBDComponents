@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
     <!-- icon -->
     <div v-if="checkIcon" class="icon">
       <slot name="icon"></slot>
@@ -47,6 +47,7 @@ const props = withDefaults(
     placeholder: string;
     borderColor?: string;
     autoFill?: boolean;
+    backgroundColor?: string;
   }>(),
   {
     error: '',
@@ -54,6 +55,7 @@ const props = withDefaults(
     sideWidth: '20%',
     autoFill: false,
     name: '',
+    backgroundColor: '#f8fafc',
   }
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, autoFill, name } = toRefs(props);
@@ -81,36 +83,12 @@ function updateValue(event: any) {
 }
 </script>
 <style scoped lang="scss">
+@use 'baseStyle';
 .input-contain {
-  position: relative;
-  border-radius: 0.5rem;
-
-  .icon {
-    background-color: transparent;
-    position: absolute;
-    top: 0.5rem;
-    left: 0.3rem;
-    z-index: 2;
-  }
   input {
-    text-align: start;
-    padding-left: 1rem;
+    background-color: v-bind(backgroundColor);
     padding-top: 0.4rem;
-    height: 2.5rem;
-    width: 100%;
-    border: 1px solid;
-    border-color: v-bind(borderColorComputed);
-    border-radius: 0.5rem;
     cursor: pointer;
-    &:hover:not(:focus) + .text,
-    &:hover:not(:focus) {
-      @media (pointer: fine) {
-        filter: brightness(95%);
-      }
-    }
-    &:focus {
-      border-width: 2px;
-    }
     &::-webkit-calendar-picker-indicator {
       display: flex;
       justify-content: end;
@@ -125,18 +103,10 @@ function updateValue(event: any) {
     top: 0.5rem;
     bottom: 0;
     left: 0;
-    height: min-content;
     display: flex;
-    color: gray;
     pointer-events: none;
-    font-size: 1rem;
-    padding: 0 0rem;
     margin: 0 0.6rem;
-    border-radius: 0.5rem;
-  }
-
-  input + .text {
-    background-color: white;
+    background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;

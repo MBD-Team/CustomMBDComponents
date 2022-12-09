@@ -46,35 +46,5 @@ const borderColorComputed = computed(() => {
 });
 </script>
 <style lang="scss" scoped>
-.buttonGroup {
-  display: grid;
-  grid-template-columns: repeat(v-bind(buttonCount), 1fr);
-  white-space: pre-line;
-  :first-child {
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-  :last-child {
-    border-radius: 0 0.5rem 0.5rem 0;
-  }
-}
-.button {
-  border: 1px solid black;
-  border-color: v-bind(borderColorComputed);
-  padding-inline: 0.8rem;
-  margin: 0;
-
-  &:hover {
-    @media (pointer: fine) {
-      filter: brightness(95%);
-    }
-  }
-  &:active {
-    @media (pointer: fine) {
-      filter: brightness(85%);
-    }
-    @media (pointer: coarse) {
-      filter: brightness(85%);
-    }
-  }
-}
+@use 'groupStyle';
 </style>
