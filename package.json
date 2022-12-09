@@ -8,6 +8,7 @@
   "files": [
     "src/utils/**/*.*",
     "src/components/**/*.vue",
+    "src/components/**/*.scss",
     "src/components/**/*.ts"
   ],
   "scripts": {
