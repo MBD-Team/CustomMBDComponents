@@ -112,4 +112,10 @@ input {
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);
 }
+button,
+input.sideInput {
+  left: v-bind(inputWidth);
+  width: v-bind(sideWidthComputed);
+  border-color: v-bind(borderColorComputed);
+}
 </style>
