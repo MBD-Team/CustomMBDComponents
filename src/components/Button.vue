@@ -2,7 +2,9 @@
   <button
     v-bind="$attrs"
     :disabled="loading"
-    :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
+    :style="
+      sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;  background-color: #f8fafc;' : ''
+    "
   >
     <Spinner v-if="loading" :color="spinnerColor" class="me-2" :size="spinnerSize"></Spinner>
     <slot></slot>
@@ -35,7 +37,6 @@ const { spinnerColor, spinnerSize } = toRefs(props);
 </script>
 <style scoped lang="scss">
 button {
-  background-color: #f8fafc;
   box-shadow: none !important;
   height: 2.5rem;
   padding-inline: 0.8rem;
