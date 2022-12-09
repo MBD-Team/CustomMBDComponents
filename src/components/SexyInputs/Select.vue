@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
+    <div class="simple-typeahead input-contain d-flex" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
         <slot name="icon"></slot>
@@ -50,9 +50,7 @@
       </div>
       <!-- /options for select -->
       <!-- sideButton -->
-      <button v-if="checkButton" :type="btnType" @click="affirm()" :class="btnClass">
-        <slot name="button"></slot>
-      </button>
+      <div v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
       <!-- /sideButton -->
       <!-- sideInput -->
       <input
@@ -97,9 +95,6 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
-    btnType?: 'button' | 'submit' | 'reset';
-    btnClass?: string;
-    btnAction?: Function;
     sideWidth?: number;
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
@@ -140,9 +135,6 @@ const {
   error,
   errorColor,
   labelClass,
-  btnType,
-  btnClass,
-  btnAction,
   sideWidth,
   sideInputType,
   sideInputClass,
@@ -186,10 +178,6 @@ const filteredItems = computed(() => {
   else return array;
 });
 
-async function affirm() {
-  //executes the btnAction
-  if (btnAction?.value) await btnAction.value();
-}
 function onInput(event: Event) {
   //is executed when something is entered in selectInput.
   updateValue(event);

@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain mt-3 d-flex" :style="{ backgroundColor: backgroundColor }">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot name="icon"></slot>
@@ -26,9 +26,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button v-if="checkButton" :type="btnType" @click="affirm()" :class="btnClass">
-      <slot name="button"></slot>
-    </button>
+    <div v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
     <!-- /sideButton -->
     <!-- sideInput -->
     <input
@@ -63,9 +61,6 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
-    btnType?: 'button' | 'submit' | 'reset';
-    btnClass?: string;
-    btnAction?: Function;
     sideWidth?: number;
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
@@ -88,9 +83,6 @@ const {
   error,
   errorColor,
   labelClass,
-  btnType,
-  btnClass,
-  btnAction,
   sideWidth,
   sideInputType,
   sideInputClass,
@@ -113,10 +105,7 @@ const checkButton = computed(() => {
   return !!slots.button;
 });
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
-async function affirm() {
-  //executes the btnAction
-  if (btnAction?.value) await btnAction.value();
-}
+
 function updateValue(event: any) {
   emit('update:modelValue', event.target.value);
 }

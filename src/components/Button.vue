@@ -1,5 +1,9 @@
 <template>
-  <button v-bind="$attrs" :disabled="loading">
+  <button
+    v-bind="$attrs"
+    :disabled="loading"
+    :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
+  >
     <Spinner v-if="loading" :color="spinnerColor" class="me-2" :size="spinnerSize"></Spinner>
     <slot></slot>
   </button>
@@ -18,17 +22,20 @@ const props = withDefaults(
     spinnerColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'danger' | 'warning' | 'info' | 'success' | '';
     spinnerSize?: string;
     loading?: boolean;
+    sideButton?: boolean;
   }>(),
   {
     spinnerColor: '',
     spinnerSize: '1em',
     loading: false,
+    sideButton: false,
   }
 );
 const { spinnerColor, spinnerSize } = toRefs(props);
 </script>
 <style scoped lang="scss">
 button {
+  background-color: #f8fafc;
   box-shadow: none !important;
   height: 2.5rem;
   padding-inline: 0.8rem;

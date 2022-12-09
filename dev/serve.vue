@@ -6,13 +6,17 @@
     <div class="col-6"><Date v-model="date" placeholder="date"></Date></div>
     <div class="col-6">
       <Number v-model="number" placeholder="number">
-        <template #button><Button class="sideButton" @click="">tets</Button></template>
+        <template #button><Button :sideButton="true" @click="">tets</Button></template>
       </Number>
     </div>
     <div class="col-6"><Text v-model="text" placeholder="text"></Text></div>
     <div class="col-6"><Email v-model="text" placeholder="email"></Email></div>
     <div class="col-6"><File v-model="text" placeholder="File"></File></div>
-    <div class="col-6"><Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select"></Select></div>
+    <div class="col-6">
+      <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
+        <template #button><Button :sideButton="true" @click="">tets</Button></template>
+      </Select>
+    </div>
   </div>
 </template>
 
