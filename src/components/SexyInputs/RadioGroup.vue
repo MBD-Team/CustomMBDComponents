@@ -48,7 +48,7 @@ const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 function updateValue(value: any) {
-  if (!disabled.value) return;
+  if (disabled.value) return;
   emit('update:modelValue', value);
 }
 </script>
