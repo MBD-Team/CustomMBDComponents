@@ -39,7 +39,7 @@ const props = withDefaults(
 );
 const { options, error, errorColor, borderColor, name } = toRefs(props);
 const emit = defineEmits(['update:modelValue']);
-const buttonCount = computed(() => options.value.length);
+const buttonCount = computed(() => options.value?.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
 }
