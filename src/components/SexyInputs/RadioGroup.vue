@@ -34,10 +34,11 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     borderColor?: string;
+    disabled?: boolean;
   }>(),
-  { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red', name: '' }
+  { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red', name: '', disabled: false }
 );
-const { options, error, errorColor, borderColor, name } = toRefs(props);
+const { options, error, errorColor, borderColor, name, disabled } = toRefs(props);
 const emit = defineEmits(['update:modelValue']);
 const buttonCount = computed(() => options.value?.length);
 function textWithNewLines(text: string) {
@@ -47,6 +48,7 @@ const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
 function updateValue(value: any) {
+  if (!disabled.value) return;
   emit('update:modelValue', value);
 }
 </script>
