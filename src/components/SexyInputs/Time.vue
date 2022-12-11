@@ -66,6 +66,11 @@ onMounted(() => {
     let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
     updateValue(time);
   }
+  if (modelValue.value?.length > 5) {
+    const date = new Date(modelValue.value);
+    let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+    updateValue(time);
+  }
 });
 
 const isInputFocus = ref(false);
