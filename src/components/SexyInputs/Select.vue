@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <div class="simple-typeahead input-contain d-flex" :style="{ backgroundColor: backgroundColor }">
+    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
         <slot name="icon"></slot>
