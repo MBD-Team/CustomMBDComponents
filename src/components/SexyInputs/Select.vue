@@ -34,7 +34,7 @@
       </label>
       <!-- /label for select -->
       <!-- options for select -->
-      <div class="simple-typeahead-list" :class="listClass" :style="checkButton || sideInputType ? `width:${inputWidth}` : ''" v-if="isListVisible">
+      <div class="simple-typeahead-list p-0" :class="listClass" :style="checkButton || sideInputType ? `width:${inputWidth}` : ''">
         <div
           class="simple-typeahead-list-item"
           :class="listItemClass(item)"

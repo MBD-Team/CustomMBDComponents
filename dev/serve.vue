@@ -63,6 +63,20 @@ const groups = ref([{ id: 1, name: 'Group1', checked: true }]);
 const array = ref([
   { name: 'test', id: 0 },
   { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
+  { name: 'test', id: 0 },
+  { name: 'test', id: 1 },
 ]);
 const selectedArray = ref([{ name: 'test', id: 0 }]);
 function test(e: any) {
