@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3 d-flex" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot name="icon"></slot>
@@ -26,7 +26,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <div v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
+    <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
     <!-- /sideButton -->
     <!-- sideInput -->
     <input

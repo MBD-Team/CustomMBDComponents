@@ -50,7 +50,7 @@
       </div>
       <!-- /options for select -->
       <!-- sideButton -->
-      <div v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
+      <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
       <!-- /sideButton -->
       <!-- sideInput -->
       <input

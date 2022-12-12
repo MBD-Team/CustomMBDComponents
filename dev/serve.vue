@@ -14,9 +14,11 @@
     <div class="col-6"><File v-model="text" placeholder="File"></File></div>
     <div class="col-6">
       <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
-        <template #button><Button :sideButton="true" @click="">tets</Button></template>
+        <template #button><Button class="btn btn-primary" :sideButton="true" @click="" :loading="false">tets</Button></template>
       </Select>
     </div>
+    <Button class="btn default" @click="test('e')">testts</Button>
+    <div><Textarea placeholder="dguzfhi" v-model="text" disabled></Textarea></div>
   </div>
 </template>
 

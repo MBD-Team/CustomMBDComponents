@@ -1,10 +1,9 @@
 <template>
   <button
     v-bind="$attrs"
-    :disabled="loading"
-    :style="
-      sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;  background-color: #f8fafc;' : ''
-    "
+    :disabled="loading || disabled"
+    :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
+    :class="class"
   >
     <Spinner v-if="loading" :color="spinnerColor" class="me-2" :size="spinnerSize"></Spinner>
     <slot></slot>
@@ -24,13 +23,17 @@ const props = withDefaults(
     spinnerColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'danger' | 'warning' | 'info' | 'success' | '';
     spinnerSize?: string;
     loading?: boolean;
+    disabled?: boolean;
     sideButton?: boolean;
+    class?: string;
   }>(),
   {
     spinnerColor: '',
     spinnerSize: '1em',
     loading: false,
     sideButton: false,
+    disabled: false,
+    class: 'btn btn-primary',
   }
 );
 const { spinnerColor, spinnerSize } = toRefs(props);
@@ -61,5 +64,9 @@ button {
   &[disabled] {
     filter: grayscale(50%);
   }
+}
+.default {
+  background-color: #f8fafc;
+  border: 1px solid black;
 }
 </style>

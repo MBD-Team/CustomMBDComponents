@@ -87,6 +87,13 @@ function updateValue(event: any) {
     &:focus {
       border-width: 2px;
     }
+    &:disabled,
+    &:disabled + .text,
+    &:disabled:hover,
+    &:disabled:hover + .text {
+      filter: brightness(85%);
+      cursor: default;
+    }
   }
   textarea + .text {
     align-items: center;

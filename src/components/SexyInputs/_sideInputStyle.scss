@@ -1,20 +1,12 @@
 button {
-  transition: all 0.25s ease-out;
-  &:hover {
-    @media (pointer: fine) {
-      filter: brightness(95%);
-    }
-  }
-  &:active {
-    @media (pointer: fine) {
-      filter: brightness(85%);
-    }
-    @media (pointer: coarse) {
-      filter: brightness(85%);
-    }
-  }
+  border: none;
 }
 input.sideInput {
+  border-radius: 0 0.5rem 0.5rem 0;
+  border-width: 1px;
+  border-color: v-bind(borderColorComputed);
+  border-style: solid;
+  border-left: none;
   &:focus {
     border: 2px solid;
     border-color: v-bind(borderColorComputed);
@@ -31,11 +23,6 @@ input.sideInput {
   left: v-bind(inputWidth);
   right: 0;
   width: v-bind(sideWidthComputed);
-  border-radius: 0 0.5rem 0.5rem 0;
-  border-width: 1px;
-  border-color: v-bind(borderColorComputed);
-  border-style: solid;
-  border-left: none;
   background-color: inherit;
   justify-content: center;
   outline: none;
