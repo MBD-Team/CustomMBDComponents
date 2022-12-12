@@ -1,3 +1,10 @@
+.selectInput {
+  transform: translateZ(0);
+}
+.mbd-modal-body .selectInput,
+.modal-content .selectInput {
+  transform: none;
+}
 .simple-typeahead {
   & > input {
     margin-bottom: 0;
@@ -5,6 +12,7 @@
 
   .simple-typeahead-list {
     position: fixed;
+
     max-height: 60vh;
     overflow-y: scroll;
 

@@ -1,5 +1,10 @@
 <template>
-  <div id="app" class="m-5">
+  <div id="app" class="container" style="height: 150vh; background-color: green">
+    <div><Button v-for="i in 5" class="btn default">tets</Button></div>
+
+    <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
+      <template #button><Button href="test" class="btn btn-primary" :sideButton="true">tets</Button></template>
+    </Select>
     <Modal>
       <div class="col-6">
         <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
@@ -83,4 +88,7 @@ function test(e: any) {
   console.log(e);
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+body {
+}
+</style>

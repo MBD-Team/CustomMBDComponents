@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-3 selectInput">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
@@ -255,6 +255,8 @@ function updateSideValue(event: any) {
 }
 
 const listWidth = ref('');
+document.getElementById(id.value)?.addEventListener('wheel', handleScroll);
+const listY = ref('');
 </script>
 <style scoped lang="scss">
 @use 'typeAheadStyle';
@@ -273,6 +275,7 @@ input.sideInput:focus {
   .simple-typeahead-list {
     border-color: v-bind(borderColorComputed);
     width: v-bind(listWidth) !important;
+
     .simple-typeahead-list-item {
       border-color: v-bind(borderColorComputed);
     }
