@@ -1,25 +1,13 @@
 <template>
-  <div id="app" style="height: 100vh" class="m-5">
-    <div class="col-6">
-      <Time v-model="time" placeholder="time"></Time>
-    </div>
-    <div class="col-6"><Date v-model="date" placeholder="date"></Date></div>
-    <div class="col-6">
-      <Number v-model="number" placeholder="number">
-        <template #button><Button :sideButton="true" @click="">tets</Button></template>
-      </Number>
-    </div>
-    <div class="col-6"><Text v-model="text" placeholder="text"></Text></div>
-    <div class="col-6"><Email v-model="text" placeholder="email"></Email></div>
-    <div class="col-6"><File v-model="text" placeholder="File"></File></div>
-    <div class="col-6">
-      <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
-        <template #button><Button href="test" class="btn btn-primary" :sideButton="true">tets</Button></template>
-      </Select>
-    </div>
-    <Button class="btn default" @click="test('e')">testts</Button>
-    <Button href="test" class="btn default"><div class="d-flex align-items-center h-100">test</div></Button>
-    <div><Textarea placeholder="dguzfhi" v-model="text" disabled></Textarea></div>
+  <div id="app" class="m-5">
+    <Modal>
+      <div class="col-6">
+        <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
+          <template #button><Button href="test" class="btn btn-primary" :sideButton="true">tets</Button></template>
+        </Select>
+      </div>
+      <template #button>gfklj</template>
+    </Modal>
   </div>
 </template>
 
