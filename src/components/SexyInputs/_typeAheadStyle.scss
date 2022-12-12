@@ -1,21 +1,15 @@
 .simple-typeahead {
-  position: relative;
-  width: 100%;
-
   & > input {
     margin-bottom: 0;
   }
 
   .simple-typeahead-list {
-    position: absolute;
-    width: 100%;
+    position: fixed;
     max-height: 60vh;
 
     @media (min-width: 900px) {
       max-height: 30vh;
     }
-
-    overflow-y: auto;
     background-color: #fafafa;
     border-radius: 0 0 0.5rem 0.5rem;
     border: 2px solid;
@@ -38,6 +32,7 @@
 
       &:last-child {
         border-bottom: none;
+        border-radius: 0 0 0.5rem 0.5rem;
       }
     }
 

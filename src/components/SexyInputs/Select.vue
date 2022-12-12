@@ -8,6 +8,7 @@
       <!-- /icon -->
       <input
         v-bind="attrs"
+        v-if="(listWidth = document.getElementById(id)?.getBoundingClientRect().width + 'px') || true"
         :id="id"
         class="simple-typeahead-input form-control shadow-none"
         :style="[
@@ -150,7 +151,7 @@ const {
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 const isListVisible = ref(false);
-
+const document = window.document;
 const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
 });
@@ -247,6 +248,8 @@ function updateSideValue(event: any) {
   //update the sideInput value
   emit('update:sideInputVModel', event.target.value);
 }
+
+const listWidth = ref('');
 </script>
 <style scoped lang="scss">
 @use 'typeAheadStyle';
@@ -264,6 +267,7 @@ input.sideInput:focus {
 .simple-typeahead {
   .simple-typeahead-list {
     border-color: v-bind(borderColorComputed);
+    width: v-bind(listWidth) !important;
     .simple-typeahead-list-item {
       border-color: v-bind(borderColorComputed);
     }
