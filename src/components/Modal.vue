@@ -226,3 +226,19 @@ function resetError() {
   margin-top: -50px;
 }
 </style>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```js
+ *   <Modal title="Example Title" affirmAction="()=>()" affirmText="test" affirmClass="btn btn-primary">
+ *    <slot/> // Modal content
+ *    <template #button>open Modal button</template>
+ *   </Modal>
+ * ```
+ * other buttons:
+ * affirmAlt
+ * negative
+ */
+export default {};
+</script>

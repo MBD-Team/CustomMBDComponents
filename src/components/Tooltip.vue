@@ -90,3 +90,24 @@ const { tooltip } = toRefs(props);
   position: relative;
 }
 </style>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```js
+ *   <tooltip tooltip="descriptionText">
+ *    <slot/> // element that gets the tooltip
+ *   </tooltip>
+ * ```
+ *
+ * optional props:
+ *```ts
+ * tooltipColor?: string;
+ *
+ * tooltipBgColor?: string;
+ *
+ * direction?: 'bottom' | 'top' | 'left' | 'right';
+ * ```
+ */
+export default {};
+</script>
