@@ -1,5 +1,16 @@
 <template>
+  <a
+    v-if="href"
+    :href="href"
+    v-bind="$attrs"
+    :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
+    class=""
+    :class="class"
+  >
+    <div class="d-flex align-items-center justify-content-center h-100"><slot></slot></div>
+  </a>
   <button
+    v-else
     v-bind="$attrs"
     :disabled="loading || disabled"
     :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
@@ -24,6 +35,7 @@ const props = withDefaults(
     spinnerSize?: string;
     loading?: boolean;
     disabled?: boolean;
+    href?: string;
     sideButton?: boolean;
     class?: string;
   }>(),
@@ -39,7 +51,8 @@ const props = withDefaults(
 const { spinnerColor, spinnerSize } = toRefs(props);
 </script>
 <style scoped lang="scss">
-button {
+button,
+a {
   box-shadow: none !important;
   height: 2.5rem;
   padding-inline: 0.8rem;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="height: 100vh" class="row g-5 m-5">
+  <div id="app" style="height: 100vh" class="m-5">
     <div class="col-6">
       <Time v-model="time" placeholder="time"></Time>
     </div>
@@ -14,10 +14,11 @@
     <div class="col-6"><File v-model="text" placeholder="File"></File></div>
     <div class="col-6">
       <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
-        <template #button><Button class="btn btn-primary" :sideButton="true" @click="" :loading="false">tets</Button></template>
+        <template #button><Button href="test" class="btn btn-primary" :sideButton="true">tets</Button></template>
       </Select>
     </div>
     <Button class="btn default" @click="test('e')">testts</Button>
+    <Button href="test" class="btn default"><div class="d-flex align-items-center h-100">test</div></Button>
     <div><Textarea placeholder="dguzfhi" v-model="text" disabled></Textarea></div>
   </div>
 </template>
