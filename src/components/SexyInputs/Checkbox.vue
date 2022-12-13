@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex mb-2">
+  <div class="d-flex">
     <label v-if="textLeft" class="me-3" :for="id" style="cursor: pointer"><slot></slot></label>
     <div class="round">
       <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" :checked="modelValue || value" />
