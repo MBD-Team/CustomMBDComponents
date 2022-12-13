@@ -61,7 +61,7 @@ const props = withDefaults(
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, autoFill, name } = toRefs(props);
 onMounted(() => {
   //set standard value to current time
-  if (modelValue.value.length != 5 && autoFill.value) {
+  if (modelValue.value?.length != 5 && autoFill.value) {
     const date = new Date();
     let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
     updateValue(time);
