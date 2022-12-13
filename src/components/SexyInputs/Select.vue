@@ -56,7 +56,7 @@
       </div>
       <!-- /options for select -->
       <!-- sideButton -->
-      <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+      <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
       <!-- /sideButton -->
       <!-- sideInput -->
       <input
@@ -255,8 +255,6 @@ function updateSideValue(event: any) {
 }
 
 const listWidth = ref('');
-document.getElementById(id.value)?.addEventListener('wheel', handleScroll);
-const listY = ref('');
 </script>
 <style scoped lang="scss">
 @use 'typeAheadStyle';

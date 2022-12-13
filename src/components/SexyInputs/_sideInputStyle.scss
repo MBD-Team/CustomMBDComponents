@@ -1,19 +1,21 @@
-button {
+.sideButton {
   border: none;
+  background-color: transparent;
 }
-input.sideInput {
+.sideInput {
   border-radius: 0 0.5rem 0.5rem 0;
   border-width: 1px;
   border-color: v-bind(borderColorComputed);
   border-style: solid;
   border-left: none;
+  background-color: inherit;
   &:focus {
     border: 2px solid;
     border-color: v-bind(borderColorComputed);
   }
 }
-button,
-input.sideInput {
+.sideButton,
+.sideInput {
   align-items: center;
   text-align: center;
   position: absolute;
@@ -23,7 +25,7 @@ input.sideInput {
   left: v-bind(inputWidth);
   right: 0;
   width: v-bind(sideWidthComputed);
-  background-color: inherit;
+
   justify-content: center;
   outline: none;
   &::-webkit-outer-spin-button,
