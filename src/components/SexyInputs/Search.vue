@@ -26,7 +26,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+    <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
     <!-- /sideButton -->
     <!-- sideInput -->
     <input

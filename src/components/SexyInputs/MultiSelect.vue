@@ -53,7 +53,7 @@
       </div>
       <!-- /options for select -->
       <!-- sideButton -->
-      <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+      <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
       <!-- /sideButton -->
       <!-- sideInput -->
       <input
@@ -100,7 +100,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, ref, toRefs, useSlots, watch } from 'vue';
+import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth } from './Index';
 import Error from './common/Error.vue';
 import Checkbox from './Checkbox.vue';
@@ -126,9 +126,6 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
-    btnType?: 'button' | 'submit' | 'reset';
-    btnClass?: string;
-    btnAction?: Function;
     sideWidth?: number;
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
@@ -175,9 +172,6 @@ const {
   error,
   errorColor,
   labelClass,
-  btnType,
-  btnClass,
-  btnAction,
   sideWidth,
   sideInputType,
   sideInputClass,
@@ -224,10 +218,6 @@ const filteredItems = computed(() => {
   else return array;
 });
 
-async function affirm() {
-  //executes the btnAction
-  if (btnAction?.value) await btnAction.value();
-}
 function onInput(event: Event) {
   //is executed when something is entered in selectInput.
   updateValue(event);

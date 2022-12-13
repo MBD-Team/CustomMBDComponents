@@ -26,7 +26,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+    <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
     <!-- /sideButton -->
     <!-- sideInput -->
     <input
@@ -61,9 +61,6 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
-    btnType?: 'button' | 'submit' | 'reset';
-    btnClass?: string;
-    btnAction?: Function;
     sideWidth?: number;
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
@@ -86,9 +83,6 @@ const {
   error,
   errorColor,
   labelClass,
-  btnType,
-  btnClass,
-  btnAction,
   sideWidth,
   sideInputType,
   sideInputClass,
@@ -111,10 +105,7 @@ const checkButton = computed(() => {
   return !!slots.button;
 });
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
-async function affirm() {
-  //executes the btnAction
-  if (btnAction?.value) await btnAction.value();
-}
+
 function updateValue(event: any) {
   emit('update:modelValue', event.target.value);
 }
