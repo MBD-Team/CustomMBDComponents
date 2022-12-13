@@ -26,7 +26,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+    <button v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
     <!-- /sideButton -->
     <!-- sideInput -->
     <input
@@ -83,9 +83,6 @@ const {
   error,
   errorColor,
   labelClass,
-  btnType,
-  btnClass,
-  btnAction,
   sideWidth,
   sideInputType,
   sideInputClass,
@@ -116,10 +113,6 @@ const sideWidthComputed = computed(() => {
   let width = sideWidth.value;
   return width + '%';
 });
-async function affirm() {
-  //executes the btnAction
-  if (btnAction?.value) await btnAction.value();
-}
 function updateValue(event: any) {
   emit('update:modelValue', event.target.value);
 }

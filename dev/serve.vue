@@ -1,5 +1,7 @@
 <template>
   <div id="app" class="container" style="height: 150vh; background-color: green">
+    <SearchInput v-model="text" placeholder="Mitglieder suchen..."></SearchInput>
+    <Text v-model="text" placeholder="Mitglieder suchen..."></Text>
     <div><Button v-for="i in 5" class="btn default">tets</Button></div>
 
     <Select :options="array" :optionProjection="e => e?.name" v-model="text" placeholder="Select">
@@ -33,6 +35,7 @@ import Select from '../src/components/SexyInputs/Select.vue';
 
 import File from '../src/components/SexyInputs/File.vue';
 import Email from '../src/components/SexyInputs/Email.vue';
+import SearchInput from '../src/components/SexyInputs/Search.vue';
 import RadioGroup from '../src/components/SexyInputs/RadioGroup.vue';
 import ButtonGroup from '../src/components/SexyInputs/ButtonGroup.vue';
 import Tooltip from '../src/components/Tooltip.vue';
