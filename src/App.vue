@@ -7,10 +7,12 @@
     :option-projection="e => e.name"
     :key-extractor="e => e.id"
   ></MultiSelect>
+  <Select v-model="selectNew" :options="optionsNew" :placeholder="'Verein Hinzufügen'" :option-projection="e => e.name"></Select>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
 import MultiSelect from '../src/components/SexyInputs/MultiSelect.vue';
+import Select from '../src/components/SexyInputs/Select.vue';
 const selectedNew = ref([]);
 
 const selectNew = ref('');

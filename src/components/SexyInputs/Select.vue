@@ -195,6 +195,9 @@ function onInput(event: Event) {
 function onFocus() {
   //is executed when the selectInput is focussed
   isListVisible.value = true;
+  setTimeout(() => {
+    listWidth.value = document.getElementById(id.value)?.getBoundingClientRect().width + 'px';
+  }, 0);
   emit('onFocus', {
     modelValue: modelValue.value,
     options: filteredItems.value,

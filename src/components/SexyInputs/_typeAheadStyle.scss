@@ -1,8 +1,8 @@
-.selectInput {
+.simple-typeahead-list {
   transform: translateZ(0);
 }
-.mbd-modal-body .selectInput,
-.modal-content .selectInput {
+.mbd-modal-body .simple-typeahead-list,
+.modal-content .simple-typeahead-list {
   transform: none;
 }
 .simple-typeahead {
@@ -24,6 +24,7 @@
     border: 2px solid;
     border-color: v-bind(borderColorComputed);
     border-top: none;
+    transform: translateZ(0);
     z-index: 2;
     cursor: pointer;
 
