@@ -3,11 +3,12 @@
   background-color: transparent;
 }
 .sideInput {
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
   border-width: 1px;
   border-color: v-bind(borderColorComputed);
   border-style: solid;
   border-left: none;
+  padding-top: 0 !important;
   background-color: inherit;
   &:focus {
     border: 2px solid;
@@ -22,10 +23,7 @@
   padding: 0;
   top: 0;
   bottom: 0;
-  left: v-bind(inputWidth);
   right: 0;
-  width: v-bind(sideWidthComputed);
-
   justify-content: center;
   outline: none;
   &::-webkit-outer-spin-button,

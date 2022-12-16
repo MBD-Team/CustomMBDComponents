@@ -268,7 +268,7 @@ input {
 .sideButton,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed);
+  width: v-bind(sideWidthComputed) !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);
