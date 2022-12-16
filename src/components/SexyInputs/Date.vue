@@ -39,7 +39,7 @@ import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
-    modelValue: string;
+    modelValue: string | null;
     placeholder: string;
     name?: string;
     error?: { [key: string]: string | string[] } | string;

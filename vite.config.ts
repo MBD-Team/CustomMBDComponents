@@ -9,5 +9,5 @@ export default defineConfig({
     },
   },
   plugins: [vue()],
-  root: './dev',
+  root: './',
 });

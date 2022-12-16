@@ -2,7 +2,7 @@
   <div class="d-flex">
     <label v-if="textLeft" class="me-3" :for="id" style="cursor: pointer"><slot></slot></label>
     <div class="round">
-      <input type="checkbox" :id="id" :value="modelValue" @change="updateValue" :checked="modelValue || value" />
+      <input v-bind="$attrs" type="checkbox" :id="id" :value="modelValue" @change="updateValue" :checked="modelValue || value" />
       <label :for="id"></label>
     </div>
     <label v-if="!textLeft" class="ms-3" :for="id" style="cursor: pointer"><slot></slot></label>
@@ -52,6 +52,7 @@ const borderColorComputed = computed(() => {
   background-color: #66bb6a;
   border-color: #66bb6a;
 }
+
 .round input[type='checkbox']:checked + label:after {
   opacity: 1;
 }

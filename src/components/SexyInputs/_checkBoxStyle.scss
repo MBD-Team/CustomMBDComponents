@@ -27,3 +27,8 @@
   transform: rotate(-45deg);
   width: 12px;
 }
+
+.round input:disabled + label {
+  filter: brightness(85%);
+  cursor: default;
+}
