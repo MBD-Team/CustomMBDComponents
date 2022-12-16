@@ -1,9 +1,11 @@
 .simple-typeahead-list {
-  transform: translateZ(0);
+  transform: translate(0);
+  position: absolute;
 }
 .mbd-modal-body .simple-typeahead-list,
 .modal-content .simple-typeahead-list {
   transform: none;
+  position: fixed;
 }
 .simple-typeahead {
   & > input {
@@ -11,8 +13,6 @@
   }
 
   .simple-typeahead-list {
-    position: fixed;
-
     max-height: 60vh;
     overflow-y: scroll;
 
@@ -24,7 +24,6 @@
     border: 2px solid;
     border-color: v-bind(borderColorComputed);
     border-top: none;
-    transform: translateZ(0);
     z-index: 2;
     cursor: pointer;
 

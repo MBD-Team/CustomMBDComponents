@@ -1,18 +1,24 @@
 <template>
-  <MultiSelect
-    v-model="selectNew"
-    v-model:selected="selectedNew"
-    :options="optionsNew"
-    :placeholder="'Verein Hinzufügen'"
-    :option-projection="e => e.name"
-    :key-extractor="e => e.id"
-  ></MultiSelect>
-  <Select v-model="selectNew" :options="optionsNew" :placeholder="'Verein Hinzufügen'" :option-projection="e => e.name"></Select>
+  <div>
+    <MultiSelect
+      v-model="selectNew"
+      v-model:selected="selectedNew"
+      :options="optionsNew"
+      :placeholder="'Verein Hinzufügen'"
+      :option-projection="e => e.name"
+      :key-extractor="e => e.id"
+    ></MultiSelect>
+    <Modal>
+      <Select v-model="selectNew" :options="optionsNew" :placeholder="'Verein Hinzufügen'" :option-projection="e => e.name"></Select>
+      <template #button>cäö#</template>
+    </Modal>
+  </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
 import MultiSelect from '../src/components/SexyInputs/MultiSelect.vue';
 import Select from '../src/components/SexyInputs/Select.vue';
+import Modal from '../src/components/Modal.vue';
 const selectedNew = ref([]);
 
 const selectNew = ref('');
