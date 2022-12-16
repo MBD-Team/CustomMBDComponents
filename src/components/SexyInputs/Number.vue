@@ -134,8 +134,10 @@ function updateSideValue(event: any) {
 <style scoped lang="scss">
 @use 'baseStyle';
 @use 'sideInputStyle';
-button,
-input.sideInput {
+
+.sideButton,
+.sideInput {
+  left: v-bind(inputWidth);
   width: v-bind(sideWidthComputed);
 }
 input {

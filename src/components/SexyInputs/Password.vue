@@ -109,6 +109,7 @@ input {
   background-color: v-bind(backgroundColor);
   border-color: v-bind(borderColorComputed);
 }
+
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);
 }
