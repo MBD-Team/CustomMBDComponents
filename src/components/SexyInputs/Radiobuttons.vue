@@ -1,7 +1,7 @@
 <template>
   <div :class="row ? 'row' : ''">
     <div v-for="option of options" :key="JSON.stringify(option)">
-      <Tooltip :tooltip="option.tooltip">
+      <Tooltip :tooltip="option.tooltip" :direction="row ? 'bottom' : 'right'">
         <div class="d-flex mb-2">
           <div class="round">
             <input type="radio" :name="id" :id="option.text + id" :value="option.value" @change="updateValue" :checked="modelValue == option.value" />
