@@ -66,6 +66,10 @@ onMounted(() => {
     let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
     updateValue(time);
   }
+  if (modelValue.value?.length == 8) {
+    let time = modelValue.value?.slice(0, 5);
+    updateValue(time);
+  }
   if (modelValue.value?.length > 5) {
     const date = new Date(modelValue.value);
     let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
