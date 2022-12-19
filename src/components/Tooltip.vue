@@ -1,19 +1,23 @@
 <template>
-  <div :data-title="tooltip">
+  <div :data-title="tooltip" v-if="tooltip">
     <slot></slot>
   </div>
+  <template v-else>
+    <slot></slot>
+  </template>
 </template>
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 
 const props = withDefaults(
   defineProps<{
-    tooltip: string;
+    tooltip?: string;
     tooltipColor?: string;
     tooltipBgColor?: string;
     direction?: 'bottom' | 'top' | 'left' | 'right';
   }>(),
   {
+    tooltip: '',
     tooltipColor: 'black',
     tooltipBgColor: '#eee',
     direction: 'bottom',

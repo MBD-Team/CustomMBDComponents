@@ -1,13 +1,15 @@
 <template>
   <div :class="row ? 'row' : ''">
     <div v-for="option of options" :key="JSON.stringify(option)">
-      <div class="d-flex mb-2">
-        <div class="round">
-          <input type="radio" :name="id" :id="option.text + id" :value="option.value" @change="updateValue" :checked="modelValue == option.value" />
-          <label :for="option.text + id"></label>
+      <Tooltip :tooltip="option.tooltip">
+        <div class="d-flex mb-2">
+          <div class="round">
+            <input type="radio" :name="id" :id="option.text + id" :value="option.value" @change="updateValue" :checked="modelValue == option.value" />
+            <label :for="option.text + id"></label>
+          </div>
+          <label class="ms-3" :for="option.text + id" style="cursor: pointer">{{ option.text }}</label>
         </div>
-        <label class="ms-3" :for="option.text + id" style="cursor: pointer">{{ option.text }}</label>
-      </div>
+      </Tooltip>
     </div>
   </div>
   <Error :error="error" :error-color="errorColor" :name="name" />
@@ -15,12 +17,13 @@
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
+import Tooltip from '../Tooltip.vue';
 import { getErrorMessage } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string | number | boolean;
-    options: { text: string; value: string | number | boolean }[];
+    options: { text: string; value: string | number | boolean; tooltip?: string }[];
     row?: boolean;
     name?: string;
     error?: { [key: string]: string | string[] } | string;
