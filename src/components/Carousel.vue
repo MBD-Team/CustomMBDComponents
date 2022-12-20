@@ -31,13 +31,7 @@
 </template>
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
-
-function chunk<T>(array: T[], chunkSize: number): T[][] {
-  if (!chunkSize) return [[]];
-  let R = [];
-  for (let i = 0; i < array.length; i += chunkSize) R.push(array.slice(i, i + chunkSize));
-  return R;
-}
+import { chunk } from '../utils/chunk';
 
 const CarouselId = 'Carousel' + (Math.random() + '').slice(2, 15);
 

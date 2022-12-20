@@ -31,3 +31,4 @@ export { default as CheckboxGroup } from './src/components/SexyInputs/CheckboxGr
 export { default as ButtonGroup } from './src/components/SexyInputs/ButtonGroup.vue';
 
 export { handleClick } from './src/utils/clickHandler';
+export { chunk } from './src/utils/chunk';
