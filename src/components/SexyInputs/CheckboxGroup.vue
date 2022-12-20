@@ -2,7 +2,7 @@
   <div class="buttonGroup">
     <button
       v-for="option of options"
-      class="button shadow-none"
+      class="button shadow-none border border-dark py-1"
       v-bind="$attrs"
       :class="option.active ? activeClass : defaultClass"
       @click="option.active = !option.active"
@@ -20,7 +20,6 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
-import Button from '../../exampleStories/Button.vue';
 import Error from './common/Error.vue';
 import { getErrorMessage } from './Index';
 const props = withDefaults(
@@ -33,7 +32,13 @@ const props = withDefaults(
     errorColor?: string;
     borderColor?: string;
   }>(),
-  { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red', name: '' }
+  {
+    defaultClass: 'bg-light text-dark',
+    activeClass: 'bg-success text-light',
+    error: '',
+    errorColor: 'red',
+    name: '',
+  }
 );
 const { options, error, errorColor, borderColor, name } = toRefs(props);
 
