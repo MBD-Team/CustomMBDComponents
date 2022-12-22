@@ -25,53 +25,67 @@
 <script lang="ts" setup>
 import { DateTime } from 'luxon';
 import { computed, defineProps, toRefs, defineEmits } from 'vue';
-import type { Event } from './types';
+import type { Column, Event } from './types';
 
-const props =
-  defineProps<{
-    events: Event[];
-    start: number;
-    end: number;
-    isToday?: boolean;
-  }>();
-const { events, start, end, isToday } = toRefs(props);
+const props = defineProps<{
+  events: (Event & { column_id?: number })[];
+  start: number;
+  end: number;
+  isToday?: boolean;
+  columns?: Column[];
+}>();
+const { columns, events, start, end, isToday } = toRefs(props);
 
-const emit =
-  defineEmits<{
-    (e: 'eventClicked', value: Event): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'eventClicked', value: Event): void;
+}>();
 
 const layoutedEvents = computed(() => {
   function collidesWith(a: Event, b: Event) {
     return a.end > b.start && a.start < b.end;
   }
 
-  let groups: Event[][] = [];
-  for (let event of events.value) {
-    //find groups where it overlaps in
-    let groupsCollisions = groups.filter(group => group.some(e => collidesWith(e, event)));
-
-    //if we found at least one combine the grups and push it there, else create new group
-    if (groupsCollisions.length > 0) {
-      let newGroup = [...groupsCollisions.flat(), event];
-
-      for (let group of groupsCollisions) group.splice(0, group.length);
-
-      groupsCollisions[0].splice(0, groupsCollisions.length, ...newGroup);
-    } else groups.push([event]);
-  }
-
-  return groups.flatMap(events => {
-    let columns: Event[][] = [];
+  function layoutEvents(events: Event[]) {
+    let groups: Event[][] = [];
     for (let event of events) {
-      //find first column where event fits
-      let firstEmptyColumn = columns.find(column => column.every(e => !collidesWith(e, event)));
-      //if we found one push it there, else create new column
-      if (firstEmptyColumn) firstEmptyColumn.push(event);
-      else columns.push([event]);
+      //find groups where it overlaps in
+      let groupsCollisions = groups.filter(group => group.some(e => collidesWith(e, event)));
+
+      //if we found at least one combine the grups and push it there, else create new group
+      if (groupsCollisions.length > 0) {
+        let newGroup = [...groupsCollisions.flat(), event];
+
+        for (let group of groupsCollisions) group.splice(0, group.length);
+
+        groupsCollisions[0].splice(0, groupsCollisions.length, ...newGroup);
+      } else groups.push([event]);
     }
-    return columns.map((column, index) => column.map((e, i) => ({ ...e, groupIndex: index, groupSize: columns.length }))).flat();
-  });
+
+    return groups.flatMap(events => {
+      let columns: Event[][] = [];
+      for (let event of events) {
+        //find first column where event fits
+        let firstEmptyColumn = columns.find(column => column.every(e => !collidesWith(e, event)));
+        //if we found one push it there, else create new column
+        if (firstEmptyColumn) firstEmptyColumn.push(event);
+        else columns.push([event]);
+      }
+      return columns.map((column, index) => column.map((e, i) => ({ ...e, groupIndex: index, groupSize: columns.length }))).flat();
+    });
+  }
+  //if we have columns, we want to layout events per column individually
+  if (columns?.value)
+    return columns.value.flatMap((column, index, { length: numOfColumns }) =>
+      layoutEvents(events.value.filter(e => e.column_id == column.id)).map(e => ({
+        // also we map the groupIndex and groupSize such that it is positioned within the column and not the whole DayEvents component
+        ...e,
+        groupIndex: index * e.groupSize + e.groupIndex,
+        groupSize: e.groupSize * numOfColumns,
+        column_id: undefined,
+      }))
+    );
+  //else we layout all events together
+  else return layoutEvents(events.value);
 });
 
 function getHoursFraction(time: string) {
@@ -89,8 +103,8 @@ function getEventStyle(
 
   return {
     top: `calc(${start} * 100%)`,
-    left: `calc(calc(100% - 10px) / ${event.groupSize / event.groupIndex})`,
-    width: `calc(calc(100% - 10px) / ${event.groupSize})`,
+    left: `calc(calc(100% - ${columns ? 0 : 10}px) / ${event.groupSize / event.groupIndex})`,
+    width: `calc(calc(100% - ${columns ? 0 : 10}px) / ${event.groupSize})`,
     height: `calc(${end - start} * 100%)`,
     position: 'absolute',
     fontSize: '10px',
@@ -109,7 +123,7 @@ function getEventStyle(
 }
 .eventCardContent {
   height: 100%;
-  margin: 0 0 0 4px;
+  margin: 0 0 0 2px;
   background-color: #ffffffe5;
   display: flex;
   flex-direction: column;

@@ -164,7 +164,17 @@
               :style="{ '--num-of-hours': displayHours[1] - displayHours[0] }"
               :key="date.toISODate()"
               class="w-100 day-background position-relative overflow-hidden"
-              @click="emit('timeClicked', date.plus({ hours: Math.round(($event.offsetY / ($event.target as any).offsetHeight * (displayHours[1] - displayHours[0]) + displayHours[0]) * 4) / 4 }))"
+              @click="
+                emit(
+                  'timeClicked',
+                  date.plus({
+                    hours:
+                      Math.floor(
+                        (($event.offsetY / ($event.target as any).offsetHeight) * (displayHours[1] - displayHours[0]) + displayHours[0]) * 4
+                      ) / 4,
+                  })
+                )
+              "
             >
               <DayEvents
                 @event-clicked="emit('eventClicked', $event)"
@@ -221,38 +231,35 @@
 <script lang="ts"></script>
 
 <script lang="ts" setup>
-import Vue from 'vue';
 import { DateTime } from 'luxon';
 import type { Event, Group } from './types';
 
-import { computed, defineProps, ref, toRefs, defineEmits, nextTick, watchEffect } from 'vue';
+import { computed, defineEmits, defineProps, ref, toRefs, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';
 import MonthView from './MonthView.vue';
 import DayEvents from './DayEvents.vue';
 import EventAgenda from './EventAgenda.vue';
 
+import { isMobile, weekViewScrollbarSize, useGetDayClasses, useGroupColors } from './utils';
+
 function log(a: any) {
   console.log(a);
 }
-const props =
-  defineProps<{
-    displayHours: [number, number];
-    groups: Group[];
-    events: Event[];
-    hash?: string;
-  }>();
+const props = defineProps<{
+  displayHours: [number, number];
+  groups: Group[];
+  events: Event[];
+  hash?: string;
+}>();
 const { hash, events, groups: groupsProp, displayHours } = toRefs(props);
 
-const emit =
-  defineEmits<{
-    (e: 'update:groups', value: Group[]): void;
-    (e: 'eventClicked', value: Event): void;
-    (e: 'timeClicked', value: DateTime): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'update:groups', value: Group[]): void;
+  (e: 'eventClicked', value: Event): void;
+  (e: 'timeClicked', value: DateTime): void;
+}>();
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
-
-const isMobile = window.innerWidth < 576;
 
 let toggle = ref(false);
 let backdropActive = ref(false);
@@ -265,14 +272,6 @@ const mode = ref<'week' | 'day' | 'month' | 'year' | 'agenda'>(isMobile ? 'day' 
 const timeFrame = computed(() => (mode.value == 'agenda' ? 'day' : mode.value));
 
 const currentDay = ref(DateTime.now());
-
-const getDayClasses = (date: DateTime, type: 'num' | 'day') => {
-  return {
-    'is-weekend': date.weekday == 6 || date.weekday == 7,
-    'is-today': date.startOf('day').equals(DateTime.now().startOf('day')) && type == 'num',
-    'is-current': date.startOf('day').equals(currentDay.value.startOf('day')) && type == 'num',
-  };
-};
 
 const currentWeek = computed(() =>
   Array({ day: 1, week: 7, month: null, year: null }[timeFrame.value])
@@ -287,21 +286,7 @@ const currentDayReadable = computed(() =>
   currentDay.value.toFormat({ day: 'dd. LLLL, yyyy', week: 'LLLL, yyyy', month: 'LLLL, yyyy', year: 'yyyy' }[timeFrame.value])
 );
 
-const groupColors = computed(() => {
-  const genRndColor = (i: number) =>
-    [50, 25, 80].flatMap(l => [
-      `hsl(0, 100%, ${l}%)`,
-      `hsl(127, 80%, ${l}%)`,
-      `hsl(241, 100%, ${l}%)`,
-      `hsl(35, 100%, ${l}%)`,
-      `hsl(181, 100%, ${l}%)`,
-      `hsl(300, 100%, ${l}%)`,
-      `hsl(58, 80%, ${l}%)`,
-    ])[i] || '#' + ('000000' + Math.floor((Math.sin(i - 20) * 10000 - Math.floor(Math.sin(i - 20) * 10000)) * 0xffffff).toString(16)).slice(-6);
-
-  let rndColorIndex = 0;
-  return groups.value.map(g => g.color || genRndColor(rndColorIndex++));
-});
+const groupColors = useGroupColors(groups);
 
 const eventsWithColor = computed(() =>
   events.value.map(e => ({ ...e, color: e.color || groupColors.value[groups.value.findIndex(g => g.id == e.group_id)] }))
@@ -331,8 +316,6 @@ const getFutureEvents = (day: DateTime) =>
 const getEventsForMonth = (day: DateTime) =>
   filteredEvents.value.filter(e => day.startOf('month').equals(DateTime.fromFormat(e.start.split(' ')[0], 'yyyy-LL-dd').startOf('month')));
 
-const weekViewScrollbarSize = () => (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 1 : 17);
-
 if (hash?.value) {
   const hashMode = window.location.hash.substring(1).split(':')[1];
   const hashDay = window.location.hash.substring(1).split(':')[2];
@@ -340,121 +323,10 @@ if (hash?.value) {
   if (hashDay) currentDay.value = DateTime.fromFormat(hashDay, 'yyyy-LL-dd');
   watchEffect(() => (window.location.hash = `${window.location.hash.split(':')[0]}:${mode.value}:${currentDay.value.toFormat('yyyy-LL-dd')}`));
 }
+
+const getDayClasses = useGetDayClasses(currentDay);
 </script>
 
 <style scoped lang="scss">
-// variables
-$transitionTimer: 0.3s;
-
-// styling
-.sideControls {
-  overflow: scroll;
-  width: 240px;
-  left: -240px;
-  transition: $transitionTimer;
-
-  @media (max-width: 768px) {
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    height: calc(100vh - 4.125rem);
-  }
-}
-
-.toggleTrue {
-  transition: $transitionTimer;
-  left: 0px;
-}
-
-.hiddenBackdrop {
-  @media (max-width: 768px) {
-    background-color: hsl(0deg 0% 100% / 0%);
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    position: absolute;
-    transition: background $transitionTimer ease-out;
-  }
-}
-
-.backdrop {
-  @media (max-width: 768px) {
-    background-color: hsl(0deg 0% 0% / 34%);
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    position: absolute;
-    transition: background $transitionTimer ease-in;
-  }
-}
-
-.is-weekend {
-  color: rgb(229 63 44) !important;
-}
-
-.is-today {
-  border-radius: 50% !important;
-  background-color: #042a4f;
-  color: #fff;
-  width: 50px;
-
-  @media (max-width: 768px) {
-    width: 30px;
-  }
-}
-
-div {
-  --time-axis-width: 2.5em;
-  --day-length: 24;
-  --hour-height: 63px;
-  --half-hour-height: calc(var(--hour-height) / 2);
-  --day-start-offset: 0px;
-
-  --dayview-border-color: #ddd;
-  --dayview-background-color: #fff;
-  --dayview-half-hour-line-color: #f0f0f0;
-}
-
-.day-background {
-  height: calc(var(--hour-height) * var(--num-of-hours));
-  border-left: 1px solid #ddd;
-  background-image: linear-gradient(
-    to bottom,
-    transparent,
-    transparent var(--half-hour-height),
-    var(--dayview-half-hour-line-color) 1px,
-    transparent calc(var(--half-hour-height) + 1px),
-    transparent calc(var(--hour-height) - 1px),
-    var(--dayview-border-color) 1px
-  );
-  background-size: 100% var(--hour-height);
-}
-
-.timeaxis {
-  display: flex;
-  flex: 0 0 var(--hour-height);
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0.5em 0.5em;
-  font-size: 0.7em;
-  color: #b0b0b0;
-  white-space: nowrap;
-}
-
-.timeaxis-container {
-  height: calc(var(--hour-height) * var(--num-of-hours));
-  display: flex;
-  flex-flow: column nowrap;
-  overflow: hidden;
-  background-position-x: 100%;
-  background-repeat: repeat-y;
-  flex: 0 0 var(--time-axis-width);
-  background-image: linear-gradient(to bottom, transparent calc(var(--hour-height) - 1px), var(--dayview-border-color) 1px);
-  background-size: 0.5em var(--hour-height);
-  background-position-y: var(--day-start-offset);
-}
-
-.timeaxis-container {
-  padding-top: calc(var(--hour-height) / 2 - 3px);
-}
+@use 'common';
 </style>
