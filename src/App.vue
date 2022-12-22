@@ -1,4 +1,31 @@
 <template>
+  <MultiSelect
+    placeholder="zugelassene Sportarten"
+    v-model="test"
+    :options="tests"
+    :optionProjection="e => e?.name"
+    v-model:selected="selectedTest"
+    :keyExtractor="e => e?.id"
+  ></MultiSelect>
+
+  <MultiSelect
+    placeholder="zugelassene Sportarten"
+    v-model="test"
+    :options="tests"
+    :optionProjection="e => e?.name"
+    v-model:selected="selectedTest"
+    :keyExtractor="e => e?.id"
+  ></MultiSelect>
+
+  <MultiSelect
+    placeholder="zugelassene Sportarten"
+    v-model="test"
+    :options="tests"
+    :optionProjection="e => e?.name"
+    v-model:selected="selectedTest"
+    :keyExtractor="e => e?.id"
+  ></MultiSelect>
+
   <div class="container pt-5">
     <div class="card">
       <h5 class="card-header">calendar</h5>
@@ -21,12 +48,17 @@
             "
           />
         </div>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <h5 class="card-header">occupancy plan</h5>
+      <div class="card-body">
         <div style="min-height: 80vh" class="d-flex flex-column">
           <OccupancyPlan
             msg="Calendar"
             :displayHours="[8, 20]"
             :events="weekEvents"
-            :columns="columns"
+            v-model:columns="columns"
             v-model:groups="groups"
             @eventClicked="weekEvents = weekEvents.filter(e => e.id != $event.id)"
             @timeClicked="
@@ -53,7 +85,8 @@ import { ref } from 'vue';
 import { DateTime } from 'luxon';
 import Calendar from './components/Calendar/Calendar.vue';
 import OccupancyPlan from './components/Calendar/OccupancyPlan.vue';
-import { Event, Group } from './components/Calendar/types';
+import { Event, Group, WeekEvent } from './components/Calendar/types';
+import MultiSelect from './components/SexyInputs/MultiSelect.vue';
 const console = window.console;
 const events = ref<Event[]>([
   { start: '2022-12-16 17:00', end: '2022-12-16 19:00', name: '16.03 17 uhr', id: 1, group_id: 7 },
@@ -105,7 +138,7 @@ const groups = ref<Group[]>([
 const columns = ref(
   Array(6)
     .fill(0)
-    .map((_, id) => ({ name: String.fromCharCode(65 + id), id }))
+    .map((_, id) => ({ name: String.fromCharCode(65 + id), id, checked: true }))
 );
 
 const weekEvents = ref([
@@ -123,6 +156,16 @@ const weekEvents = ref([
   { id: 23, column_id: 1, group_id: 1, name: 'fsdkjhfs', week_day: 6, start_time: '17:00', end_time: '19:00' },
   { id: 24, column_id: 1, group_id: 2, name: 'fsdkjhfs', week_day: 7, start_time: '10:00', end_time: '12:00' },
   { id: 25, column_id: 1, group_id: 3, name: 'udkauhd', week_day: 7, start_time: '10:30', end_time: '12:30' },
+] as WeekEvent[]);
+
+const test = ref('');
+const tests = ref([
+  { id: 1, name: 'test' },
+  { id: 2, name: 'test2' },
+  { id: 3, name: 'test3' },
+  { id: 4, name: 'test4' },
+  { id: 5, name: 'test5' },
 ]);
+const selectedTest = ref([]);
 </script>
 <style lang="scss"></style>

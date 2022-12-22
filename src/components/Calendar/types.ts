@@ -35,4 +35,5 @@ export type Group = {
 export type Column = {
   name: string;
   id: number | null;
+  checked: boolean;
 };

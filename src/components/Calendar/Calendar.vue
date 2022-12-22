@@ -25,8 +25,10 @@
       </div>
     </div>
     <div class="d-flex flex-row position-relative" style="height: 0px; flex: 1">
-      <!-- side controls -> phone -->
-      <div v-if="isMobile" class="bg-light sideControls" :class="{ toggleTrue: toggle == true }">
+      <div
+        :class="(isMobile ? 'bg-light sideControls' : 'bg-light collapse show d-flex flex-column') + (toggle ? ' toggleTrue' : '')"
+        id="sideControls"
+      >
         <MonthView
           @event-clicked="emit('eventClicked', $event)"
           @day-pressed="(currentDay = $event), (mode = 'day')"
@@ -41,67 +43,7 @@
         <div class="m-2">
           <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
         </div>
-        <button
-          style="padding-left: 3.75rem; padding-right: 3.75rem"
-          class="btn btn-secondary ms-2 mb-2 me-2"
-          @click="groups.forEach(g => (g.checked = true))"
-        >
-          Alle auswählen
-        </button>
-        <div style="max-height: 100vh; overflow: auto">
-          <div
-            class="p-1 ps-2"
-            v-for="(group, index) of groups"
-            :key="group.id + ''"
-            @click="group.checked = !group.checked"
-            @dblclick="groups.forEach(g => (g.checked = false)), (group.checked = true)"
-            style="user-select: none"
-          >
-            <input
-              class="form-check-input"
-              type="checkbox"
-              v-model="group.checked"
-              :style="{ backgroundColor: groupColors[index], borderColor: 'grey' }"
-            />
-            <label class="form-check-label ms-3" for="flexCheckDefault">{{ group.name }}</label>
-          </div>
-        </div>
-      </div>
-      <!-- side controls -> desktop -->
-      <div v-if="!isMobile" class="bg-light collapse show d-flex flex-column" id="sideControls">
-        <MonthView
-          @event-clicked="emit('eventClicked', $event)"
-          @day-pressed="(currentDay = $event), (mode = 'day')"
-          @week-pressed="(currentDay = $event), (mode = 'week')"
-          @month-pressed="(currentDay = currentMonth), (mode = 'month')"
-          :month="currentMonth"
-          controllable
-          @previous="currentDay = currentDay.plus({ month: -1 })"
-          @next="currentDay = currentDay.plus({ month: 1 })"
-          :events="getEventsForMonth(currentMonth)"
-        ></MonthView>
-        <div class="m-2">
-          <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
-        </div>
-        <button class="btn btn-secondary ms-2 mb-2 me-2" @click="groups.forEach(g => (g.checked = true))">Alle auswählen</button>
-        <div style="flex: 1; overflow: auto; max-height: 45vh">
-          <div
-            class="p-1 ps-2"
-            v-for="(group, index) of groups"
-            :key="group.id + ''"
-            @click="group.checked = !group.checked"
-            @dblclick="groups.forEach(g => (g.checked = false)), (group.checked = true)"
-            style="user-select: none"
-          >
-            <input
-              class="form-check-input"
-              type="checkbox"
-              v-model="group.checked"
-              :style="{ backgroundColor: groupColors[index], borderColor: 'grey' }"
-            />
-            <label class="form-check-label ms-3" for="flexCheckDefault">{{ group.name }}</label>
-          </div>
-        </div>
+        <GroupSelector v-model="groups" :groupColors="groupColors" />
       </div>
       <div
         v-if="isMobile && (toggle || backdropActive)"
@@ -232,15 +174,16 @@
 
 <script lang="ts" setup>
 import { DateTime } from 'luxon';
+import GroupSelector from './GroupSelector.vue';
 import type { Event, Group } from './types';
 
 import { computed, defineEmits, defineProps, ref, toRefs, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';
-import MonthView from './MonthView.vue';
 import DayEvents from './DayEvents.vue';
 import EventAgenda from './EventAgenda.vue';
+import MonthView from './MonthView.vue';
 
-import { isMobile, weekViewScrollbarSize, useGetDayClasses, useGroupColors } from './utils';
+import { isMobile, useGetDayClasses, useGroupColors, weekViewScrollbarSize } from './utils';
 
 function log(a: any) {
   console.log(a);
