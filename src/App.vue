@@ -64,10 +64,10 @@
             @timeClicked="
               console.log($event),
                 weekEvents.push({
-                  weekday: $event.weekDay,
+                  weekday: $event.weekday,
                   start_time: $event.time,
                   end_time: DateTime.fromISO($event.time).plus({ hours: 1 }).toFormat('HH:mm'),
-                  name: $event.weekDay + ' ' + $event.time,
+                  name: $event.weekday + ' ' + $event.time,
                   id: Math.random(),
                   group_id: 1,
                   column_id: $event.column_id,

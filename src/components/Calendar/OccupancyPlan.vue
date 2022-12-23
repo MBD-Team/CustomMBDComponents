@@ -70,18 +70,18 @@
           class="w-100 day-background position-relative overflow-hidden"
           @click="
             emit('timeClicked', {
-              weekDay: date,
+              weekday: date as WeekdayNumbers,
               time: Duration.fromObject({
                 hours:
                   Math.floor((($event.offsetY / ($event.target as any).offsetHeight) * (displayHours[1] - displayHours[0]) + displayHours[0]) * 4) /
                   4,
               }).toFormat('hh:mm'),
-              column_id: Math.floor(($event.offsetX / ($event.target as any).offsetWidth) * columns.length),
+              column_id: columns[Math.floor(($event.offsetX / ($event.target as any).offsetWidth) * columns.length)].id!,
             })
           "
         >
           <DayEvents
-            @event-clicked="emit('eventClicked', $event)"
+            @event-clicked="emit('eventClicked', $event as unknown as WeekEvent)"
             :start="displayHours[0]"
             :end="displayHours[1]"
             :events="getEventsForDay(date)"
@@ -121,8 +121,8 @@ let columns = computed({ get: () => columnsProp.value, set: (columns: Column[]) 
 const emit = defineEmits<{
   (e: 'update:groups', value: Group[]): void;
   (e: 'update:columns', value: Column[]): void;
-  (e: 'eventClicked', value: Event): void;
-  (e: 'timeClicked', value: { weekDay: WeekdayNumbers; time: string; column_id: number }): void;
+  (e: 'eventClicked', value: WeekEvent): void;
+  (e: 'timeClicked', value: { weekday: WeekdayNumbers; time: string; column_id: number }): void;
 }>();
 
 const mode = ref<'day' | 'workweek' | 'week' | 'weekend'>('workweek');
