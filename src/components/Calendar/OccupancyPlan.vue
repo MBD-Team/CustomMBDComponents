@@ -152,12 +152,12 @@ const filteredEvents = computed(() =>
   eventsWithColor.value
     .filter(e => groups.value.filter(g => g.checked).some(g => g.id == e.group_id))
     .filter(e => e.name.includes(filterQuery.value))
-    .sort((a, b) => (a.week_day + a.start_time > b.week_day + b.start_time ? 1 : -1))
+    .sort((a, b) => (a.weekday + a.start_time > b.weekday + b.start_time ? 1 : -1))
 );
 
 const getEventsForDay = (day: number) =>
   filteredEvents.value
-    .filter(e => e.week_day == day)
+    .filter(e => e.weekday == day)
     .map(e => ({
       ...e,
       start: e.start_time,

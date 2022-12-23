@@ -16,7 +16,7 @@ export type WeekEvent = {
     * 1 is Monday and 7 is Sunday
     * @see https://en.wikipedia.org/wiki/ISO_week_date
     */
-  week_day: WeekdayNumbers;
+  weekday: WeekdayNumbers;
   name: string;
   id: number;
   color?: string;
