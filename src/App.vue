@@ -30,7 +30,7 @@
     <div class="card">
       <h5 class="card-header">calendar</h5>
       <div class="card-body">
-        <div style="min-height: 80vh" class="d-flex flex-column">
+        <div style="height: 80vh" class="d-flex flex-column">
           <Calendar
             msg="Calendar"
             :displayHours="[7, 18]"
@@ -53,9 +53,9 @@
     <div class="card mt-3">
       <h5 class="card-header">occupancy plan</h5>
       <div class="card-body">
-        <div style="min-height: 80vh" class="d-flex flex-column">
+        <div style="height: 80vh" class="d-flex flex-column">
           <OccupancyPlan
-            msg="Calendar"
+            title="Belegungsplan für Test"
             :displayHours="[8, 20]"
             :events="weekEvents"
             v-model:columns="columns"
@@ -133,10 +133,13 @@ const groups = ref<Group[]>([
   { id: 7, name: 'Group3', checked: true },
   { id: 8, name: 'Group4', checked: true },
   { id: 9, name: 'Group5', checked: true },
+  { id: 10, name: 'Group6', checked: true },
+  { id: 11, name: 'Group6', checked: true },
+  { id: 12, name: 'Group3', checked: true },
 ]);
 
 const columns = ref(
-  Array(6)
+  Array(20)
     .fill(0)
     .map((_, id) => ({ name: String.fromCharCode(65 + id), id, checked: true }))
 );

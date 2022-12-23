@@ -1,22 +1,34 @@
 <template>
+  <div class="bg-light d-flex justify-content-between text-center p-2 border-bottom flex-wrap pb-0">
+    <div class="d-flex mb-2">
+      <div class="d-none d-sm-flex align-items-center h4 mb-0">{{ title }}</div>
+    </div>
+    <div class="mb-2">
+      <ButtonGroup v-model="mode" :options="{ day: 'Tag', workweek: 'Werktage', week: 'Woche', weekend: 'Wochenende' }" name="OccType"></ButtonGroup>
+    </div>
+  </div>
   <div class="d-flex flex-grow-1">
-    <div class="bg-light collapse show d-flex flex-column">
-      <h4 class="mt-2 ms-2">Spalten</h4>
-      <div style="max-height: 100vh; overflow: auto">
-        <div
-          class="p-1 ps-2"
-          v-for="(column, index) of columns"
-          :key="column.id + ''"
-          @click="column.checked = !column.checked"
-          @dblclick="columns.forEach(g => (g.checked = false)), (column.checked = true)"
-          style="user-select: none"
-        >
-          <input class="form-check-input" type="checkbox" v-model="column.checked" />
-          <label class="form-check-label ms-3" for="flexCheckDefault">{{ column.name }}</label>
+    <div class="d-flex flex-column">
+      <div class="bg-light collapse show d-flex flex-column" style="height: 0px; flex-grow: 1">
+        <button style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true))">
+          Alle auswählen
+        </button>
+        <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
+          <div
+            class="p-1 ps-2"
+            v-for="(column, index) of columns"
+            :key="column.id + ''"
+            @click="column.checked = !column.checked"
+            @dblclick="columns.forEach(g => (g.checked = false)), (column.checked = true)"
+            style="user-select: none"
+          >
+            <input class="form-check-input" type="checkbox" v-model="column.checked" />
+            <label class="form-check-label ms-3" for="flexCheckDefault">{{ column.name }}</label>
+          </div>
         </div>
+        <hr class="my-2" />
+        <GroupSelector v-model="groups" :groupColors="groupColors" />
       </div>
-      <h4 class="mt-3 ms-2">Gruppen</h4>
-      <GroupSelector v-model="groups" :groupColors="groupColors" />
     </div>
     <div class="flex-grow-1" style="display: flex; flex-direction: column">
       <div
@@ -31,7 +43,7 @@
           class="d-flex flex-grow-1 flex-column align-items-center"
           @click="(currentDay = date), (mode = 'day')"
         >
-          <div class="text-muted mt-2" style="font-size: 14px" :class="getDayClasses(date)">{{ Info.weekdays('short')[date - 1] }}</div>
+          <div class="fw-bold h5 mt-2" :class="getDayClasses(date)">{{ Info.weekdays('short')[date - 1] }}</div>
           <!-- print the column headers-->
           <div v-if="columns" class="d-flex flex-row align-self-stretch">
             <div
@@ -39,7 +51,7 @@
               :key="column.id || 'null'"
               class="d-flex flex-grow-1 flex-column align-items-center"
             >
-              <div class="text-muted mt-2" style="font-size: 14px">{{ column.name }}</div>
+              <div class="text-muted" style="font-size: 14px">{{ column.name }}</div>
             </div>
           </div>
         </div>
@@ -91,6 +103,7 @@ import type { Event, Group, WeekEvent, Column } from './types';
 
 import { isMobile, useGetDayClasses, useGroupColors, weekViewScrollbarSize } from './utils';
 import GroupSelector from './GroupSelector.vue';
+import ButtonGroup from './ButtonGroup.vue';
 const console = window.console;
 
 const props = defineProps<{
@@ -98,9 +111,9 @@ const props = defineProps<{
   groups: Group[];
   columns: Column[];
   events: WeekEvent[];
-  hash?: string;
+  title?: string;
 }>();
-const { hash, events, columns: columnsProp, groups: groupsProp, displayHours } = toRefs(props);
+const { title, events, columns: columnsProp, groups: groupsProp, displayHours } = toRefs(props);
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 let columns = computed({ get: () => columnsProp.value, set: (columns: Column[]) => emit('update:columns', columns) });
@@ -112,10 +125,18 @@ const emit = defineEmits<{
   (e: 'timeClicked', value: { weekDay: WeekdayNumbers; time: string; column_id: number }): void;
 }>();
 
-const mode = ref<'week' | 'day' | 'month' | 'year' | 'agenda'>(isMobile ? 'day' : 'month');
+const mode = ref<'day' | 'workweek' | 'week' | 'weekend'>('workweek');
 
 const currentDay = ref(0);
-const currentWeek = [1, 2, 3, 4, 5] as const;
+const currentWeek = computed(
+  () =>
+    ({
+      day: [currentDay.value],
+      workweek: [1, 2, 3, 4, 5],
+      week: [1, 2, 3, 4, 5, 6, 7],
+      weekend: [6, 7],
+    }[mode.value])
+);
 
 const getDayClasses = useGetDayClasses();
 
