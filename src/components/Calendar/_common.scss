@@ -1,0 +1,126 @@
+// variables
+$transitionTimer: 0.3s;
+
+// styling
+.sideControls {
+  overflow: scroll;
+  width: 240px;
+  left: -240px;
+  transition: $transitionTimer;
+
+  @media (max-width: 768px) {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    height: calc(100vh - 4.125rem);
+  }
+}
+
+.toggleTrue {
+  transition: $transitionTimer;
+  left: 0px;
+}
+
+.hiddenBackdrop {
+  @media (max-width: 768px) {
+    background-color: hsl(0deg 0% 100% / 0%);
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    transition: background $transitionTimer ease-out;
+  }
+}
+
+.backdrop {
+  @media (max-width: 768px) {
+    background-color: hsl(0deg 0% 0% / 34%);
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    transition: background $transitionTimer ease-in;
+  }
+}
+
+.is-weekend {
+  color: rgb(229 63 44) !important;
+}
+
+.is-today {
+  border-radius: 50% !important;
+  background-color: #042a4f;
+  color: #fff;
+  width: 50px;
+
+  @media (max-width: 768px) {
+    width: 30px;
+  }
+}
+
+div {
+  --time-axis-width: 2.5em;
+  --day-length: 24;
+  --hour-height: 63px;
+  --half-hour-height: calc(var(--hour-height) / 2);
+  --day-start-offset: 0px;
+
+  --dayview-border-color: #ddd;
+  --dayview-background-color: #fff;
+  --dayview-half-hour-line-color: #f0f0f0;
+  --dayview-column-line-color: #f0f0f0;
+}
+
+.day-background {
+  height: calc(var(--hour-height) * var(--num-of-hours));
+  border-left: 1px solid #ddd;
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    transparent var(--half-hour-height),
+    var(--dayview-half-hour-line-color) 1px,
+    transparent calc(var(--half-hour-height) + 1px),
+    transparent calc(var(--hour-height) - 1px),
+    var(--dayview-border-color) 1px
+  ), linear-gradient(
+    to bottom,
+    transparent 50%,
+    var(--dayview-background-color) 50%
+  ), linear-gradient(
+    to right,
+    transparent,
+    transparent calc(100% - 1px),
+    var(--dayview-column-line-color) 1px,
+  ),;
+  background-size: 100% var(--hour-height),
+  100% 10px,
+  calc(calc(100% + 1px) / var(--num-of-columns,1)) 1px;
+}
+
+.timeaxis {
+  display: flex;
+  flex: 0 0 var(--hour-height);
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.5em 0.5em;
+  font-size: 0.7em;
+  color: #b0b0b0;
+  white-space: nowrap;
+}
+
+.timeaxis-container {
+  height: calc(var(--hour-height) * var(--num-of-hours));
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+  background-position-x: 100%;
+  background-repeat: repeat-y;
+  flex: 0 0 var(--time-axis-width);
+  background-image: linear-gradient(to bottom, transparent calc(var(--hour-height) - 1px), var(--dayview-border-color) 1px);
+  background-size: 0.5em var(--hour-height);
+  background-position-y: var(--day-start-offset);
+}
+
+.timeaxis-container {
+  padding-top: calc(var(--hour-height) / 2 - 3px);
+}
