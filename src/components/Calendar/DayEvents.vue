@@ -81,7 +81,6 @@ const layoutedEvents = computed(() => {
         ...e,
         groupIndex: index * e.groupSize + e.groupIndex,
         groupSize: e.groupSize * numOfColumns,
-        column_id: undefined,
       }))
     );
   //else we layout all events together
