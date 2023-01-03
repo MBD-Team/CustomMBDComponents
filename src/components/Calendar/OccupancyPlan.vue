@@ -81,7 +81,7 @@
           "
         >
           <DayEvents
-            @event-clicked="emit('eventClicked', $event as unknown as WeekEvent)"
+            @event-clicked="emit('eventClicked', $event as any)"
             :start="displayHours[0]"
             :end="displayHours[1]"
             :events="getEventsForDay(date)"
@@ -121,7 +121,7 @@ let columns = computed({ get: () => columnsProp.value, set: (columns: Column[]) 
 const emit = defineEmits<{
   (e: 'update:groups', value: Group[]): void;
   (e: 'update:columns', value: Column[]): void;
-  (e: 'eventClicked', value: WeekEvent): void;
+  (e: 'eventClicked', value: Omit<WeekEvent, 'id'> & { id: number | number[] }): void;
   (e: 'timeClicked', value: { weekday: WeekdayNumbers; time: string; column_id: number }): void;
 }>();
 

@@ -39,3 +39,21 @@ export function useGroupColors(groups: Ref<Group[]>) {
 }
 
 export const isMobile = window.innerWidth < 576;
+
+export function splitConnectedGroups<T>(events: T[], isConnected: (a: T, b: T) => boolean) {
+    let groups: T[][] = [];
+    for (let event of events) {
+        //find groups where it overlaps in
+        let groupsCollisions = groups.filter(group => group.some(e => isConnected(e, event)));
+
+        //if we found at least one combine the groups and push it there, else create new group
+        if (groupsCollisions.length > 0) {
+            let newGroup = [...groupsCollisions.flat(), event];
+
+            for (let group of groupsCollisions) group.splice(0, group.length);
+
+            groupsCollisions[0].splice(0, groupsCollisions.length, ...newGroup);
+        } else groups.push([event]);
+    }
+    return groups.filter(g => g.length > 0);
+}

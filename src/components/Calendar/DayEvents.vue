@@ -8,11 +8,11 @@
     <div class="bg-danger" style="height: 10px; width: 10px; border-radius: 50%; position: absolute; margin-top: -4px; margin-left: -5px"></div>
   </div>
   <div
-    v-for="event in layoutedEvents"
+    v-for="event in mergedLayoutedEvents"
     :key="JSON.stringify(event)"
     style="cursor: pointer"
     class="alert alert-primary p-0 border-0 rounded-0 eventCard overflow-hidden"
-    :style="getEventStyle(event)"
+    :style="getEventStyle(event)!"
     draggable="true"
     @click.stop="emit('eventClicked', event)"
   >
@@ -26,6 +26,7 @@
 import { DateTime } from 'luxon';
 import { computed, defineProps, toRefs, defineEmits } from 'vue';
 import type { Column, Event } from './types';
+import { splitConnectedGroups } from './utils';
 
 const props = defineProps<{
   events: (Event & { column_id?: number })[];
@@ -37,41 +38,28 @@ const props = defineProps<{
 const { columns, events, start, end, isToday } = toRefs(props);
 
 const emit = defineEmits<{
-  (e: 'eventClicked', value: Event): void;
+  (e: 'eventClicked', value: Omit<Event, 'id'> & { id: number | number[] }): void;
 }>();
-
 const layoutedEvents = computed(() => {
-  function collidesWith(a: Event, b: Event) {
-    return a.end > b.start && a.start < b.end;
-  }
+  function layoutEvents<T extends Event>(events: T[]) {
+    const eventsOverlap = (a: T, b: T) => a.end > b.start && a.start < b.end;
 
-  function layoutEvents(events: Event[]) {
-    let groups: Event[][] = [];
-    for (let event of events) {
-      //find groups where it overlaps in
-      let groupsCollisions = groups.filter(group => group.some(e => collidesWith(e, event)));
-
-      //if we found at least one combine the grups and push it there, else create new group
-      if (groupsCollisions.length > 0) {
-        let newGroup = [...groupsCollisions.flat(), event];
-
-        for (let group of groupsCollisions) group.splice(0, group.length);
-
-        groupsCollisions[0].splice(0, groupsCollisions.length, ...newGroup);
-      } else groups.push([event]);
-    }
-
-    return groups.flatMap(events => {
-      let columns: Event[][] = [];
-      for (let event of events) {
-        //find first column where event fits
-        let firstEmptyColumn = columns.find(column => column.every(e => !collidesWith(e, event)));
-        //if we found one push it there, else create new column
-        if (firstEmptyColumn) firstEmptyColumn.push(event);
-        else columns.push([event]);
-      }
-      return columns.map((column, index) => column.map((e, i) => ({ ...e, groupIndex: index, groupSize: columns.length }))).flat();
-    });
+    return (
+      splitConnectedGroups(events, eventsOverlap)
+        //layout each connected group individually
+        .flatMap(events => {
+          let columns: T[][] = [];
+          for (let event of events) {
+            //find first column where event fits
+            let firstEmptyColumn = columns.find(column => column.every(e => !eventsOverlap));
+            //if we found one push it there, else create new column
+            if (firstEmptyColumn) firstEmptyColumn.push(event);
+            else columns.push([event]);
+          }
+          return columns.map((column, index) => column.map((e, i) => ({ ...e, groupIndex: index, groupSize: columns.length })));
+        })
+        .flat()
+    );
   }
   //if we have columns, we want to layout events per column individually
   if (columns?.value)
@@ -87,14 +75,52 @@ const layoutedEvents = computed(() => {
   else return layoutEvents(events.value);
 });
 
+const mergedLayoutedEvents = computed(() => {
+  return splitConnectedGroups(
+    layoutedEvents.value,
+    (a, b) =>
+      // we have the base info equal to one another
+      a.name == b.name &&
+      a.start == b.start &&
+      a.end == b.end &&
+      a.group_id == b.group_id &&
+      // and their positions defined by groupIndex and groupSite (which are like a fractional position groupIndex/groupSize with width of 1/groupSize) are adjacent
+      ((a.groupIndex + 1) * b.groupSize == b.groupIndex * a.groupSize || //
+        (b.groupIndex + 1) * a.groupSize == a.groupIndex * b.groupSize)
+  ).map(events => {
+    let minMax = events.reduce(
+      (acc, event) => ({
+        min: {
+          groupIndex: acc.min.groupIndex / acc.min.groupSize < event.groupIndex / event.groupSize ? acc.min.groupIndex : event.groupIndex,
+          groupSize: acc.min.groupIndex / acc.min.groupSize < event.groupIndex / event.groupSize ? acc.min.groupSize : event.groupSize,
+        },
+        max: {
+          groupIndex: acc.max.groupIndex / acc.max.groupSize < event.groupIndex / event.groupSize ? event.groupIndex : acc.max.groupIndex,
+          groupSize: acc.max.groupIndex / acc.max.groupSize < event.groupIndex / event.groupSize ? event.groupSize : acc.max.groupSize,
+        },
+      }),
+      { min: { groupIndex: 1, groupSize: 0 }, max: { groupIndex: -1, groupSize: 0 } }
+    );
+    return {
+      ...events[0], //
+      id: events.length > 1 ? events.map(e => e.id) : events[0].id,
+      column_id: events.length > 1 ? events.map(e => e.column_id) : events[0].column_id,
+      groupIndex: minMax.min.groupIndex,
+      groupSize: minMax.min.groupSize,
+      width: ((minMax.max.groupIndex + 1) / minMax.max.groupSize) * minMax.min.groupSize - minMax.min.groupIndex,
+    };
+  });
+});
+
 function getHoursFraction(time: string) {
   return (parseInt(time.split(':')[0]) + parseInt(time.split(':')[1]) / 60 - start.value) / (end.value - start.value);
 }
 
 function getEventStyle(
-  event: Event & {
+  event: Pick<Event, 'start' | 'end' | 'color'> & {
     groupSize: number;
     groupIndex: number;
+    width: number;
   }
 ) {
   let start = getHoursFraction(event.start);
@@ -103,7 +129,7 @@ function getEventStyle(
   return {
     top: `calc(${start} * 100%)`,
     left: `calc(calc(100% - ${columns ? 0 : 10}px) / ${event.groupSize / event.groupIndex})`,
-    width: `calc(calc(100% - ${columns ? 0 : 10}px) / ${event.groupSize})`,
+    width: `calc(calc(calc(100% - ${columns ? 0 : 10}px) / ${event.groupSize}) * ${event.width})`,
     height: `calc(${end - start} * 100%)`,
     position: 'absolute',
     fontSize: '10px',

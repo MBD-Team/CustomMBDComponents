@@ -60,7 +60,9 @@
             :events="weekEvents"
             v-model:columns="columns"
             v-model:groups="groups"
-            @eventClicked="weekEvents = weekEvents.filter(e => e.id != $event.id)"
+            @eventClicked="
+              weekEvents = weekEvents.filter(e => (typeof $event.id == 'number' ? e.id != $event.id : !($event.id as any[]).includes(e.id)))
+            "
             @timeClicked="
               console.log($event),
                 weekEvents.push({
@@ -139,26 +141,17 @@ const groups = ref<Group[]>([
 ]);
 
 const columns = ref(
-  Array(20)
+  Array(4)
     .fill(0)
     .map((_, id) => ({ name: String.fromCharCode(65 + id), id, checked: true }))
 );
 
 const weekEvents = ref([
-  { id: 7, column_id: 0, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:30', end_time: '16:30' },
-  { id: 7, column_id: 1, group_id: 2, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:30' },
-  { id: 7, column_id: 2, group_id: 3, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
-  { id: 7, column_id: 2, group_id: 7, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
-  { id: 7, column_id: 4, group_id: 5, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
-
-  { id: 7, column_id: 2, group_id: 3, name: 'col Test', weekday: 3, start_time: '17:45', end_time: '18:30' },
-  { id: 7, column_id: 2, group_id: 2, name: 'col Test', weekday: 3, start_time: '17:45', end_time: '18:30' },
-
-  { id: 34, column_id: 1, group_id: 9, name: 'jfd', weekday: 1, start_time: '13:00', end_time: '14:00' },
-  { id: 36, column_id: 1, group_id: 1, name: 'jfd', weekday: 2, start_time: '13:00', end_time: '14:00' },
-  { id: 23, column_id: 1, group_id: 1, name: 'fsdkjhfs', weekday: 6, start_time: '17:00', end_time: '19:00' },
-  { id: 24, column_id: 1, group_id: 2, name: 'fsdkjhfs', weekday: 7, start_time: '10:00', end_time: '12:00' },
-  { id: 25, column_id: 1, group_id: 3, name: 'udkauhd', weekday: 7, start_time: '10:30', end_time: '12:30' },
+  { id: 7, column_id: 0, group_id: 1, name: 'Different', weekday: 4, start_time: '14:30', end_time: '16:30' },
+  { id: 7, column_id: 3, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
+  { id: 7, column_id: 2, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
+  { id: 7, column_id: 1, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
+  { id: 7, column_id: 1, group_id: 2, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
 ] as WeekEvent[]);
 
 const test = ref('');
