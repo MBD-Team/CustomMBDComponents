@@ -141,16 +141,16 @@ const groups = ref<Group[]>([
 ]);
 
 const columns = ref(
-  Array(4)
+  Array(6)
     .fill(0)
-    .map((_, id) => ({ name: String.fromCharCode(65 + id), id, checked: true }))
+    .map((_, id) => ({ name: String.fromCharCode(65 + id) + (id % 2 && 'Feld'), id, checked: true }))
 );
 
 const weekEvents = ref([
-  { id: 7, column_id: 0, group_id: 1, name: 'Different', weekday: 4, start_time: '14:30', end_time: '16:30' },
-  { id: 7, column_id: 3, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
-  { id: 7, column_id: 2, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
-  { id: 7, column_id: 1, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
+  { id: 7, column_id: 0, group_id: 1, name: 'Different', weekday: 4, start_time: '14:30', end_time: '16:30', background: 'stripes' },
+  { id: 7, column_id: 3, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45', background: 'dots' },
+  { id: 7, column_id: 2, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45', background: 'dots' },
+  { id: 7, column_id: 1, group_id: 1, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45', background: 'dots' },
   { id: 7, column_id: 1, group_id: 2, name: 'col Test', weekday: 4, start_time: '14:45', end_time: '16:45' },
 ] as WeekEvent[]);
 

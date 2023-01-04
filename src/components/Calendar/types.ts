@@ -6,6 +6,8 @@ export type Event = {
   name: string;
   id: number;
   color?: string;
+  /**default is solid*/
+  background?: "stripes" | 'dots' | 'solid'
   group_id: number | null;
 };
 
@@ -20,6 +22,7 @@ export type WeekEvent = {
   name: string;
   id: number;
   color?: string;
+  background?: "stripes" | 'dots' | 'solid'
   group_id: number | null;
   column_id: number;
 };

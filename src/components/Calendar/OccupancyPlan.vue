@@ -49,9 +49,10 @@
             <div
               v-for="column in columns.filter(c => c.checked)"
               :key="column.id || 'null'"
-              class="d-flex flex-grow-1 flex-column align-items-center"
+              class="flex-grow-1 flex-column text-muted text-center"
+              style="width: 0px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
             >
-              <div class="text-muted" style="font-size: 14px">{{ column.name }}</div>
+              {{ column.name }}
             </div>
           </div>
         </div>

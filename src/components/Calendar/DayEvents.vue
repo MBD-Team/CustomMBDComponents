@@ -115,9 +115,8 @@ const mergedLayoutedEvents = computed(() => {
 function getHoursFraction(time: string) {
   return (parseInt(time.split(':')[0]) + parseInt(time.split(':')[1]) / 60 - start.value) / (end.value - start.value);
 }
-
 function getEventStyle(
-  event: Pick<Event, 'start' | 'end' | 'color'> & {
+  event: Pick<Event, 'start' | 'end' | 'color' | 'background'> & {
     groupSize: number;
     groupIndex: number;
     width: number;
@@ -133,7 +132,21 @@ function getEventStyle(
     height: `calc(${end - start} * 100%)`,
     position: 'absolute',
     fontSize: '10px',
-    backgroundColor: event.color,
+    background:
+      event.color +
+      ' ' +
+      (event.background == 'stripes'
+        ? `repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 4px,
+        #FFFFFF80 4px,
+        #FFFFFF80 8px
+      )`
+        : event.background == 'dots'
+        ? `radial-gradient(#FFFFFF80 30%, transparent 30%)`
+        : ''),
+    'background-size': event.background == 'dots' ? '8px 8px' : undefined,
   };
 }
 </script>
