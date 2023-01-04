@@ -75,7 +75,7 @@
           <div
             class="w-100 d-flex border-bottom"
             style="flex: 0 0 auto; padding-left: var(--time-axis-width)"
-            :style="{ 'padding-right': weekViewScrollbarSize() + 'px' }"
+            :style="{ 'padding-right': weekViewScrollbarSize + 'px' }"
           >
             <div
               v-for="date of currentWeek"
@@ -94,7 +94,7 @@
             </div>
           </div>
           <!-- date content -->
-          <div class="overflow-auto d-flex flex-row" id="weekContainer" style="height: 0; flex: 1 1 auto; align-items: stretch">
+          <div class="overflow-auto d-flex flex-row" ref="weekContainer" style="height: 0; flex: 1 1 auto; align-items: stretch">
             <div class="timeaxis-container" :style="{ '--num-of-hours': displayHours[1] - displayHours[0] }">
               <div v-for="num of displayHours[1] - displayHours[0] - 1" class="timeaxis" :key="num">
                 {{ ('0' + (num + displayHours[0])).slice(-2) }}:00
@@ -183,7 +183,7 @@ import DayEvents from './DayEvents.vue';
 import EventAgenda from './EventAgenda.vue';
 import MonthView from './MonthView.vue';
 
-import { isMobile, useGetDayClasses, useGroupColors, weekViewScrollbarSize } from './utils';
+import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } from './utils';
 
 function log(a: any) {
   console.log(a);
@@ -211,6 +211,8 @@ watchEffect(() => {
   else setTimeout(() => (backdropActive.value = false), 300);
 });
 
+const weekContainer = ref<HTMLElement>();
+const weekViewScrollbarSize = useElementScrollbarSize(weekContainer);
 const mode = ref<'week' | 'day' | 'month' | 'year' | 'agenda'>(isMobile ? 'day' : 'month');
 const timeFrame = computed(() => (mode.value == 'agenda' ? 'day' : mode.value));
 

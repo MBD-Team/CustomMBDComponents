@@ -1,9 +1,20 @@
 import { DateTime, Info } from "luxon";
-import { computed, Ref } from "vue";
+import { computed, ref, Ref, watchEffect } from "vue";
 import { Group } from "./types";
 
-export function weekViewScrollbarSize() {
-    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 1 : 17);
+export function useElementScrollbarSize(element: Ref<HTMLElement | undefined>) {
+    const scrollBarSize = ref(0);
+
+    watchEffect(() => {
+        if (element.value) {
+            new ResizeObserver(() => {
+                if (element.value) {
+                    scrollBarSize.value = element.value.offsetWidth - element.value.clientWidth;
+                }
+            }).observe(element.value)
+        }
+    })
+    return scrollBarSize
 }
 
 export function useGetDayClasses(): (date: number) => { 'is-weekend': boolean };

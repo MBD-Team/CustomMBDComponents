@@ -34,7 +34,7 @@
       <div
         class="w-100 d-flex border-bottom"
         style="flex: 0 0 auto; padding-left: var(--time-axis-width)"
-        :style="{ 'padding-right': weekViewScrollbarSize() + 'px' }"
+        :style="{ 'padding-right': weekViewScrollbarSize + 'px' }"
       >
         <div
           v-for="date of currentWeek"
@@ -58,7 +58,7 @@
         </div>
       </div>
       <!-- date content -->
-      <div class="overflow-auto d-flex flex-row" id="weekContainer" style="height: 0; flex: 1 1 auto; align-items: stretch">
+      <div class="overflow-auto d-flex flex-row" ref="weekContainer" style="height: 0; flex: 1 1 auto; align-items: stretch">
         <div class="timeaxis-container" :style="{ '--num-of-hours': displayHours[1] - displayHours[0] }">
           <div v-for="num of displayHours[1] - displayHours[0] - 1" class="timeaxis" :key="num">
             {{ ('0' + (num + displayHours[0])).slice(-2) }}:00
@@ -102,7 +102,7 @@ import { DateTime, Info, Duration, WeekdayNumbers } from 'luxon';
 import DayEvents from './DayEvents.vue';
 import type { Event, Group, WeekEvent, Column } from './types';
 
-import { isMobile, useGetDayClasses, useGroupColors, weekViewScrollbarSize } from './utils';
+import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } from './utils';
 import GroupSelector from './GroupSelector.vue';
 import ButtonGroup from './ButtonGroup.vue';
 const console = window.console;
@@ -125,6 +125,9 @@ const emit = defineEmits<{
   (e: 'eventClicked', value: Omit<WeekEvent, 'id'> & { id: number | number[] }): void;
   (e: 'timeClicked', value: { weekday: WeekdayNumbers; time: string; column_id: number }): void;
 }>();
+
+const weekContainer = ref<HTMLElement>();
+const weekViewScrollbarSize = useElementScrollbarSize(weekContainer);
 
 const mode = ref<'day' | 'workweek' | 'week' | 'weekend'>('workweek');
 
