@@ -2,7 +2,7 @@
   <div
     v-if="isToday"
     class="position-absolute bg-danger w-100"
-    style="height: 2px"
+    style="height: 2px; z-index: 1"
     :style="{ top: `calc(${getHoursFraction(DateTime.now().toFormat('HH:mm'))} * 100%)` }"
   >
     <div class="bg-danger" style="height: 10px; width: 10px; border-radius: 50%; position: absolute; margin-top: -4px; margin-left: -5px"></div>
