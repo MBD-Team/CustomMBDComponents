@@ -23,7 +23,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button type="button" @click="viewPassword = !viewPassword" :class="btnClass">
+    <button class="sideInput" type="button" @click="viewPassword = !viewPassword" :class="btnClass">
       <template v-if="!viewPassword">
         <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
           <path
