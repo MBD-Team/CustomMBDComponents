@@ -53,6 +53,7 @@
             () => {
               if (onNext) onNext();
               currentStepIndex++;
+              emit('update:modelValue', currentStepIndex);
             }
           "
         >
@@ -67,14 +68,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRefs, watchEffect } from 'vue';
+import { ref, toRefs, watch, watchEffect } from 'vue';
 import Button from './Button.vue';
 import Tooltip from './Tooltip.vue';
+
+const emit = defineEmits(['update:modelValue']);
 
 const props = withDefaults(
   defineProps<{
     steps: { iconName: string; title?: string }[];
-
+    currentStep?: number;
     title?: string;
     onNext?: () => void;
     disableNext?: boolean;
@@ -111,6 +114,7 @@ const props = withDefaults(
 );
 const {
   steps,
+  currentStep,
   title,
   showStepIndices,
   initialStepIndex,
@@ -127,9 +131,9 @@ const {
   iconBgColors,
 } = toRefs(props);
 
-const currentStepIndex = computed(() => initialStepIndex.value);
+const currentStepIndex = ref(initialStepIndex.value);
 const maxReachedStep = ref(0);
-
+watch(() => currentStep, (currentStepIndex.value = currentStep.value));
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
