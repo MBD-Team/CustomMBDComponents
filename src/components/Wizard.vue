@@ -97,6 +97,7 @@ const props = withDefaults(
     iconBgColors?: [string, string, string];
   }>(),
   {
+    currentStep: 0,
     disableNext: false,
     showCompletionBtn: true,
     showStepIndices: false,
@@ -133,7 +134,7 @@ const {
 
 const currentStepIndex = ref(initialStepIndex.value);
 const maxReachedStep = ref(0);
-watch(() => currentStep, (currentStepIndex.value = currentStep.value));
+watch(currentStep, newCurrentStep => (currentStepIndex.value = newCurrentStep));
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
