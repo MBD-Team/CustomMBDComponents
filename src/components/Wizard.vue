@@ -67,13 +67,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watchEffect } from 'vue';
+import { computed, ref, toRefs, watchEffect } from 'vue';
 import Button from './Button.vue';
 import Tooltip from './Tooltip.vue';
 
 const props = withDefaults(
   defineProps<{
     steps: { iconName: string; title?: string }[];
+
     title?: string;
     onNext?: () => void;
     disableNext?: boolean;
@@ -126,7 +127,7 @@ const {
   iconBgColors,
 } = toRefs(props);
 
-const currentStepIndex = ref(initialStepIndex.value);
+const currentStepIndex = computed(() => initialStepIndex.value);
 const maxReachedStep = ref(0);
 
 watchEffect(() => {
