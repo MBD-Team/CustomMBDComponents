@@ -73,7 +73,7 @@ import { ref, toRefs, watch, watchEffect } from 'vue';
 import Button from './Button.vue';
 import Tooltip from './Tooltip.vue';
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:currentStep']);
 
 const props = withDefaults(
   defineProps<{
@@ -136,7 +136,7 @@ const {
 const currentStepIndex = ref(initialStepIndex.value);
 const maxReachedStep = ref(0);
 watch(currentStep, newCurrentStep => (currentStepIndex.value = newCurrentStep));
-watch(currentStepIndex, newcurrentStepIndex => emit('update:modelValue', newcurrentStepIndex));
+watch(currentStepIndex, newcurrentStepIndex => emit('update:currentStep', newcurrentStepIndex));
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
