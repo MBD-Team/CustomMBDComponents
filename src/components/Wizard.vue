@@ -44,7 +44,7 @@
       <Button v-if="currentStepIndex > 0" :class="backClass" @click="currentStepIndex--">{{ backText }}</Button>
     </div>
     <div>
-      <Tooltip :tooltip="tooltipNext" direction="right">
+      <Tooltip :tooltip="tooltipNext" direction="left">
         <Button
           v-if="currentStepIndex < steps.length - 1"
           :class="continueClass"
