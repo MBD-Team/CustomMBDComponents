@@ -41,16 +41,7 @@
   </div>
   <div class="d-flex justify-content-end">
     <div class="me-1">
-      <Button
-        v-if="currentStepIndex > 0"
-        :class="backClass"
-        @click="
-          () => {
-            currentStepIndex--;
-            emit('update:modelValue', currentStepIndex);
-          }
-        "
-      >
+      <Button v-if="currentStepIndex > 0" :class="backClass" @click="currentStepIndex--">
         {{ backText }}
       </Button>
     </div>
@@ -64,7 +55,6 @@
             () => {
               if (onNext) onNext();
               currentStepIndex++;
-              emit('update:modelValue', currentStepIndex);
             }
           "
         >
@@ -146,6 +136,7 @@ const {
 const currentStepIndex = ref(initialStepIndex.value);
 const maxReachedStep = ref(0);
 watch(currentStep, newCurrentStep => (currentStepIndex.value = newCurrentStep));
+watch(currentStepIndex, newcurrentStepIndex => emit('update:modelValue', newcurrentStepIndex));
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
