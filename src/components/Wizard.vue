@@ -41,7 +41,18 @@
   </div>
   <div class="d-flex justify-content-end">
     <div class="me-1">
-      <Button v-if="currentStepIndex > 0" :class="backClass" @click="currentStepIndex--">{{ backText }}</Button>
+      <Button
+        v-if="currentStepIndex > 0"
+        :class="backClass"
+        @click="
+          () => {
+            currentStepIndex--;
+            emit('update:modelValue', currentStepIndex);
+          }
+        "
+      >
+        {{ backText }}
+      </Button>
     </div>
     <div>
       <Tooltip :tooltip="tooltipNext" direction="left">
