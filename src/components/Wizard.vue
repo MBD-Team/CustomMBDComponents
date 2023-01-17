@@ -44,18 +44,21 @@
       <Button v-if="currentStepIndex > 0" :class="backClass" @click="currentStepIndex--">{{ backText }}</Button>
     </div>
     <div>
-      <Button
-        v-if="currentStepIndex < steps.length - 1"
-        :class="continueClass"
-        @click="
-          () => {
-            if (onNext) onNext();
-            currentStepIndex++;
-          }
-        "
-      >
-        {{ continueText }}
-      </Button>
+      <Tooltip :tooltip="tooltipNext" direction="right">
+        <Button
+          v-if="currentStepIndex < steps.length - 1"
+          :class="continueClass"
+          :disabled="disableNext"
+          @click="
+            () => {
+              if (onNext) onNext();
+              currentStepIndex++;
+            }
+          "
+        >
+          {{ continueText }}
+        </Button>
+      </Tooltip>
     </div>
     <div>
       <Button v-if="currentStepIndex == steps.length - 1 && showCompletionBtn" :class="submitClass" @click="onSubmit">{{ submitText }}</Button>
@@ -66,12 +69,15 @@
 <script lang="ts" setup>
 import { ref, toRefs, watchEffect } from 'vue';
 import Button from './Button.vue';
+import Tooltip from './Tooltip.vue';
 
 const props = withDefaults(
   defineProps<{
     steps: { iconName: string; title?: string }[];
     title?: string;
     onNext?: () => void;
+    disableNext?: boolean;
+    tooltipNext?: string;
     onSubmit: () => void;
     showStepIndices?: boolean;
     initialStepIndex?: number;
@@ -87,6 +93,7 @@ const props = withDefaults(
     iconBgColors?: [string, string, string];
   }>(),
   {
+    disableNext: false,
     showCompletionBtn: true,
     showStepIndices: false,
     iconBgColors: () => ['bg-success', 'bg-primary', 'bg-secondary'],
