@@ -63,7 +63,7 @@
       </Tooltip>
     </div>
     <div>
-      <Tooltip :tooltip="tooltipNext" direction="left">
+      <Tooltip :tooltip="tooltipSubmit" direction="left">
         <Button v-if="currentStepIndex == steps.length - 1 && showCompletionBtn" :class="submitClass" @click="onSubmit">{{ submitText }}</Button>
       </Tooltip>
     </div>
