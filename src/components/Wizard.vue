@@ -147,7 +147,7 @@ watchEffect(() => {
 });
 function getIconColor(stepIndex: number, offset = 0) {
   if (getIconColorFunction?.value) {
-    getIconColorFunction.value(stepIndex, offset);
+    return getIconColorFunction.value(stepIndex, offset);
   } else {
     if (stepIndex < currentStepIndex.value + offset) {
       return iconBgColors.value[0];
