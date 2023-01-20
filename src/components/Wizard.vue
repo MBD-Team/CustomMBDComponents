@@ -63,7 +63,9 @@
       </Tooltip>
     </div>
     <div>
-      <Button v-if="currentStepIndex == steps.length - 1 && showCompletionBtn" :class="submitClass" @click="onSubmit">{{ submitText }}</Button>
+      <Tooltip :tooltip="tooltipNext" direction="left">
+        <Button v-if="currentStepIndex == steps.length - 1 && showCompletionBtn" :class="submitClass" @click="onSubmit">{{ submitText }}</Button>
+      </Tooltip>
     </div>
   </div>
 </template>
@@ -84,6 +86,7 @@ const props = withDefaults(
     disableNext?: boolean;
     tooltipNext?: string;
     onSubmit: () => void;
+    tooltipSubmit?: string;
     showStepIndices?: boolean;
     initialStepIndex?: number;
     showCompletionBtn?: boolean;
