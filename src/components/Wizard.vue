@@ -99,6 +99,7 @@ const props = withDefaults(
     backText?: string;
     backClass?: string;
     iconBgColors?: [string, string, string];
+    getIconColorFunction?: () => string;
   }>(),
   {
     currentStep: 0,
@@ -134,6 +135,7 @@ const {
   backText,
   backClass,
   iconBgColors,
+  getIconColorFunction,
 } = toRefs(props);
 
 const currentStepIndex = ref(initialStepIndex.value);
@@ -144,12 +146,16 @@ watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
 function getIconColor(stepIndex: number, offset: number = 0) {
-  if (stepIndex < currentStepIndex.value + offset) {
-    return iconBgColors.value[0];
+  if (getIconColorFunction?.value) {
+    getIconColorFunction.value();
+  } else {
+    if (stepIndex < currentStepIndex.value + offset) {
+      return iconBgColors.value[0];
+    }
+    if (stepIndex <= maxReachedStep.value) {
+      return iconBgColors.value[1];
+    }
+    return iconBgColors.value[2];
   }
-  if (stepIndex <= maxReachedStep.value) {
-    return iconBgColors.value[1];
-  }
-  return iconBgColors.value[2];
 }
 </script>
