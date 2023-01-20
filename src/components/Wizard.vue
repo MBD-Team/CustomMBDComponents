@@ -99,7 +99,7 @@ const props = withDefaults(
     backText?: string;
     backClass?: string;
     iconBgColors?: [string, string, string];
-    getIconColorFunction?: () => string;
+    getIconColorFunction?: (stepIndex: number, offset: number) => string;
   }>(),
   {
     currentStep: 0,
@@ -145,9 +145,9 @@ watch(currentStepIndex, newcurrentStepIndex => emit('update:currentStep', newcur
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
-function getIconColor(stepIndex: number, offset: number = 0) {
+function getIconColor(stepIndex: number, offset = 0) {
   if (getIconColorFunction?.value) {
-    getIconColorFunction.value();
+    getIconColorFunction.value(stepIndex, offset);
   } else {
     if (stepIndex < currentStepIndex.value + offset) {
       return iconBgColors.value[0];
