@@ -11,13 +11,13 @@
       type="number"
       :value="modelValue"
       @input="updateValue"
-      :class="{ dirty: typeof modelValue == 'number' }"
+      :class="{ dirty: modelValue }"
       :style="[
         checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0.5rem; width:${inputWidth}` : '',
         checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
       ]"
       @focus="isInputFocus = true"
-      @blur="isInputFocus = false"
+      @blur="onBlur"
       autocomplete="off"
     />
     <!-- placeholder -->
@@ -113,22 +113,29 @@ const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 
 function updateValue(event: any) {
   //correct the value if necessary and update it
-  if (controlInput.value) {
-    let inputValue = event.target.value * 1;
+  // console.log(event.target.value);
+  if (controlInput.value && event.target.value * 1) {
+    let inputValue = event.target.value;
+    if (event.target.step) {
+      inputValue = Math.round(event.target.value / event.target.step) * event.target.step + '';
+    }
     if (event.target.max) {
-      if (inputValue > event.target.max) inputValue = event.target.max * 1;
+      if (inputValue > event.target.max) inputValue = event.target.max;
     }
     if (event.target.min) {
-      if (inputValue < event.target.min) inputValue = event.target.min * 1;
+      if (inputValue < event.target.min) inputValue = event.target.min;
     }
-    if (event.target.value) event.target.value = inputValue;
+    event.target.value = inputValue;
   }
-  if (event.target.value) emit('update:modelValue', event.target.value * 1);
-  else emit('update:modelValue', event.target.value);
+  emit('update:modelValue', event.target.value);
 }
 function updateSideValue(event: any) {
   //update the sideInput value
   emit('update:sideInputVModel', event.target.value);
+}
+
+function onBlur() {
+  isInputFocus.value = false;
 }
 </script>
 <style scoped lang="scss">
