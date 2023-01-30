@@ -54,7 +54,7 @@ import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth } from './Index';
 import Error from './common/Error.vue';
 
-const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
+const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'corrected']);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
@@ -112,21 +112,6 @@ const checkButton = computed(() => {
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 
 function updateValue(event: any) {
-  //correct the value if necessary and update it
-  // console.log(event.target.value);
-  if (controlInput.value && event.target.value * 1) {
-    let inputValue = event.target.value;
-    if (event.target.step) {
-      inputValue = Math.round(event.target.value / event.target.step) * event.target.step + '';
-    }
-    if (event.target.max) {
-      if (inputValue > event.target.max) inputValue = event.target.max;
-    }
-    if (event.target.min) {
-      if (inputValue < event.target.min) inputValue = event.target.min;
-    }
-    event.target.value = inputValue;
-  }
   emit('update:modelValue', event.target.value);
 }
 function updateSideValue(event: any) {
@@ -134,8 +119,21 @@ function updateSideValue(event: any) {
   emit('update:sideInputVModel', event.target.value);
 }
 
-function onBlur() {
+function onBlur(event: any) {
   isInputFocus.value = false;
+  //correct the value if necessary and update it
+  if (controlInput.value && event.target.value * 1 && event.target.value.length == (event.target.value * 1 + '').length) {
+    let inputValue = event.target.value;
+    if (event.target.step) {
+      inputValue = Math.round(event.target.value / event.target.step) * event.target.step + '';
+      if (inputValue.split('.')[1]?.length > event.target.step.length - 2) inputValue = (+inputValue).toFixed(event.target.step.length - 2);
+    }
+    if (event.target.max && inputValue > event.target.max) inputValue = event.target.max;
+    if (event.target.min && inputValue < event.target.min) inputValue = event.target.min;
+    event.target.value = inputValue;
+    emit('corrected');
+    emit('update:modelValue', event.target.value);
+  }
 }
 </script>
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 <template>
-  <Number placeholder="number" step="0.01" v-model="test" min="0" max="5"></Number>
+  <Number placeholder="number" step="0.01" v-model="test" min="0" max="500"></Number>
 </template>
 
 <script lang="ts" setup>
