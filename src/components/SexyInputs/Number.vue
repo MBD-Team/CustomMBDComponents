@@ -11,7 +11,7 @@
       type="number"
       :value="modelValue"
       @input="updateValue"
-      :class="{ dirty: modelValue }"
+      :class="{ dirty: modelValue || typeof modelValue == 'number' }"
       :style="[
         checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0.5rem; width:${inputWidth}` : '',
         checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
