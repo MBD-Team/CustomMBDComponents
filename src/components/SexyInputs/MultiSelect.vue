@@ -208,8 +208,8 @@ const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
   //options that are still possible
   let regexp: RegExp;
-  if (matchFromStart.value) regexp = new RegExp('^' + escapeRegExp(modelValue.value), 'i');
-  else regexp = new RegExp(escapeRegExp(modelValue.value), 'i');
+  if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value, 'i');
+  else regexp = new RegExp(modelValue.value, 'i');
   let array = [] as any[];
   try {
     array = options.value?.filter(item => optionProjection.value?.(typeof item == 'number' ? item.toString() : item).match(regexp));
@@ -272,13 +272,10 @@ function deleteItem(item: any, index: number) {
   );
   emit('deleteItem', item);
 }
-function escapeRegExp(string: string) {
-  //filters unwanted characters from a string
-  return string.toString().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+
 function boldMatchText(text: string) {
   //makes the text you entered in searchInput bold in options
-  const regexp = new RegExp(`(${escapeRegExp(modelValue.value)})`, 'ig');
+  const regexp = new RegExp(`(${modelValue.value})`, 'ig');
   return text.toString().replace(regexp, '<strong>$1</strong>');
 }
 function updateValue(event: any) {

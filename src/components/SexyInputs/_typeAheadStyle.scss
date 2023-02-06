@@ -2,11 +2,7 @@
   transform: translate(0);
   position: absolute;
 }
-.mbd-modal-body .simple-typeahead-list,
-.modal-content .simple-typeahead-list {
-  transform: none;
-  position: fixed;
-}
+
 .simple-typeahead {
   & > input {
     margin-bottom: 0;

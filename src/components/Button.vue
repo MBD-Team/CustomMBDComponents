@@ -54,7 +54,7 @@ const { spinnerColor, spinnerSize } = toRefs(props);
 button,
 a {
   box-shadow: none !important;
-  height: 2.5rem;
+  min-height: 2.5rem;
   padding-inline: 0.8rem;
   font-size: 1rem;
   line-height: 1rem;

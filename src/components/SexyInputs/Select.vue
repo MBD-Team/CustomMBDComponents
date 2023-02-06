@@ -1,4 +1,5 @@
 <template>
+  <div :id="'scroll' + id"></div>
   <div class="mt-3 selectInput">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
@@ -50,6 +51,7 @@
         >
           <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
         </div>
+
         <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
           {{ noElementMessage }}
         </div>
@@ -171,8 +173,8 @@ const filteredItems = computed(() => {
   if (showAll.value) return options.value;
   //options that are still possible
   let regexp: RegExp;
-  if (matchFromStart.value) regexp = new RegExp('^' + escapeRegExp(modelValue.value), 'i');
-  else regexp = new RegExp(escapeRegExp(modelValue.value), 'i');
+  if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value, 'i');
+  else regexp = new RegExp(modelValue.value, 'i');
   let array = [] as any[];
   try {
     array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
@@ -197,13 +199,13 @@ function onFocus() {
   isListVisible.value = true;
   setTimeout(() => {
     listWidth.value = document.getElementById(id.value)?.getBoundingClientRect().width + 'px';
+    document.getElementById('scroll' + id.value)?.scrollIntoView();
   }, 0);
   emit('onFocus', {
     modelValue: modelValue.value,
     options: filteredItems.value,
   });
 }
-
 function onBlur() {
   //is executed when the selectInput is no longer focused
   isListVisible.value = false;
@@ -238,13 +240,10 @@ async function selectItem(item: any) {
   document.getElementById(id.value)?.blur();
   if (!selectOnBlur) emit('selectItem', item);
 }
-function escapeRegExp(string: string) {
-  //filters unwanted characters from a string
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+
 function boldMatchText(text: string) {
   //makes the text you entered in searchInput bold in options
-  const regexp = new RegExp(`(${escapeRegExp(modelValue.value)})`, 'ig');
+  const regexp = new RegExp(`(${modelValue.value})`, 'ig');
   return text.replace(regexp, '<strong>$1</strong>');
 }
 function updateValue(event: any) {
@@ -256,7 +255,7 @@ function updateSideValue(event: any) {
   //update the sideInput value
   emit('update:sideInputVModel', event.target.value);
 }
-
+const position = ref('');
 const listWidth = ref('');
 </script>
 <style scoped lang="scss">
