@@ -1,4 +1,5 @@
 <template>
+  <div :id="'scroll' + id"></div>
   <div class="mt-3 selectInput">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
@@ -258,6 +259,7 @@ function onFocus() {
   isListVisible.value = true;
   setTimeout(() => {
     listWidth.value = document.getElementById(id.value)?.getBoundingClientRect().width + 'px';
+    document.getElementById('scroll' + id.value)?.scrollIntoView();
   }, 0);
   emit('onFocus', {
     modelValue: modelValue.value,
