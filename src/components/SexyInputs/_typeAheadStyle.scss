@@ -9,11 +9,26 @@
   }
 
   .simple-typeahead-list {
-    max-height: 60vh;
-    overflow-y: scroll;
+    .scroll {
+      max-height: 60vh;
+      overflow-y: scroll;
+      @media (min-width: 900px) {
+        max-height: 30vh;
+      }
+      &::-webkit-scrollbar-track {
+        border-radius: 0 0 0.5rem 0;
+        background-color: transparent;
+      }
 
-    @media (min-width: 900px) {
-      max-height: 30vh;
+      &::-webkit-scrollbar {
+        width: 0.5rem;
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 0.5rem;
+        background-color: #555;
+      }
     }
     background-color: #fafafa;
     border-radius: 0 0 0.5rem 0.5rem;
@@ -39,21 +54,6 @@
         border-bottom: none;
         border-radius: 0 0 0.5rem 0.5rem;
       }
-    }
-
-    &::-webkit-scrollbar-track {
-      border-radius: 0 0 0.5rem 0;
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background-color: #555;
     }
   }
 }
