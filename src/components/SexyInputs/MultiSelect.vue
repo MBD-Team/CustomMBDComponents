@@ -56,7 +56,7 @@
         <div class="d-flex flex-column">
           <div
             v-for="(e, index) of selected.slice(-5).reverse()"
-            class="simple-typeahead-list-item justify-content-between"
+            class="simple-typeahead-list-item d-flex justify-content-between"
             :class="listItemClass(e)"
             @mousedown.prevent
             @click.stop="selectItem(e, index)"

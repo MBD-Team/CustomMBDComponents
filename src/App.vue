@@ -1,6 +1,6 @@
 <template>
   <div class="w-25">
-    <MultiSelect v-model="test" :options="options" placeholder="test" v-model:selected="selected"></MultiSelect>
+    <MultiSelect v-model="test" :options="options" placeholder="test" v-model:selected="selected" @select-item="test = ''"></MultiSelect>
   </div>
   <Modal title="text">
     <Select v-model="test" :options="options" placeholder="test"></Select>
