@@ -54,7 +54,8 @@
             {{ noElementMessage }}
           </div>
         </div>
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column" v-if="selected.length > 0">
+          <div class="simple-typeahead-list-item" style="border-top: 2px solid black" @mousedown.prevent @click.stop="">{{ selectedTitle }}</div>
           <div
             v-for="(e, index) of selected.slice(-5).reverse()"
             class="simple-typeahead-list-item d-flex justify-content-between"
@@ -166,13 +167,17 @@ const props = withDefaults(
     showSelected?: boolean;
     keyExtractor?: Function;
     backgroundColor?: string;
+    autoClearOff?: boolean;
+    selectedTitle?: string;
   }>(),
   {
     error: '',
     noElementMessage: 'not found',
+    selectedTitle: 'Ausgewählt:',
     controlInput: true,
     selectOnBlur: true,
     matchFromStart: false,
+    autoClearOff: false,
     errorColor: 'red',
     sideWidth: 20,
     optionProjection: (item: any) => {
@@ -214,6 +219,7 @@ const {
   name,
   showSelected,
   keyExtractor,
+  autoClearOff,
 } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
@@ -285,6 +291,7 @@ function onBlur() {
 async function selectItem(item: any, index: number) {
   //will be executed when an option is selected
   if (!selected.value.some(e => keyExtractor.value(e) == keyExtractor.value(item))) {
+    if (!autoClearOff.value) updateValue('');
     emit('update:selected', [...selected.value, item]);
     emit('selectItem', item);
   } else {
