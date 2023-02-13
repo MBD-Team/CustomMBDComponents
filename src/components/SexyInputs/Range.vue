@@ -64,7 +64,7 @@ const props = withDefaults(
     borderColor?: string;
   }>(),
   {
-    placeholder='',
+    placeholder: '',
     error: '',
     controlInput: true,
     errorColor: 'red',
