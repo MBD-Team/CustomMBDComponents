@@ -131,7 +131,6 @@ function roundOnBlur(event: any) {
     position: absolute;
     top: 0.5rem;
     left: 0.3rem;
-    z-index: 2;
   }
   input {
     text-align: start;

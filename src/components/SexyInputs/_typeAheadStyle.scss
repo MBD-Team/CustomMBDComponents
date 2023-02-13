@@ -35,7 +35,6 @@
     border: 2px solid;
     border-color: v-bind(borderColorComputed);
     border-top: none;
-    z-index: 2;
     cursor: pointer;
 
     .simple-typeahead-list-item {
