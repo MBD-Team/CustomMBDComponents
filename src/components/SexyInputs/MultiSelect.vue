@@ -31,7 +31,7 @@
         :disabled="disabled"
       />
       <!-- label for select -->
-      <label class="text" :class="labelClass">
+      <label class="text" :class="labelClass" v-if="placeholder">
         {{ placeholder }}
       </label>
       <!-- /label for select -->
@@ -147,7 +147,7 @@ const props = withDefaults(
     modelValue: string;
     options: any[];
     selected: any[];
-    placeholder: string;
+    placeholder?: string;
     noElementMessage?: string;
     listClass?: string;
     name?: string;
@@ -171,6 +171,7 @@ const props = withDefaults(
     selectedTitle?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     noElementMessage: 'not found',
     selectedTitle: 'Ausgewählt:',

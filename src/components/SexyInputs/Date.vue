@@ -18,7 +18,7 @@
       required
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -40,7 +40,7 @@ const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string | null;
-    placeholder: string;
+    placeholder?: string;
     name?: string;
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
@@ -50,6 +50,7 @@ const props = withDefaults(
     backgroundColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     errorColor: 'red',
     sideWidth: '20%',

@@ -9,7 +9,7 @@
       rows="3"
     ></textarea>
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -35,11 +35,12 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
     backgroundColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     errorColor: 'red',
     sideWidth: '20%',

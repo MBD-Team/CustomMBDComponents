@@ -1,14 +1,6 @@
 <template>
-  <div class="w-25">
-    <MultiSelect v-model="test" :options="options" placeholder="test" v-model:selected="selected" @select-item="test = ''"></MultiSelect>
-  </div>
-  <Modal title="text">
-    <Select v-model="test" :options="options" placeholder="test"></Select>
-    <!-- <div v-for="i of 30">{{ i }}</div>
-    <Select v-modal="test" :options="options" placeholder="test"></Select> -->
-
-    <template #button>modal</template>
-  </Modal>
+  <Text v-model="test"></Text>
+  <Select v-model="test" :options="options"></Select>
 </template>
 
 <script lang="ts" setup>

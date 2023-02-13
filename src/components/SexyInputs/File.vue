@@ -9,7 +9,7 @@
       autocomplete="off"
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -41,13 +41,14 @@ const props = withDefaults(
     error?: { [key: string]: string | string[] } | string;
     errorColor?: string;
     labelClass?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
     preview?: boolean;
     fileClass?: Function;
     backgroundColor?: string;
   }>(),
   {
+    placeholder:'',
     error: '',
     errorColor: 'red',
     preview: false,

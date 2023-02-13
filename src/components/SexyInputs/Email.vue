@@ -21,7 +21,7 @@
       autocomplete="off"
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -66,11 +66,12 @@ const props = withDefaults(
     sideInputClass?: string;
     sideInputMaxLength?: string;
     sideInputVModel?: number | string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
     backgroundColor?: string;
   }>(),
   {
+    placeholder:'',
     error: '',
     errorColor: 'red',
     sideWidth: 20,

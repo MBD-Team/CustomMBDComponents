@@ -18,7 +18,7 @@
       autocomplete="off"
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -60,10 +60,11 @@ const props = withDefaults(
     btnClass?: string;
     sideWidth?: number;
     sideInputStyle?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
   }>(),
   {
+    placeholder='',
     error: '',
     controlInput: true,
     errorColor: 'red',

@@ -30,7 +30,7 @@
         autocomplete="off"
       />
       <!-- label for select -->
-      <label class="text" :class="labelClass">
+      <label class="text" :class="labelClass" v-if="placeholder">
         {{ placeholder }}
       </label>
       <!-- /label for select -->
@@ -91,7 +91,7 @@ const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInpu
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    placeholder: string;
+    placeholder?: string;
     backgroundColor?: string;
     options: any[];
     showAll?: boolean;
@@ -114,6 +114,7 @@ const props = withDefaults(
     matchFromStart?: boolean;
   }>(),
   {
+    placeholder: '',
     showAll: false,
     error: '',
     noElementMessage: 'not found',
