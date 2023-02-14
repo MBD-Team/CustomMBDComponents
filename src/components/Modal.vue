@@ -73,7 +73,7 @@
       </div>
     </transition>
   </Teleport>
-  <div @click.stop="showModal = true">
+  <div @click.stop="showModal = true" class="mbd-modal-button">
     <slot name="button">
       <button class="btn btn-primary my-2 me-4">Open Modal</button>
     </slot>
@@ -172,6 +172,9 @@ function resetError() {
 </script>
 
 <style scoped lang="scss">
+:slotted(.mbd-modal-button [disabled]) {
+  pointer-events: unset;
+}
 .mbd-modal-mask {
   position: fixed;
   z-index: 9998;
