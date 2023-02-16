@@ -1,6 +1,7 @@
 <template>
   <Text v-model="test"></Text>
   <Select v-model="test" :options="options"></Select>
+  <Select v-model="test" :options="options"></Select>
 </template>
 
 <script lang="ts" setup>

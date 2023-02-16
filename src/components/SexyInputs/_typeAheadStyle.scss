@@ -1,8 +1,3 @@
-.simple-typeahead-list {
-  transform: translate(0);
-  position: absolute;
-}
-
 .simple-typeahead {
   & > input {
     margin-bottom: 0;
@@ -30,6 +25,9 @@
         background-color: #555;
       }
     }
+    z-index: 1;
+    transform: translate(0);
+    position: absolute;
     background-color: #fafafa;
     border-radius: 0 0 0.5rem 0.5rem;
     border: 2px solid;
