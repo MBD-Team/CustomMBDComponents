@@ -41,19 +41,21 @@
         :style="checkButton || sideInputType ? `width:${inputWidth}` : ''"
         v-if="isListVisible"
       >
-        <div
-          class="simple-typeahead-list-item"
-          :class="listItemClass(item)"
-          v-for="(item, index) in filteredItems"
-          :key="index"
-          @mousedown.prevent
-          @click.stop="selectItem(item)"
-        >
-          <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
-        </div>
+        <div class="scroll rounded-2">
+          <div
+            class="simple-typeahead-list-item"
+            :class="listItemClass(item)"
+            v-for="(item, index) in filteredItems"
+            :key="index"
+            @mousedown.prevent
+            @click.stop="selectItem(item)"
+          >
+            <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
+          </div>
 
-        <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
-          {{ noElementMessage }}
+          <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
+            {{ noElementMessage }}
+          </div>
         </div>
       </div>
       <!-- /options for select -->
