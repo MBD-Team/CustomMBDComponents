@@ -1,6 +1,6 @@
 <template>
   <div :id="'scroll' + id"></div>
-  <div class="mt-3 selectInput">
+  <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">

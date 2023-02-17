@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot></slot>

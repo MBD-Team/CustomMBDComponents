@@ -1,7 +1,14 @@
 <template>
   <Text v-model="test"></Text>
+  <div>
+    <Select v-model="test" :options="options" style="width: 10px"></Select>
+  </div>
+
+  <div class="sticky-top bg-black" style="height: 200px">sticky-top</div>
   <Select v-model="test" :options="options"></Select>
-  <Select v-model="test" :options="options"></Select>
+  <div v-for="i of 100">
+    {{ i }}
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <input
       v-bind="$attrs"
       class="form-control shadow-none"
@@ -48,7 +48,7 @@ const props = withDefaults(
     backgroundColor?: string;
   }>(),
   {
-    placeholder:'',
+    placeholder: '',
     error: '',
     errorColor: 'red',
     preview: false,
