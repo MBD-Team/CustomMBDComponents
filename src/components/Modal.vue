@@ -74,9 +74,7 @@
     </transition>
   </Teleport>
   <div @click.stop="showModal = true">
-    <slot name="button">
-      <button class="btn btn-primary my-2 me-4">Open Modal</button>
-    </slot>
+    <slot name="button"></slot>
   </div>
 </template>
 
@@ -231,7 +229,7 @@ function resetError() {
  * how to use:
  * ```html
  * <!-- footerButtons: affirm, affirmAlt, negative -->
- * <!-- :model-value="bool"  to open Moda without button-->
+ * <!-- :model-value="bool"  to open programmatically-->
  *
  * <Modal title="modalTitle" affirm-text="speichern" affirm-class="btn btn-success" :affirm-action="() => {}">
  *  ModalBodyContent
