@@ -58,6 +58,7 @@
                 <div v-if="affirmText">
                   <Button
                     :loading="affirmLoading"
+                    :disabled="affirmDisabled"
                     :class="affirmClass"
                     @click.stop="affirm()"
                     style="height: 2rem; font-size: 1rem"
