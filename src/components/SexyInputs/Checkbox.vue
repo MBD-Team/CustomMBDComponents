@@ -10,6 +10,18 @@
   <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
 <script lang="ts">
+/**
+ * how to use:
+ * ```html
+ *
+ *
+ * <Checkbox :v-model="true">label</Checkbox>
+ *
+ * <Checkbox :v-model="true" :error="'abc'" >label</Checkbox>
+ *
+ * <Checkbox :v-model="false" name="test" :error="{ test: 'abc' } " textLeft errorColor="blue">label</Checkbox>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };

@@ -19,3 +19,15 @@ const props = withDefaults(
 const { color, size } = toRefs(props);
 </script>
 <style lang="scss" scoped></style>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```html
+ *   <Spinner></Spinner>
+ *
+ *   <Spinner color="success" size="3rem"></Spinner>
+ * ```
+ */
+export default {};
+</script>

@@ -94,3 +94,17 @@ const { tooltip } = toRefs(props);
   position: relative;
 }
 </style>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```html
+* <div class="d-flex">
+    <Tooltip tooltip="infotext" tooltip-color="white" tooltip-bg-color="black" direction="right">
+      <div>text that needs extra info</div>
+    </Tooltip>
+  </div>
+ * ```
+ */
+export default {};
+</script>

@@ -34,7 +34,7 @@ const props = withDefaults(
   }>(),
   {
     ticks: 20,
-    secondaryTicks: 4,
+    secondaryTicks: 0,
     tickWidth: 2,
     tickColor: '#00000066',
     tickSecondaryColor: '#00000022',
@@ -62,3 +62,26 @@ const { progress, maxValue } = toRefs(props);
     );
 }
 </style>
+<script lang="ts">
+/**
+ * how to use:
+ * ```html
+ * 
+ *  <ProgressBar
+      :progress="20"
+      :max-value="100"
+    ></ProgressBar>
+
+ *   <ProgressBar
+      :progress="20"
+      :max-value="100"
+      :secondary-ticks="25"
+      :tick-width="2"
+      tickColor="#aaee00ee"
+      tickSecondaryColor="#eeaaee"
+      progressColor="bg-danger"
+    ></ProgressBar>
+ * ```
+ */
+export default {};
+</script>

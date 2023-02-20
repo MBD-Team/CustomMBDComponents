@@ -70,3 +70,17 @@ function dismiss() {
   border-radius: 0.5rem;
 }
 </style>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```vue
+ *     //default alert
+ *    <Alert :model-value="showAlert" @update:model-value="showAlert = false">alertMessage</Alert>
+ *
+ *     //class to change color
+ *    <Alert :model-value="showAlert" @update:model-value="showAlert = false" class="alert-danger">alertMessage</Alert>
+ * ```
+ */
+export default {};
+</script>

@@ -1,14 +1,5 @@
 <template>
-  <div class="w-25">
-    <MultiSelect v-model="test" :options="options" placeholder="test" v-model:selected="selected" @select-item="test = ''"></MultiSelect>
-  </div>
-  <Modal title="text">
-    <Select v-model="test" :options="options" placeholder="test"></Select>
-    <!-- <div v-for="i of 30">{{ i }}</div>
-    <Select v-modal="test" :options="options" placeholder="test"></Select> -->
-
-    <template #button>modal</template>
-  </Modal>
+  <Checkbox :v-model="true" :error="'abc'" textLeft errorColor="blue">label</Checkbox>
 </template>
 
 <script lang="ts" setup>
@@ -17,11 +8,22 @@ import Text from './components/SexyInputs/Text.vue';
 import Number from './components/SexyInputs/Number.vue';
 import Select from './components/SexyInputs/Select.vue';
 import MultiSelect from './components/SexyInputs/MultiSelect.vue';
+import Checkbox from './components/SexyInputs/Checkbox.vue';
+
+import Accordion from './components/Accordion.vue';
 import Modal from './components/Modal.vue';
-const test = ref('');
-const options = ref([]);
-for (let i = 0; i < 100; i++) options.value.push(Math.random() + '');
-const selected = ref([]);
+import Alert from './components/Alert.vue';
+import Button from './components/Button.vue';
+import Message from './components/Message.vue';
+import ProgressBar from './components/ProgressBar.vue';
+import Spinner from './components/Spinner.vue';
+import Tooltip from './components/Tooltip.vue';
+import Wizard from './components/Wizard.vue';
+
+const text = ref('');
+const number = ref(0);
+const bool = ref(true);
+const list = ref([]);
 </script>
 
 <style lang="scss"></style>

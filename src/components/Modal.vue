@@ -226,3 +226,18 @@ function resetError() {
   margin-top: -50px;
 }
 </style>
+<script lang="ts">
+/**
+ * how to use:
+ * ```html
+ * <!-- footerButtons: affirm, affirmAlt, negative -->
+ * <!-- :model-value="bool"  to open Moda without button-->
+ *
+ * <Modal title="modalTitle" affirm-text="speichern" affirm-class="btn btn-success" :affirm-action="() => {}">
+ *  ModalBodyContent
+ *  <template #button><Button>openModalButton</Button></template>
+ * </Modal>
+ * ```
+ */
+export default {};
+</script>

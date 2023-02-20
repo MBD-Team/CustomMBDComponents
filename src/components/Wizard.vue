@@ -159,3 +159,60 @@ function getIconColor(stepIndex: number, offset = 0) {
   }
 }
 </script>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```html
+ * <Wizard :steps="[{ iconName: 'calendar' }, { iconName: 'volleyball-ball' }]" :initialStepIndex="0" :onSubmit="() => {}">
+    <template #step1>
+      <div>content</div>
+    </template>
+    <template #step2>
+      <div>content</div>
+    </template>
+  </Wizard>
+
+  
+ *<Wizard
+    :steps="[
+      { iconName: 'calendar' },
+      { iconName: 'volleyball-ball' },
+      { iconName: 'map-marked-alt' },
+      { iconName: 'clock' },
+      { iconName: 'info' },
+      { iconName: 'flag-checkered' },
+    ]"
+    :tooltipNext="'nextButtonTooltip'"
+    :disableNext="false"
+    :showStepIndices="false"
+    :initialStepIndex="0"
+    :onSubmit="() => {}"
+    :tooltipSubmit="'submitTextTooltip'"
+    :submit-text="'submitText'"
+    :showCompletionBtn="true"
+    v-model:currentStep="number"
+    :getIconColorFunction="
+      (stepIndex, offset) => {
+        return 'bg-primary';
+      }
+    "
+  >
+    <template
+      v-for="(step, index) in [
+        { content: 'test' },
+        { content: 'testtets' },
+        { content: 'test' },
+        { content: 'testtets' },
+        { content: 'test' },
+        { content: 'testtets' },
+      ]"
+      #[`step${index}`]
+    >
+      <div>{{ step.content }}</div>
+    </template>
+  </Wizard>
+ * ```
+ */
+export default {};
+</script>

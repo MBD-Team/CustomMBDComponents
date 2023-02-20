@@ -35,7 +35,9 @@ const hasInfo = computed(() => !!info?.value);
 <script lang="ts">
 /**
  * how to use:
- * ```js
+ * ```html
+ * <!-- all v-models are optional -->
+ * <!-- only error can be an object -->
  *   <Message v-model:success="success" v-model:error="error" v-model:warning="warning" v-model:info="info"/>
  * ```
  */

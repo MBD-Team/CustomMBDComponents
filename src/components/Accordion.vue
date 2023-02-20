@@ -100,3 +100,32 @@ const { items, id } = toRefs(props);
   }
 }
 </style>
+
+<script lang="ts">
+/**
+ * how to use:
+ * ```html
+ * 
+ * // hashes can only contain letters,numbers and underscores
+ * <Accordion
+    :items="[
+      { title: 'string', hash: 'string1' },
+      { title: 'string', hash: 'string2' },
+    ]"
+  >
+    <template
+      v-for="element of [
+        { title: 'string', hash: 'string1' },
+        { title: 'string', hash: 'string2' },
+      ]"
+      #[element.hash]
+    >
+      <div>
+        <h2>{{ element.title }}</h2>
+      </div>
+    </template>
+  </Accordion>
+ * ```
+ */
+export default {};
+</script>

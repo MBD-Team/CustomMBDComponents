@@ -21,6 +21,13 @@
   </button>
 </template>
 <script lang="ts">
+/**
+ * how to use:
+ * ```html
+ *      //usable with href as link
+ *     <Button :loading="true">buttonText</Button>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
