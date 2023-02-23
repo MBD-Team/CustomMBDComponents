@@ -28,6 +28,23 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const date = ref('')
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ *
+ *   <Date v-model="date" ></Date>
+ *
+ * <!-- error just as a string -->
+ *   <Date v-model="date" placeholder="inputTitle" :error="error"></Date>
+ *
+ * <!-- error as a object -->
+ * <!-- the name has to be a key of the error Object -->
+ *   <Date v-model="date" placeholder="inputTitle" name="date" :error="error"></Date>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
@@ -35,14 +52,14 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, ref, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string | null;
     placeholder: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     borderColor?: string;
     labelClass?: string;
@@ -64,7 +81,7 @@ onMounted(() => {
   if (!(modelValue.value?.length == 10) && autoFill.value) {
     updateValue(new Date().toISOString().split('T')[0]);
   }
-  if (modelValue.value?.length > 10) {
+  if (modelValue.value && modelValue.value.length > 10) {
     updateValue(new Date(modelValue.value).toISOString().substring(0, 10));
   }
 });

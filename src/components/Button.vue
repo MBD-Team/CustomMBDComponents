@@ -24,7 +24,7 @@
 /**
  * how to use:
  * ```html
- *      //usable with href as link
+ *      <!-- usable with href as link -->
  *     <Button :loading="true">buttonText</Button>
  * ```
  */

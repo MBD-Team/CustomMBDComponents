@@ -41,10 +41,10 @@
           <div
             class="simple-typeahead-list-item"
             :class="listItemClass(item)"
-            v-for="(item, index) in filteredItems"
+            v-for="item in filteredItems"
             :key="Math.random()"
             @mousedown.prevent
-            @click.stop="selectItem(item, index)"
+            @click.stop="selectItem(item)"
           >
             <Checkbox :value="selected.some(e => keyExtractor(e) == keyExtractor(item))">
               <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
@@ -57,11 +57,11 @@
         <div class="d-flex flex-column" v-if="selected.length > 0">
           <div class="simple-typeahead-list-item" style="border-top: 2px solid black" @mousedown.prevent @click.stop="">{{ selectedTitle }}</div>
           <div
-            v-for="(e, index) of selected.slice(-5).reverse()"
+            v-for="e of selected.slice(-5).reverse()"
             class="simple-typeahead-list-item d-flex justify-content-between"
             :class="listItemClass(e)"
             @mousedown.prevent
-            @click.stop="selectItem(e, index)"
+            @click.stop="selectItem(e)"
           >
             {{ optionProjection(e) }}
             <span style="cursor: pointer">
@@ -100,13 +100,13 @@
     <!-- multiSelect list -->
     <div
       v-if="showSelected"
-      v-for="(multi, index) of selected"
+      v-for="multi of selected"
       :key="Math.random()"
       class="mt-1 d-flex justify-content-between px-2"
       :class="multiSelectClass(multi)"
     >
       {{ optionProjection(options.find(e => keyExtractor(e) == keyExtractor(multi))) }}
-      <span @click="deleteItem(multi, index)" style="cursor: pointer" v-if="!disabled">
+      <span @click="deleteItem(multi)" style="cursor: pointer" v-if="!disabled">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
           <path
             d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -122,50 +122,89 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const options = [1, 2, 3]
+ * const list = ref<number[]>([]);
+ * ```
+ * ```html
+ * <MultiSelect
+        v-model="text"
+        v-model:selected="list"
+        :options="options"
+      ></MultiSelect>
+ *
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { getErrorMessage, useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Checkbox from './Checkbox.vue';
-const emit = defineEmits([
-  'update:selected',
-  'update:modelValue',
-  'update:sideInputVModel',
-  'onInput',
-  'onFocus',
-  'selectItem',
-  'onBlur',
-  'deleteItem',
-]);
+
+type Any = any;
+interface Option extends Any {}
+
+const emit = defineEmits<{
+  (e: 'update:selected', selected: Option[]): void;
+  (e: 'update:modelValue', modelValue: string): void;
+  (e: 'update:sideInputVModel', modelValue: string): void;
+  (
+    e: 'onInput',
+    selectable: {
+      modelValue: string;
+      options: Option[];
+    }
+  ): void;
+  (
+    e: 'onFocus',
+    selectable: {
+      modelValue: string;
+      options: Option[];
+    }
+  ): void;
+  (e: 'selectItem', option: Option): void;
+  (
+    e: 'onBlur',
+    selectable: {
+      modelValue: string;
+      options: Option[];
+    }
+  ): void;
+  (e: 'deleteItem', option: Option): void;
+}>();
 const props = withDefaults(
   defineProps<{
     disabled?: boolean;
     modelValue: string;
-    options: any[];
-    selected: any[];
+    /**
+     * Option is inferred from `options` prop
+     */
+    options: Option[];
+    selected: Option[];
     placeholder: string;
     noElementMessage?: string;
     listClass?: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     sideWidth?: number;
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
     sideInputMaxLength?: string;
-    sideInputVModel?: any;
+    sideInputVModel?: string;
     borderColor?: string;
-    optionProjection?: Function;
-    listItemClass?: Function;
-    multiSelectClass?: Function;
+    optionProjection?: (option: Option) => string;
+    listItemClass?: (option: Option) => string;
+    multiSelectClass?: (option: Option) => string;
     matchFromStart?: boolean;
     showSelected?: boolean;
-    keyExtractor?: Function;
+    keyExtractor?: (option: Option) => string;
     backgroundColor?: string;
     autoClearOff?: boolean;
     selectedTitle?: string;
@@ -180,18 +219,10 @@ const props = withDefaults(
     autoClearOff: false,
     errorColor: 'red',
     sideWidth: 20,
-    optionProjection: (item: any) => {
-      return item;
-    },
-    listItemClass: (item: any) => {
-      return '';
-    },
-    multiSelectClass: (item: any) => {
-      return '';
-    },
-    keyExtractor: (item: any) => {
-      return JSON.stringify(item);
-    },
+    optionProjection: (o: Option) => o,
+    listItemClass: () => '',
+    multiSelectClass: () => '',
+    keyExtractor: (o: Option) => JSON.stringify(o),
     name: '',
     showSelected: true,
     backgroundColor: '#f8fafc',
@@ -239,12 +270,17 @@ const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
   //options that are still possible
   let regexp: RegExp;
-  if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value, 'i');
-  else regexp = new RegExp(modelValue.value, 'i');
-  let array = [] as any[];
   try {
-    array = options.value?.filter(item => optionProjection.value?.(typeof item == 'number' ? item.toString() : item).match(regexp));
-    if (!array.length) array = array.concat(options.value?.filter((item: any) => (typeof item == 'number' ? item.toString() : item).match(regexp)));
+    if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value, 'i');
+    else regexp = new RegExp(modelValue.value, 'i');
+  } catch {
+    if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+    else regexp = new RegExp(modelValue.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+  }
+  let array: Option[] = [];
+  try {
+    array = options.value?.filter(item => (optionProjection.value?.(item) + '').match(regexp));
+    if (!array.length) array = options.value?.filter(item => (item + '').match(regexp));
   } catch {
     array = [];
   }
@@ -288,17 +324,17 @@ function onBlur() {
     options: filteredItems.value,
   });
 }
-async function selectItem(item: any, index: number) {
+async function selectItem(item: Option) {
   //will be executed when an option is selected
   if (!selected.value.some(e => keyExtractor.value(e) == keyExtractor.value(item))) {
     if (!autoClearOff.value) updateValue('');
     emit('update:selected', [...selected.value, item]);
     emit('selectItem', item);
   } else {
-    deleteItem(item, index);
+    deleteItem(item);
   }
 }
-function deleteItem(item: any, index: number) {
+function deleteItem(item: Option) {
   emit(
     'update:selected',
     selected.value.filter(e => keyExtractor.value(e) != keyExtractor.value(item))
@@ -308,11 +344,17 @@ function deleteItem(item: any, index: number) {
 
 function boldMatchText(text: string) {
   //makes the text you entered in searchInput bold in options
-  const regexp = new RegExp(`(${modelValue.value})`, 'ig');
+  let regexp: RegExp;
+  try {
+    regexp = new RegExp(`(${modelValue.value})`, 'ig');
+  } catch {
+    regexp = new RegExp(`(${modelValue.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig');
+  }
+
   return text.toString().replace(regexp, '<strong>$1</strong>');
 }
 function updateValue(event: any) {
-  if (typeof event == 'string' || typeof event == 'number') emit('update:modelValue', event);
+  if (typeof event == 'string' || typeof event == 'number') emit('update:modelValue', event + '');
   else emit('update:modelValue', event.target.value);
 }
 function updateSideValue(event: any) {
@@ -331,7 +373,7 @@ input {
 .sideButton,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed);
+  width: v-bind(sideWidthComputed) !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);

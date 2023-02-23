@@ -53,20 +53,28 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const text = ref('')
+ * ```
+ * ```html
+ *   <Password v-model="text"></Password>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { getErrorMessage, useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     btnClass?: string;
@@ -116,7 +124,7 @@ input.sideInput:focus {
 button,
 input.sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed);
+  width: v-bind(sideWidthComputed) !important;
   border-color: v-bind(borderColorComputed);
 }
 </style>

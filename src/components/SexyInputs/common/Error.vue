@@ -10,10 +10,10 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
-import { getErrorMessage } from '../Index';
+import { getErrorMessage, InputError } from '../Index';
 const props = withDefaults(
   defineProps<{
-    error: { [key: string]: string | string[] } | string;
+    error: InputError;
     errorColor: string;
     name?: string;
   }>(),

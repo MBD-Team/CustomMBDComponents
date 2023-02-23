@@ -18,7 +18,7 @@
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import Tooltip from '../Tooltip.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
@@ -26,7 +26,7 @@ const props = withDefaults(
     options: { text: string; value: string | number | boolean; tooltip?: string }[];
     row?: boolean;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     borderColor?: string;
   }>(),

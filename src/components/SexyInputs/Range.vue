@@ -40,6 +40,14 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const number = ref(0)
+ * ```
+ * ```html
+ *   <Range v-model="number"></Range>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
@@ -47,14 +55,14 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, ref, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(
   defineProps<{
     modelValue: number;
     controlInput?: boolean;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     btnClass?: string;
@@ -204,7 +212,7 @@ function roundOnBlur(event: any) {
     bottom: 0;
     left: v-bind(inputWidth);
     right: 0;
-    width: v-bind(sideWidthComputed);
+    width: v-bind(sideWidthComputed) !important;
     border-radius: 0 0.5rem 0.5rem 0;
     border-width: 1px;
     border-color: v-bind(borderColorComputed);

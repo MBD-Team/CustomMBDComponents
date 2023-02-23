@@ -36,6 +36,26 @@
   <!-- /error -->
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const files = ref<File[]>([]);
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ * <MultiFile :fileArray="files" @addFile="(e)=>files.push(e)"></MultiFile>
+ *
+ * <MultiFile :fileArray="files" preview></MultiFile>
+ *
+ * <MultiFile :fileArray="files" preview :error="error"></MultiFile>
+ *
+ * <!-- the name has to be a key of the error Object -->
+ * <MultiFile :fileArray="files" preview name="file" :error="error"></MultiFile>
+ *
+ * <MultiFile :fileArray="files" @addFile="e => file.push(...e)" @deleteFile="e => (file = file.filter((_, i) => i != e))"
+ * ></MultiFile>
+ *
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
@@ -43,16 +63,16 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
-const emit = defineEmits(['addFile', 'deleteFile']);
+import { getErrorMessage, InputError } from './Index';
+const emit = defineEmits<{ (e: 'addFile', files: File[]): void; (e: 'deleteFile', index: number): void }>();
 const props = withDefaults(
   defineProps<{
-    fileArray: any[];
+    fileArray: File[];
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     borderColor?: string;
-    multiFileClass?: Function;
+    multiFileClass?: (file: File) => string;
     preview?: boolean;
   }>(),
   {
@@ -60,9 +80,7 @@ const props = withDefaults(
     borderColor: 'black',
     errorColor: 'red',
     preview: false,
-    multiFileClass: (item: any) => {
-      return '';
-    },
+    multiFileClass: () => '',
     name: '',
   }
 );
@@ -85,7 +103,7 @@ function onResize() {
   buttonWidth.value = document.getElementById(id.value + 'button')?.clientWidth;
 }
 function previewFiles(event: any) {
-  emit('addFile', Object.values(event.target.files));
+  emit('addFile', Object.values(event.target.files) as File[]);
 }
 function clickFileInput() {
   document.getElementById(id.value)?.click();

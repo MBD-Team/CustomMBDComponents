@@ -67,9 +67,7 @@ const { tooltip } = toRefs(props);
 </script>
 <style lang="scss" scoped>
 [data-title]:hover:after {
-  opacity: 1;
-  transition: all 0.1s ease 0.5s;
-  visibility: visible;
+  display: block;
 }
 [data-title]:after {
   content: '' attr(data-title);
@@ -84,11 +82,10 @@ const { tooltip } = toRefs(props);
   right: v-bind(right);
   white-space: pre;
   box-shadow: 1px 1px 1px #222222;
-  opacity: 0;
+  display: none;
   border: 1px solid #111111;
   border-radius: 0.5rem;
   z-index: 99999;
-  visibility: hidden;
 }
 [data-title] {
   position: relative;

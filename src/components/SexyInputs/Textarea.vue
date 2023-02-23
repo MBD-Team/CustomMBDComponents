@@ -26,13 +26,13 @@ export default {
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     placeholder: string;

@@ -1,13 +1,6 @@
 <template>
   <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
-    <input
-      v-bind="$attrs"
-      class="form-control shadow-none"
-      type="file"
-      @input="updateValue"
-      :style="checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;'"
-      autocomplete="off"
-    />
+    <input v-bind="$attrs" class="form-control shadow-none" type="file" @input="updateValue" style="padding-left: none" autocomplete="off" />
     <!-- placeholder -->
     <label class="text" :class="labelClass">
       {{ placeholder }}
@@ -25,20 +18,36 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const file = ref<File | null>(null);
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ * <File v-model="file" ></File>
+ *
+ * <File v-model="file" placeholder="Datei" preview></File>
+ *
+ * <File v-model="file" :error="error"></File>
+ *
+ * <File v-model="file" name="file" :error="error"></File>
+ *
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
-    modelValue: any;
+    modelValue: File | null;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     placeholder: string;

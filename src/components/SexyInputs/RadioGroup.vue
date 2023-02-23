@@ -21,9 +21,8 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
-import Button from '../../exampleStories/Button.vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const props = withDefaults(
   defineProps<{
     options: { text: string; value: string | number | boolean }[];
@@ -31,7 +30,7 @@ const props = withDefaults(
     activeClass?: string;
     defaultClass?: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     borderColor?: string;
     disabled?: boolean;

@@ -84,7 +84,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots, useAttrs } from 'vue';
-import { getErrorMessage, useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError  } from './Index';
 import Error from './common/Error.vue';
 const attrs = useAttrs();
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInput', 'onFocus', 'selectItem', 'onBlur']);
@@ -100,7 +100,7 @@ const props = withDefaults(
     noElementMessage?: string;
     listClass?: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     sideWidth?: number;

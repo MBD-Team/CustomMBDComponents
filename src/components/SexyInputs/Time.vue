@@ -35,13 +35,13 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, ref, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage } from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string | null;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     placeholder: string;
@@ -70,7 +70,7 @@ onMounted(() => {
     let time = modelValue.value?.slice(0, 5);
     updateValue(time);
   }
-  if (modelValue.value?.length > 10) {
+  if (modelValue.value && modelValue.value.length > 10) {
     const date = new Date(modelValue.value);
     let time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
     updateValue(time);

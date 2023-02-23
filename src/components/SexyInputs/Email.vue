@@ -45,20 +45,41 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const text = ref('')
+ * const numVar = ref(0)
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ *
+ *    <Email v-model="text"></Email>
+ *
+ *    <Email v-model="text" placeholder="test"><template #button><Button sideButton>buttonText</Button></template></Email>
+ *
+ *    <Email v-model="text" placeholder="test" sideInputType="number" :sideWidth="20" :sideInputVModel="numVar"></Email>
+ *
+ *    <Email v-model="text" placeholder="test" :error="error"></Email>
+ *
+ *    <!-- the name has to be a key of the error Object -->
+ *    <Email v-model="text" placeholder="test" name="email" :error="error"></Email>
+ *
+ * ```
+ * */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { getErrorMessage, useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(
   defineProps<{
     modelValue: string;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     sideWidth?: number;
@@ -123,7 +144,7 @@ input {
 .sideButton,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed);
+  width: v-bind(sideWidthComputed) !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);

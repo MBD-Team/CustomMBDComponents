@@ -45,13 +45,21 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const text = ref('')
+ * ```
+ * ```html
+ * <Number v-model="text"></Number>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { getErrorMessage, useCalcSideWidth } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'corrected']);
@@ -61,7 +69,7 @@ const props = withDefaults(
     backgroundColor?: string;
     controlInput?: boolean;
     name?: string;
-    error?: { [key: string]: string | string[] } | string;
+    error?: InputError;
     errorColor?: string;
     labelClass?: string;
     sideWidth?: number;
@@ -143,7 +151,7 @@ function onBlur(event: any) {
 .sideButton,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed);
+  width: v-bind(sideWidthComputed) !important;
 }
 input {
   &::-webkit-outer-spin-button,
