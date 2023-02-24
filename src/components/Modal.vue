@@ -227,11 +227,14 @@ function resetError() {
 <script lang="ts">
 /**
  * how to use:
+ * ```js
+ * const config = ref<{ text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean }>({text:'test'})
+ * ```
  * ```html
- * <!-- footerButtons: affirm, affirmAlt, negative -->
+ * <!-- footerButtons: affirm, affirmAlt, negative (all are optional)-->
  * <!-- :model-value="bool"  to open programmatically-->
  *
- * <Modal title="modalTitle" affirm-text="speichern" affirm-class="btn btn-success" :affirm-action="() => {}">
+ * <Modal title="modalTitle" :affirm="config" :negative="config" :affirmAlt="config">
  *  ModalBodyContent
  *  <template #button><Button>openModalButton</Button></template>
  * </Modal>
