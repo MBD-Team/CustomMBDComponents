@@ -103,25 +103,22 @@ const { items, id } = toRefs(props);
 
 <script lang="ts">
 /**
- * how to use:
+ * ```js
+ * const sections = ref(
+  [
+    { title: 'Section', content: 'abc' },
+    { title: 'Section2', content: 'test' },
+  ].map((e, i) => ({ ...e, hash: e.title + i }))
+);
+ * //hashes can only contain letters,numbers and underscores 
+ * ```
  * ```html
  * 
- * // hashes can only contain letters,numbers and underscores
- * <Accordion
-    :items="[
-      { title: 'string', hash: 'string1' },
-      { title: 'string', hash: 'string2' },
-    ]"
-  >
-    <template
-      v-for="element of [
-        { title: 'string', hash: 'string1' },
-        { title: 'string', hash: 'string2' },
-      ]"
-      #[element.hash]
-    >
+ * <Accordion :items="sections">
+    <template v-for="(section, index) in sections" #[section.hash]>
       <div>
-        <h2>{{ element.title }}</h2>
+        <h2>{{ section.title }}</h2>
+        <p>{{ section.content }}</p>
       </div>
     </template>
   </Accordion>

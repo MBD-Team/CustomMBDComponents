@@ -60,6 +60,26 @@
 </template>
 
 <script lang="ts">
+/**
+ * how to use:
+ * ```js
+ * const config = ref<{ text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean }>({text:'test'})
+ * ```
+ * ```html
+ * <!-- footerButtons: affirm, affirmAlt, negative (all are optional)-->
+ * <!-- :model-value="bool"  to open programmatically-->
+ *
+ * <Modal title="modalTitle" :affirm="config" :negative="config" :affirmAlt="config">
+ *  <div>ModalBodyContent</div>
+ *
+ *  <!-- optional -->
+ *  <template #button><Button>openModalButton</Button></template>
+ *  <template #footer></template>
+ * </Modal>
+ * ```
+ */
+export default {};
+
 export type ButtonProp = { text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean };
 </script>
 
@@ -174,24 +194,3 @@ function resetError() {
   margin-top: -50px;
 }
 </style>
-<script lang="ts">
-/**
- * how to use:
- * ```js
- * const config = ref<{ text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean }>({text:'test'})
- * ```
- * ```html
- * <!-- footerButtons: affirm, affirmAlt, negative (all are optional)-->
- * <!-- :model-value="bool"  to open programmatically-->
- *
- * <Modal title="modalTitle" :affirm="config" :negative="config" :affirmAlt="config">
- *  <div>ModalBodyContent</div>
- *
- *  <!-- optional -->
- *  <template #button><Button>openModalButton</Button></template>
- *  <template #footer></template>
- * </Modal>
- * ```
- */
-export default {};
-</script>

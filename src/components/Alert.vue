@@ -73,11 +73,16 @@ function dismiss() {
 
 <script lang="ts">
 /**
- * how to use:
- * ```html
- *    <Alert :model-value="showAlert" @update:model-value="showAlert = false">alertMessage</Alert>
+ * ```js
+ * const showAlert = ref(false)
+ * const text = ref('')
  *
- *    <Alert :model-value="showAlert" @update:model-value="showAlert = false" class="alert-danger">alertMessage</Alert>
+ * ```
+ * ```html
+ *
+ *    <Alert v-model="showAlert">alertMessage</Alert>
+ *
+ *    <Alert :model-value="!!text" @update:model-value="text = ''" class="alert-danger">{{ text }}</Alert>
  * ```
  */
 export default {};

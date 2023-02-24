@@ -82,13 +82,13 @@
 <script lang="ts">
 /**
  * ```js
- * const selectOptions = ref<any[]>([])
+ * const options = ref<any[]>([])
  * const text = ref('')
  * ```
  * ```html
- * <SelectInput  v-model="text" :options="selectOptions"></SelectInput>
+ * <SelectInput  v-model="text" :options="options"></SelectInput>
  *
- * <SelectInput  v-model="text" :options="selectOptions" :optionProjection="(e)=>e"></SelectInput>
+ * <SelectInput  v-model="text" :options="options" :optionProjection="(e)=>e"></SelectInput>
  * ```
  */
 export default {
@@ -169,7 +169,7 @@ const props = withDefaults(
     backgroundColor: '#f8fafc',
     sideWidth: 20,
     matchFromStart: false,
-    optionProjection: (e: Option) => e,
+    optionProjection: (e: Option) => e + '',
     listItemClass: () => '',
     name: '',
   }

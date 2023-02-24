@@ -25,7 +25,9 @@
  * ```html
  *      <!-- usable with href as link -->
  *
- *     <Button :loading="true" :disabled="false">buttonText</Button>
+ *     <Button :disabled="true">buttonText</Button>
+ *
+ *     <Button :loading="true">buttonText</Button>
  *
  *      <!-- if used as input sidebutton -->
  *     <Button sideButton>buttonText</Button>
