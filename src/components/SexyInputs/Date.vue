@@ -35,14 +35,14 @@
  * ```
  * ```html
  *
- *   <Date v-model="date" ></Date>
+ *   <DateInput v-model="date" ></DateInput>
  *
  * <!-- error just as a string -->
- *   <Date v-model="date" placeholder="inputTitle" :error="error"></Date>
+ *   <DateInput v-model="date" placeholder="inputTitle" :error="error"></DateInput>
  *
  * <!-- error as a object -->
  * <!-- the name has to be a key of the error Object -->
- *   <Date v-model="date" placeholder="inputTitle" name="date" :error="error"></Date>
+ *   <DateInput v-model="date" placeholder="inputTitle" name="date" :error="error"></DateInput>
  * ```
  */
 export default {

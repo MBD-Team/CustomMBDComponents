@@ -53,16 +53,16 @@
  * ```
  * ```html
  *
- *    <Email v-model="text"></Email>
+ *    <EmailInput v-model="text"></EmailInput>
  *
- *    <Email v-model="text" placeholder="test"><template #button><Button sideButton>buttonText</Button></template></Email>
+ *    <EmailInput v-model="text" placeholder="test"><template #button><Button sideButton>buttonText</Button></template></EmailInput>
  *
- *    <Email v-model="text" placeholder="test" sideInputType="number" :sideWidth="20" :sideInputVModel="numVar"></Email>
+ *    <EmailInput v-model="text" placeholder="test" sideInputType="number" :sideWidth="20" :sideInputVModel="numVar"></EmailInput>
  *
- *    <Email v-model="text" placeholder="test" :error="error"></Email>
+ *    <EmailInput v-model="text" placeholder="test" :error="error"></EmailInput>
  *
  *    <!-- the name has to be a key of the error Object -->
- *    <Email v-model="text" placeholder="test" name="email" :error="error"></Email>
+ *    <EmailInput v-model="text" placeholder="test" name="email" :error="error"></EmailInput>
  *
  * ```
  * */

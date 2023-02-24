@@ -24,13 +24,13 @@
  * const error = ref<string|{[key:string]:string}>('')
  * ```
  * ```html
- * <File v-model="file" ></File>
+ * <FileInput v-model="file" ></FileInput>
  *
- * <File v-model="file" placeholder="Datei" preview></File>
+ * <FileInput v-model="file" placeholder="Datei" preview></FileInput>
  *
- * <File v-model="file" :error="error"></File>
+ * <FileInput v-model="file" :error="error"></FileInput>
  *
- * <File v-model="file" name="file" :error="error"></File>
+ * <FileInput v-model="file" name="file" :error="error"></FileInput>
  *
  * ```
  */

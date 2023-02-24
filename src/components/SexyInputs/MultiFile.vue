@@ -42,17 +42,17 @@
  * const error = ref<string|{[key:string]:string}>('')
  * ```
  * ```html
- * <MultiFile :fileArray="files" @addFile="(e)=>files.push(e)"></MultiFile>
+ * <MultiFileInput :fileArray="files" @addFile="(e)=>files.push(e)"></MultiFileInput>
  *
- * <MultiFile :fileArray="files" preview></MultiFile>
+ * <MultiFileInput :fileArray="files" preview></MultiFileInput>
  *
- * <MultiFile :fileArray="files" preview :error="error"></MultiFile>
+ * <MultiFileInput :fileArray="files" preview :error="error"></MultiFileInput>
  *
  * <!-- the name has to be a key of the error Object -->
- * <MultiFile :fileArray="files" preview name="file" :error="error"></MultiFile>
+ * <MultiFileInput :fileArray="files" preview name="file" :error="error"></MultiFileInput>
  *
- * <MultiFile :fileArray="files" @addFile="e => file.push(...e)" @deleteFile="e => (file = file.filter((_, i) => i != e))"
- * ></MultiFile>
+ * <MultiFileInput :fileArray="files" @addFile="e => file.push(...e)" @deleteFile="e => (file = file.filter((_, i) => i != e))"
+ * ></MultiFileInput>
  *
  * ```
  */

@@ -22,10 +22,13 @@
 </template>
 <script lang="ts">
 /**
- * how to use:
  * ```html
  *      <!-- usable with href as link -->
- *     <Button :loading="true">buttonText</Button>
+ *
+ *     <Button :loading="true" :disabled="false">buttonText</Button>
+ *
+ *      <!-- if used as input sidebutton -->
+ *     <Button sideButton>buttonText</Button>
  * ```
  */
 export default {

@@ -18,12 +18,12 @@
  * ```
  * ```html
  *
- * <Checkbox :v-model="checked">label</Checkbox>
+ * <CheckboxInput :v-model="checked">label</CheckboxInput>
  *
- * <Checkbox :v-model="checked" :error="error" >label</Checkbox>
+ * <CheckboxInput :v-model="checked" :error="error" >label</CheckboxInput>
  *
  * <!-- the name has to be a key of the error Object -->
- * <Checkbox :v-model="checked" name="checked" :error="error" textLeft errorColor="blue">label</Checkbox>
+ * <CheckboxInput :v-model="checked" name="checked" :error="error" textLeft errorColor="blue">label</CheckboxInput>
  * ```
  */
 export default {
@@ -33,7 +33,7 @@ export default {
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
-import { getErrorMessage , InputError} from './Index';
+import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{

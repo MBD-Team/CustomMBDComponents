@@ -19,6 +19,23 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const text = ref('')
+ * const numVar = ref(0)
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ *
+ *    <TextAreaInput v-model="text"></TextAreaInput>
+ *
+ *    <TextAreaInput v-model="text" placeholder="test" :error="error"></TextAreaInput>
+ *
+ *    <!-- the name has to be a key of the error Object -->
+ *    <TextAreaInput v-model="text" placeholder="test" name="TextAreaInput" :error="error"></TextAreaInput>
+ *
+ * ```
+ * */
 export default {
   inheritAttrs: false,
 };

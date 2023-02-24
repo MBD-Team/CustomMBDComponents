@@ -128,11 +128,11 @@
  * const list = ref<number[]>([]);
  * ```
  * ```html
- * <MultiSelect
+ * <MultiSelectInput
         v-model="text"
         v-model:selected="list"
         :options="options"
-      ></MultiSelect>
+      ></MultiSelectInput>
  *
  * ```
  */

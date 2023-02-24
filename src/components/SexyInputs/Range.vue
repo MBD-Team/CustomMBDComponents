@@ -43,9 +43,16 @@
 /**
  * ```js
  * const number = ref(0)
+ *
+ * const error = ref<string|{[key:string]:string}>('')
  * ```
  * ```html
- *   <Range v-model="number"></Range>
+ *   <RangeInput v-model="number" placeholder="test"></RangeInput>
+ *
+ *   <RangeInput v-model="number" :error="error"></RangeInput>
+ *
+ *    <!-- the name has to be a key of the error Object -->
+ *   <RangeInput v-model="number" name="range" :error="error"></RangeInput>
  * ```
  */
 export default {

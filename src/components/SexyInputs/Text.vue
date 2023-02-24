@@ -45,13 +45,34 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const text = ref('')
+ * const numVar = ref(0)
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ *
+ *    <TextInput v-model="text"></TextInput>
+ *
+ *    <TextInput v-model="text" placeholder="test"><template #button><Button sideButton>buttonText</Button></template></TextInput>
+ *
+ *    <TextInput v-model="text" placeholder="test" sideInputType="number" :sideWidth="20" :sideInputVModel="numVar"></TextInput>
+ *
+ *    <TextInput v-model="text" placeholder="test" :error="error"></TextInput>
+ *
+ *    <!-- the name has to be a key of the error Object -->
+ *    <TextInput v-model="text" placeholder="test" name="TextInput" :error="error"></TextInput>
+ *
+ * ```
+ * */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots } from 'vue';
-import { getErrorMessage, useCalcSideWidth , InputError } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(

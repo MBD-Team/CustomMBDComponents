@@ -1,5 +1,5 @@
 <template>
-  <Range placeholder="test" v-model="number"></Range>
+  <Select placeholder="test" v-model="text" :options="list"></Select>
 </template>
 
 <script lang="ts" setup>
@@ -25,11 +25,12 @@ import Tooltip from './components/Tooltip.vue';
 import Wizard from './components/Wizard.vue';
 import Password from './components/SexyInputs/Password.vue';
 import Range from './components/SexyInputs/Range.vue';
+import Search from './components/SexyInputs/Search.vue';
 
 const text = ref('');
 const number = ref(0);
 const bool = ref(true);
-const list = ref<any[]>([]);
+const list = ref<any[]>([1, 2, 3]);
 </script>
 
 <style lang="scss"></style>

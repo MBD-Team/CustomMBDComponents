@@ -78,22 +78,65 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const selectOptions = ref<any[]>([])
+ * const text = ref('')
+ * ```
+ * ```html
+ * <SelectInput  v-model="text" :options="selectOptions"></SelectInput>
+ *
+ * <SelectInput  v-model="text" :options="selectOptions" :optionProjection="(e)=>e"></SelectInput>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots, useAttrs } from 'vue';
-import { getErrorMessage, useCalcSideWidth, InputError  } from './Index';
+import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
+
+type Any = any;
+interface Option extends Any {}
+
 const attrs = useAttrs();
-const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'onInput', 'onFocus', 'selectItem', 'onBlur']);
+const emit = defineEmits<{
+  (e: 'update:modelValue', modelValue: string): void;
+  (e: 'update:sideInputVModel', modelValue: string): void;
+  (
+    e: 'onInput',
+    selectable: {
+      modelValue: string;
+      options: Option[];
+    }
+  ): void;
+  (
+    e: 'onFocus',
+    selectable: {
+      modelValue: string;
+      options: Option[];
+    }
+  ): void;
+  (e: 'selectItem', option: Option): void;
+  (
+    e: 'onBlur',
+    selectable: {
+      modelValue: string;
+      options: Option[];
+    }
+  ): void;
+}>();
 const props = withDefaults(
   defineProps<{
     modelValue: string;
     placeholder: string;
     backgroundColor?: string;
-    options: any[];
+    /**
+     * Option is inferred from `options` prop
+     */
+    options: Option[];
     showAll?: boolean;
     controlInput?: boolean;
     selectOnBlur?: boolean;
@@ -109,8 +152,8 @@ const props = withDefaults(
     sideInputMaxLength?: string;
     sideInputVModel?: number | string;
     borderColor?: string;
-    optionProjection?: Function;
-    listItemClass?: Function;
+    optionProjection?: (option: Option) => string;
+    listItemClass?: (option: Option) => string;
     matchFromStart?: boolean;
   }>(),
   {
@@ -123,12 +166,8 @@ const props = withDefaults(
     backgroundColor: '#f8fafc',
     sideWidth: 20,
     matchFromStart: false,
-    optionProjection: (item: any) => {
-      return item;
-    },
-    listItemClass: (item: any) => {
-      return '';
-    },
+    optionProjection: (e: Option) => e,
+    listItemClass: () => '',
     name: '',
   }
 );

@@ -50,7 +50,7 @@
  * const text = ref('')
  * ```
  * ```html
- * <Number v-model="text"></Number>
+ * <NumberInput v-model="text"></NumberInput>
  * ```
  */
 export default {

@@ -28,6 +28,23 @@
   </div>
 </template>
 <script lang="ts">
+/**
+ * ```js
+ * const date = ref('')
+ * const error = ref<string|{[key:string]:string}>('')
+ * ```
+ * ```html
+ *
+ *   <TimeInput v-model="date" ></TimeInput>
+ *
+ * <!-- error just as a string -->
+ *   <TimeInput v-model="date" placeholder="inputTitle" :error="error"></TimeInput>
+ *
+ * <!-- error as a object -->
+ * <!-- the name has to be a key of the error Object -->
+ *   <TimeInput v-model="date" placeholder="inputTitle" name="date" :error="error"></TimeInput>
+ * ```
+ */
 export default {
   inheritAttrs: false,
 };

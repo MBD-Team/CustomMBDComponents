@@ -58,7 +58,7 @@
  * const text = ref('')
  * ```
  * ```html
- *   <Password v-model="text"></Password>
+ *   <PasswordInput v-model="text"></PasswordInput>
  * ```
  */
 export default {
