@@ -7,7 +7,7 @@
       type="button"
       :class="modelValue == option.value ? activeClass : defaultClass"
       @click="updateValue(option.value)"
-      :key="option.value"
+      :key="option.value + ''"
     >
       {{ textWithNewLines(option.text) }}
     </button>
@@ -15,6 +15,10 @@
   <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
 <script lang="ts">
+/**
+ * TODO: jsdoc
+ * FIXME: experimental
+ */
 export default {
   inheritAttrs: false,
 };

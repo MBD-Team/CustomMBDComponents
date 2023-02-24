@@ -6,7 +6,12 @@
     </template>
   </div>
 </template>
-
+<script lang="ts">
+/**
+ * TODO: jsdoc
+ * FIXME: experimental
+ */
+</script>
 <script lang="ts" setup>
 import { defineProps, toRefs, defineEmits, computed } from 'vue';
 

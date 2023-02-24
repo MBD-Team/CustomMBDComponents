@@ -170,7 +170,11 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+/**
+ * TODO: jsdoc
+ */
+</script>
 
 <script lang="ts" setup>
 import { DateTime } from 'luxon';

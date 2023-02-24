@@ -14,6 +14,10 @@
   <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
 <script lang="ts">
+/**
+ * TODO: jsdoc
+ * FIXME: experimental
+ */
 export default {
   inheritAttrs: false,
 };

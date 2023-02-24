@@ -14,6 +14,12 @@
   </div>
   <Error :error="error" :error-color="errorColor" :name="name" />
 </template>
+<script lang="ts">
+/**
+ * TODO: jsdoc
+ * FIXME: experimental
+ */
+</script>
 <script setup lang="ts">
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';

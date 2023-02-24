@@ -29,6 +29,12 @@
     </button>
   </div>
 </template>
+<script lang="ts">
+/**
+ * TODO: jsdoc
+ * FIXME: experimental
+ */
+</script>
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
 import { chunk } from '../utils/chunk';
