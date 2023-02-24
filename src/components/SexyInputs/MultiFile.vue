@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain">
     <input hidden v-bind="$attrs" style="width: 100%" type="file" autocomplete="off" @change="previewFiles" multiple :id="id" />
     <button v-bind="$attrs" @click="clickFileInput" type="button" :id="id + 'button'"><slot></slot></button>
     <!-- error -->

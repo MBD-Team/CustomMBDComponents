@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <textarea
       v-bind="$attrs"
       class="form-control shadow-none"
@@ -9,7 +9,7 @@
       rows="3"
     ></textarea>
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -52,11 +52,12 @@ const props = withDefaults(
     error?: InputError;
     errorColor?: string;
     labelClass?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
     backgroundColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     errorColor: 'red',
     sideWidth: '20%',
@@ -83,7 +84,6 @@ function updateValue(event: any) {
     position: absolute;
     top: 0.5rem;
     left: 0.3rem;
-    z-index: 2;
   }
   textarea {
     text-align: start;

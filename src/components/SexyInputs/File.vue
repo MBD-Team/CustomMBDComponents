@@ -1,8 +1,8 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <input v-bind="$attrs" class="form-control shadow-none" type="file" @input="updateValue" style="padding-left: none" autocomplete="off" />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -50,13 +50,14 @@ const props = withDefaults(
     error?: InputError;
     errorColor?: string;
     labelClass?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
     preview?: boolean;
     fileClass?: Function;
     backgroundColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     errorColor: 'red',
     preview: false,

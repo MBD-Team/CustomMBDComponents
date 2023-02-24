@@ -26,45 +26,26 @@
                 <Message v-model:error="error" />
                 <slot></slot>
               </div>
-              <div class="mbd-modal-footer" v-if="affirmText || negativeText">
-                <div v-if="negativeText">
-                  <Button
-                    style="height: 2rem; font-size: 1rem"
-                    class="border-0"
-                    :loading="negativeLoading"
-                    :class="negativeClass"
-                    @click.stop="
-                      () => {
-                        showModal = false;
-                        resetError();
-                        negative();
-                      }
-                    "
-                  >
-                    {{ negativeText }}
-                  </Button>
-                </div>
-                <div v-if="affirmAltText">
-                  <Button
-                    :loading="affirmAltLoading"
-                    :class="affirmAltClass"
-                    @click.stop="affirmAlt()"
-                    style="height: 2rem; font-size: 1rem"
-                    class="ms-2 border-0"
-                  >
-                    {{ affirmAltText }}
-                  </Button>
-                </div>
-                <div v-if="affirmText">
-                  <Button
-                    :loading="affirmLoading"
-                    :class="affirmClass"
-                    @click.stop="affirm()"
-                    style="height: 2rem; font-size: 1rem"
-                    class="ms-2 border-0"
-                  >
-                    {{ affirmText }}
-                  </Button>
+              <div class="mbd-modal-footer" v-if="affirm.prop?.text || negative.prop?.text">
+                <slot name="footer"></slot>
+                <div v-for="(btn, index) in [affirm, affirmAlt, negative]">
+                  <div v-if="btn.prop?.text">
+                    <Button
+                      style="height: 2rem; font-size: 1rem"
+                      class="border-0"
+                      :loading="btn.loading"
+                      :class="`${btn.class} ${index === 0 ? '' : 'ms-2'}`"
+                      @click.stop="
+                        () => {
+                          showModal = false;
+                          resetError();
+                          btnFunc(btn);
+                        }
+                      "
+                    >
+                      {{ btn.prop.text }}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,32 +54,28 @@
       </div>
     </transition>
   </Teleport>
-  <div @click.stop="showModal = true">
+  <div @click.stop="showModal = true" class="mbd-modal-button">
     <slot name="button"></slot>
   </div>
 </template>
+
+<script lang="ts">
+export type ButtonProp = { text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean };
+</script>
 
 <script lang="ts" setup>
 import { toRefs, ref, watch } from 'vue';
 import Button from './Button.vue';
 import Message from './Message.vue';
-const affirmLoading = ref(false);
-const affirmAltLoading = ref(false);
-const negativeLoading = ref(false);
+
 const error = ref('');
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
     title?: string;
-    affirmText?: string;
-    affirmAction?: () => Promise<void> | void;
-    affirmClass?: string;
-    affirmAltText?: string;
-    affirmAltAction?: () => Promise<void> | void;
-    affirmAltClass?: string;
-    negativeText?: string;
-    negativeAction?: () => Promise<void> | void;
-    negativeClass?: string;
+    affirm?: ButtonProp;
+    affirmAlt?: ButtonProp;
+    negative?: ButtonProp;
     modalWidth?: number;
   }>(),
   {
@@ -109,67 +86,40 @@ const props = withDefaults(
     modalWidth: 800,
   }
 );
-const {
-  modelValue,
-  title,
-  affirmText,
-  affirmAction,
-  affirmClass,
-  negativeText,
-  negativeAction,
-  negativeClass,
-  affirmAltText,
-  affirmAltAction,
-  affirmAltClass,
-  modalWidth,
-} = toRefs(props);
+const { modelValue, title, affirm: affirmProp, negative: negativeProp, affirmAlt: affirmAltProp, modalWidth } = toRefs(props);
+
+const affirm = ref({ prop: affirmProp, loading: false, class: affirmProp?.value?.class ?? 'btn btn-primary' });
+const negative = ref({ prop: negativeProp, loading: false, class: negativeProp?.value?.class ?? 'btn btn-secondary' });
+const affirmAlt = ref({ prop: affirmAltProp, loading: false, class: affirmAltProp?.value?.class ?? 'btn btn-warning' });
 // if v model updates, update showModal, and if showModal changes, emit event that its updated
 // this allows for an optional v-model that can be used to open/close the modal
 const showModal = ref(!!modelValue?.value);
 const emit = defineEmits(['update:modelValue']);
 watch([showModal], () => emit('update:modelValue', showModal.value));
 watch([modelValue], () => modelValue?.value !== undefined && showModal.value != modelValue.value && (showModal.value = modelValue.value));
-async function affirm() {
-  if (!affirmAction?.value) return;
+
+async function btnFunc(btn: { prop: ButtonProp | undefined; loading: boolean }) {
+  if (!btn?.prop?.action) return;
   resetError();
-  affirmLoading.value = true;
+  btn.loading = true;
   try {
-    await affirmAction.value();
+    await btn.prop.action();
     showModal.value = false;
   } catch (e) {
     error.value = e as string;
   }
-  affirmLoading.value = false;
+  btn.loading = false;
 }
-async function affirmAlt() {
-  resetError();
-  if (!affirmAltAction || !affirmAltAction.value) return;
-  affirmAltLoading.value = true;
-  try {
-    await affirmAltAction.value();
-    showModal.value = false;
-  } catch (e) {
-    error.value = e as string;
-  }
-  affirmAltLoading.value = false;
-}
-async function negative() {
-  if (!negativeAction || !negativeAction.value) return;
-  negativeLoading.value = true;
-  try {
-    await negativeAction.value();
-    showModal.value = false;
-  } catch (e) {
-    error.value = e as string;
-  }
-  negativeLoading.value = false;
-}
+
 function resetError() {
   error.value = '';
 }
 </script>
 
 <style scoped lang="scss">
+:slotted(.mbd-modal-button [disabled]) {
+  pointer-events: unset;
+}
 .mbd-modal-mask {
   position: fixed;
   z-index: 1055;

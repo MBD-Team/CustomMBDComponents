@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot></slot>
@@ -18,7 +18,7 @@
       autocomplete="off"
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -75,10 +75,11 @@ const props = withDefaults(
     btnClass?: string;
     sideWidth?: number;
     sideInputStyle?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     controlInput: true,
     errorColor: 'red',
@@ -145,7 +146,6 @@ function roundOnBlur(event: any) {
     position: absolute;
     top: 0.5rem;
     left: 0.3rem;
-    z-index: 2;
   }
   input {
     text-align: start;

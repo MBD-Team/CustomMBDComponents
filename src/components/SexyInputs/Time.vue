@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon" class="icon">
       <slot name="icon"></slot>
@@ -18,7 +18,7 @@
       required
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -61,12 +61,13 @@ const props = withDefaults(
     error?: InputError;
     errorColor?: string;
     labelClass?: string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
     autoFill?: boolean;
     backgroundColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     errorColor: 'red',
     sideWidth: '20%',

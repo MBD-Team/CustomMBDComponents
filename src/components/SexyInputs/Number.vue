@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot name="icon"></slot>
@@ -21,7 +21,7 @@
       autocomplete="off"
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -77,10 +77,11 @@ const props = withDefaults(
     sideInputClass?: string;
     sideInputMaxLength?: string;
     sideInputVModel?: number | string;
-    placeholder: string;
+    placeholder?: string;
     borderColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     controlInput: true,
     errorColor: 'red',

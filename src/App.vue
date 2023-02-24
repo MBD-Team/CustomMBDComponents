@@ -1,5 +1,6 @@
 <template>
-  <Select placeholder="test" v-model="text" :options="list"></Select>
+  <Modal title="test" :affirm="config.affirm" :negative="config.negative" :affirm-alt="config.alt"></Modal>
+  <button @click.stop="config.alt = { text: 'test' }">test</button>
 </template>
 
 <script lang="ts" setup>
@@ -16,21 +17,11 @@ import MultiFile from './components/SexyInputs/MultiFile.vue';
 
 import Accordion from './components/Accordion.vue';
 import Modal from './components/Modal.vue';
-import Alert from './components/Alert.vue';
-import Button from './components/Button.vue';
-import Message from './components/Message.vue';
-import ProgressBar from './components/ProgressBar.vue';
-import Spinner from './components/Spinner.vue';
-import Tooltip from './components/Tooltip.vue';
-import Wizard from './components/Wizard.vue';
-import Password from './components/SexyInputs/Password.vue';
-import Range from './components/SexyInputs/Range.vue';
-import Search from './components/SexyInputs/Search.vue';
-
-const text = ref('');
-const number = ref(0);
-const bool = ref(true);
-const list = ref<any[]>([1, 2, 3]);
+const test = ref('');
+const options = ref([]);
+const selected = ref([]);
+const log = console.log;
+const config = ref({ affirm: { text: 'yay', action: () => log('f'), class: 'btn btn-success' }, negative: { text: 'a' }, alt: { text: 'b' } });
 </script>
 
 <style lang="scss"></style>

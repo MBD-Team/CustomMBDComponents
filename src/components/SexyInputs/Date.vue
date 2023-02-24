@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }">
+  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon" class="icon">
       <slot></slot>
@@ -18,7 +18,7 @@
       required
     />
     <!-- placeholder -->
-    <label class="text" :class="labelClass">
+    <label class="text" :class="labelClass" v-if="placeholder">
       {{ placeholder }}
     </label>
     <!-- /placeholder -->
@@ -57,7 +57,7 @@ const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     modelValue: string | null;
-    placeholder: string;
+    placeholder?: string;
     name?: string;
     error?: InputError;
     errorColor?: string;
@@ -67,6 +67,7 @@ const props = withDefaults(
     backgroundColor?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     errorColor: 'red',
     sideWidth: '20%',

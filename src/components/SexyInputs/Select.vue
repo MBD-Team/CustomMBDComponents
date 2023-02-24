@@ -1,6 +1,6 @@
 <template>
   <div :id="'scroll' + id"></div>
-  <div class="mt-3 selectInput">
+  <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
@@ -30,7 +30,7 @@
         autocomplete="off"
       />
       <!-- label for select -->
-      <label class="text" :class="labelClass">
+      <label class="text" :class="labelClass" v-if="placeholder">
         {{ placeholder }}
       </label>
       <!-- /label for select -->
@@ -41,19 +41,21 @@
         :style="checkButton || sideInputType ? `width:${inputWidth}` : ''"
         v-if="isListVisible"
       >
-        <div
-          class="simple-typeahead-list-item"
-          :class="listItemClass(item)"
-          v-for="(item, index) in filteredItems"
-          :key="index"
-          @mousedown.prevent
-          @click.stop="selectItem(item)"
-        >
-          <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
-        </div>
+        <div class="scroll rounded-2">
+          <div
+            class="simple-typeahead-list-item"
+            :class="listItemClass(item)"
+            v-for="(item, index) in filteredItems"
+            :key="index"
+            @mousedown.prevent
+            @click.stop="selectItem(item)"
+          >
+            <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
+          </div>
 
-        <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
-          {{ noElementMessage }}
+          <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
+            {{ noElementMessage }}
+          </div>
         </div>
       </div>
       <!-- /options for select -->
@@ -131,7 +133,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    placeholder: string;
+    placeholder?: string;
     backgroundColor?: string;
     /**
      * Option is inferred from `options` prop
@@ -157,6 +159,7 @@ const props = withDefaults(
     matchFromStart?: boolean;
   }>(),
   {
+    placeholder: '',
     showAll: false,
     error: '',
     noElementMessage: 'not found',

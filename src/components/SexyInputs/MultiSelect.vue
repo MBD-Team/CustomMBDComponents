@@ -1,6 +1,6 @@
 <template>
   <div :id="'scroll' + id"></div>
-  <div class="mt-3 selectInput">
+  <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
@@ -31,7 +31,7 @@
         :disabled="disabled"
       />
       <!-- label for select -->
-      <label class="text" :class="labelClass">
+      <label class="text" :class="labelClass" v-if="placeholder">
         {{ placeholder }}
       </label>
       <!-- /label for select -->
@@ -186,7 +186,7 @@ const props = withDefaults(
      */
     options: Option[];
     selected: Option[];
-    placeholder: string;
+    placeholder?: string;
     noElementMessage?: string;
     listClass?: string;
     name?: string;
@@ -210,6 +210,7 @@ const props = withDefaults(
     selectedTitle?: string;
   }>(),
   {
+    placeholder: '',
     error: '',
     noElementMessage: 'not found',
     selectedTitle: 'Ausgewählt:',
