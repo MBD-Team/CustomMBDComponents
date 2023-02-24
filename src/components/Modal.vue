@@ -26,19 +26,23 @@
                 <Message v-model:error="error" />
                 <slot></slot>
               </div>
-              <div class="mbd-modal-footer" v-if="affirm.prop?.text || negative.prop?.text">
+              <div
+                class="mbd-modal-footer gap-2"
+                :class="destructive ? 'flex-row-reverse' : 'flex-row'"
+                v-if="affirm.prop?.text || negative.prop?.text || slots.footer"
+              >
                 <slot name="footer"></slot>
-                <div v-for="(btn, index) in [affirm, affirmAlt, negative]">
+                <template
+                  v-for="([btn, defaultClass], index) in ([[negative,'btn btn-secondary'], [affirmAlt,'btn btn-warning'],[affirm,'btn btn-primary']] as const)"
+                >
                   <div v-if="btn.prop?.text">
                     <Button
                       style="height: 2rem; font-size: 1rem"
                       class="border-0"
                       :loading="btn.loading"
-                      :class="`${btn.class} ${index === 0 ? '' : 'ms-2'}`"
+                      :class="`${btn.class || defaultClass}`"
                       @click.stop="
                         () => {
-                          showModal = false;
-                          resetError();
                           btnFunc(btn);
                         }
                       "
@@ -46,7 +50,7 @@
                       {{ btn.prop.text }}
                     </Button>
                   </div>
-                </div>
+                </template>
               </div>
             </div>
           </div>
@@ -76,6 +80,12 @@
  *  <template #button><Button>openModalButton</Button></template>
  *  <template #footer></template>
  * </Modal>
+ *
+ * <!-- destructive to swap button order -->
+ * <Modal title="perma delete stuff" :affirm="config" :negative="config" destructive>
+ *  <div>ModalBodyContent</div>
+ *  <template #button><Button>openModalButton</Button></template>
+ * </Modal>
  * ```
  */
 export default {};
@@ -84,10 +94,11 @@ export type ButtonProp = { text: string; action?: () => Promise<void> | void; cl
 </script>
 
 <script lang="ts" setup>
-import { toRefs, ref, watch } from 'vue';
+import { toRefs, ref, watch, useSlots } from 'vue';
 import Button from './Button.vue';
 import Message from './Message.vue';
 
+const slots = useSlots();
 const error = ref('');
 const props = withDefaults(
   defineProps<{
@@ -97,20 +108,19 @@ const props = withDefaults(
     affirmAlt?: ButtonProp;
     negative?: ButtonProp;
     modalWidth?: number;
+    destructive?: boolean;
   }>(),
   {
     modelValue: undefined,
-    affirmClass: 'btn btn-primary',
-    negativeClass: 'btn btn-secondary',
-    affirmAltClass: 'btn btn-warning',
     modalWidth: 800,
+    destructive: false,
   }
 );
 const { modelValue, title, affirm: affirmProp, negative: negativeProp, affirmAlt: affirmAltProp, modalWidth } = toRefs(props);
 
-const affirm = ref({ prop: affirmProp, loading: false, class: affirmProp?.value?.class ?? 'btn btn-primary' });
-const negative = ref({ prop: negativeProp, loading: false, class: negativeProp?.value?.class ?? 'btn btn-secondary' });
-const affirmAlt = ref({ prop: affirmAltProp, loading: false, class: affirmAltProp?.value?.class ?? 'btn btn-warning' });
+const affirm = ref({ prop: affirmProp, loading: false });
+const negative = ref({ prop: negativeProp, loading: false });
+const affirmAlt = ref({ prop: affirmAltProp, loading: false });
 // if v model updates, update showModal, and if showModal changes, emit event that its updated
 // this allows for an optional v-model that can be used to open/close the modal
 const showModal = ref(!!modelValue?.value);
@@ -119,11 +129,10 @@ watch([showModal], () => emit('update:modelValue', showModal.value));
 watch([modelValue], () => modelValue?.value !== undefined && showModal.value != modelValue.value && (showModal.value = modelValue.value));
 
 async function btnFunc(btn: { prop: ButtonProp | undefined; loading: boolean }) {
-  if (!btn?.prop?.action) return;
   resetError();
   btn.loading = true;
   try {
-    await btn.prop.action();
+    await btn.prop?.action?.();
     showModal.value = false;
   } catch (e) {
     error.value = e as string;

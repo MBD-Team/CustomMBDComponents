@@ -1,4 +1,25 @@
-<template></template>
+<template>
+  <Modal title="perma delete stuff" :affirm="config" :negative="config" destructive>
+    <div>ModalBodyContent</div>
+    <template #button><Button>openModalButton</Button></template>
+    <template #footer>
+      <Button>openModalButton</Button>
+      <Button>openModalButton</Button>
+      <Button>openModalButton</Button>
+      <Button>openModalButton</Button>
+    </template>
+  </Modal>
+  <Modal title="perma delete stuff" :affirm="config" :negative="config">
+    <div>ModalBodyContent</div>
+    <template #button><Button>openModalButton</Button></template>
+    <template #footer>
+      <Button>openModalButton</Button>
+      <Button>openModalButton</Button>
+      <Button>openModalButton</Button>
+      <Button>openModalButton</Button>
+    </template>
+  </Modal>
+</template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
