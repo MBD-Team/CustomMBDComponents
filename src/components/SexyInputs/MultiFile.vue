@@ -51,7 +51,8 @@
  * <!-- the name has to be a key of the error Object -->
  * <MultiFileInput :fileArray="files" preview name="file" :error="error"></MultiFileInput>
  *
- * <MultiFileInput :fileArray="files" @addFile="e => files.push(...e)" @deleteFile="e => (files = files.filter((_, i) => i != e))"
+ * <MultiFileInput
+ *    :fileArray="files" @addFile="e => files.push(...e)" @deleteFile="e => (files = files.filter((_, i) => i != e))"
  * ></MultiFileInput>
  *
  * ```
