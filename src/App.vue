@@ -1,33 +1,6 @@
 <template>
-  <Text v-model="test"></Text>
-  <div>
-    <Select v-model="test" :options="options"></Select>
-  </div>
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Dropdown button
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
-    </ul>
-  </div>
-  <div class="sticky-top bg-black" style="height: 200px">sticky-top</div>
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Dropdown button
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
-    </ul>
-  </div>
-  <Select v-model="test" :options="options"></Select>
-  <div v-for="i of 100">
-    {{ i }}
-  </div>
+  <Modal title="test" :affirm="config.affirm" :negative="config.negative" :affirm-alt="config.alt"></Modal>
+  <button @click.stop="config.alt = { text: 'test' }">test</button>
 </template>
 
 <script lang="ts" setup>
@@ -39,8 +12,9 @@ import MultiSelect from './components/SexyInputs/MultiSelect.vue';
 import Modal from './components/Modal.vue';
 const test = ref('');
 const options = ref([]);
-for (let i = 0; i < 100; i++) options.value.push(Math.random() + '');
 const selected = ref([]);
+const log = console.log;
+const config = ref({ affirm: { text: 'yay', action: () => log('f'), class: 'btn btn-success' }, negative: { text: 'a' }, alt: { text: 'b' } });
 </script>
 
 <style lang="scss"></style>
