@@ -1,17 +1,10 @@
-<template>
-  <Wizard :steps="[{ iconName: 'calendar' }, { iconName: 'volleyball-ball' }]" :initialStepIndex="0" :onSubmit="() => {}">
-    <template #step1>
-      <div>content</div>
-    </template>
-    <template #step2>
-      <div>content</div>
-    </template>
-  </Wizard>
-</template>
+<template></template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+// import ButtonGroup from './components/SexyInputs/ButtonGroup.vue'; TODO: jsDoc
 import CheckboxInput from './components/SexyInputs/Checkbox.vue';
+// import CheckboxGroup from './components/SexyInputs/CheckboxGroup.vue'; TODO: jsDoc
 import DateInput from './components/SexyInputs/Date.vue';
 import EmailInput from './components/SexyInputs/Email.vue';
 import FileInput from './components/SexyInputs/File.vue';
@@ -19,6 +12,8 @@ import MultiFileInput from './components/SexyInputs/MultiFile.vue';
 import MultiSelectInput from './components/SexyInputs/MultiSelect.vue';
 import NumberInput from './components/SexyInputs/Number.vue';
 import PasswordInput from './components/SexyInputs/Password.vue';
+// import Radiobuttons from './components/SexyInputs/Radiobuttons.vue'; TODO: jsDoc
+// import RadioGroup from './components/SexyInputs/RadioGroup.vue'; TODO: jsDoc
 import RangeInput from './components/SexyInputs/Range.vue';
 import SearchInput from './components/SexyInputs/Search.vue';
 import SelectInput from './components/SexyInputs/Select.vue';
@@ -29,6 +24,7 @@ import TimeInput from './components/SexyInputs/Time.vue';
 import Accordion from './components/Accordion.vue';
 import Alert from './components/Alert.vue';
 import Button from './components/Button.vue';
+// import Carousel from './components/Carousel.vue'; TODO: maybe not working, need to check ;  TODO: jsDoc
 import Message from './components/Message.vue';
 import Modal from './components/Modal.vue';
 import ProgressBar from './components/ProgressBar.vue';
