@@ -235,8 +235,11 @@ function resetError() {
  * <!-- :model-value="bool"  to open programmatically-->
  *
  * <Modal title="modalTitle" :affirm="config" :negative="config" :affirmAlt="config">
- *  ModalBodyContent
+ *  <div>ModalBodyContent</div>
+ *
+ *  <!-- optional -->
  *  <template #button><Button>openModalButton</Button></template>
+ *  <template #footer></template>
  * </Modal>
  * ```
  */
