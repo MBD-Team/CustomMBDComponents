@@ -2,6 +2,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+// import Calendar from './components/Calendar/Calendar.vue'; TODO: jsDoc
 // import ButtonGroup from './components/SexyInputs/ButtonGroup.vue'; TODO: jsDoc
 import CheckboxInput from './components/SexyInputs/Checkbox.vue';
 // import CheckboxGroup from './components/SexyInputs/CheckboxGroup.vue'; TODO: jsDoc
