@@ -1,24 +1,22 @@
 <template>
-  <Modal title="perma delete stuff" :affirm="config" :negative="config" destructive>
-    <div>ModalBodyContent</div>
-    <template #button><Button>openModalButton</Button></template>
-    <template #footer>
-      <Button>openModalButton</Button>
-      <Button>openModalButton</Button>
-      <Button>openModalButton</Button>
-      <Button>openModalButton</Button>
+  <Wizard
+    :on-submit="() => {}"
+    :steps="[
+      { iconName: 'calendar' },
+      { iconName: 'volleyball-ball' },
+      { iconName: 'map-marked-alt' },
+      { iconName: 'clock' },
+      { iconName: 'info' },
+      { iconName: 'flag-checkered' },
+    ]"
+  >
+    <template #step0>
+      <div v-for="i of 100">{{ 1 }}</div>
     </template>
-  </Modal>
-  <Modal title="perma delete stuff" :affirm="config" :negative="config">
-    <div>ModalBodyContent</div>
-    <template #button><Button>openModalButton</Button></template>
-    <template #footer>
-      <Button>openModalButton</Button>
-      <Button>openModalButton</Button>
-      <Button>openModalButton</Button>
-      <Button>openModalButton</Button>
+    <template #step1>
+      <div v-for="i of 100">{{ 1 }}</div>
     </template>
-  </Modal>
+  </Wizard>
 </template>
 
 <script lang="ts" setup>

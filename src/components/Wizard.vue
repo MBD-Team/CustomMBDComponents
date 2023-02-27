@@ -58,7 +58,7 @@
           :disabled="disableNext"
           @click="
             () => {
-              if (onNext) onNext();
+              next();
               currentStepIndex++;
             }
           "
@@ -150,6 +150,10 @@ watch(currentStepIndex, newcurrentStepIndex => emit('update:currentStep', newcur
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
+function next() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (onNext?.value) onNext.value();
+}
 function getIconColor(stepIndex: number, offset = 0) {
   if (getIconColorFunction?.value) {
     return getIconColorFunction.value(stepIndex, offset);
