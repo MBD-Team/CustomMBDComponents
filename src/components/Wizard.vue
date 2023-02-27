@@ -1,5 +1,17 @@
 <template>
   <h2 class="p-2 w-100" :class="titleClass" v-if="title">{{ title }}</h2>
+
+  <div class="d-grid w-100" :style="{ height: 0, gridTemplateColumns: steps.map(_ => '1fr').join(' ') }">
+    <template v-for="(step, index) in steps.map((e, i) => ({ ...e, stepIndex: i }))">
+      <div v-if="index == 0"></div>
+      <hr
+        v-else
+        class="rounded"
+        :class="getIconColor(step.stepIndex, 1)"
+        style="position: relative; left: -50%; height: 8px; margin-block: calc(calc(50px - 8px) / 2)"
+      />
+    </template>
+  </div>
   <div class="d-grid w-100" :style="{ gridTemplateColumns: steps.map(_ => '1fr').join(' ') }">
     <div
       v-for="step in steps.map((e, i) => ({ ...e, stepIndex: i }))"
@@ -7,19 +19,12 @@
       @click="currentStepIndex = maxReachedStep < step.stepIndex ? currentStepIndex : step.stepIndex"
       class="mx-1"
     >
-      <hr
-        v-if="step.stepIndex > 0"
-        class="rounded"
-        :class="getIconColor(step.stepIndex, 1)"
-        style="position: relative; top: 46px; left: -50%; z-index: -1; height: 8px"
-      />
       <div
         class="rounded-circle d-flex align-items-center justify-content-center mx-auto"
         :class="[getIconColor(step.stepIndex), iconClass]"
         :style="{
           width: '50px',
           height: '50px',
-          marginTop: step.stepIndex == 0 ? '40px' : 'auto',
           filter: step.stepIndex > currentStepIndex && step.stepIndex <= maxReachedStep ? ' grayscale(50%)' : 'grayscale(0%)',
         }"
         :role="step.stepIndex <= maxReachedStep ? 'button' : ''"
