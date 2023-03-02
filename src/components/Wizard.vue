@@ -1,7 +1,10 @@
 <template>
-  <h2 class="p-2 w-100" :class="titleClass" v-if="title">{{ title }}</h2>
-
-  <div class="d-grid w-100" :style="{ height: 0, gridTemplateColumns: steps.map(_ => '1fr').join(' ') }">
+  <div
+    ref="stepSelectorElem"
+    class="d-grid w-100"
+    style="margin-top: -20px; padding-top: 20px"
+    :style="{ height: 0, gridTemplateColumns: steps.map(_ => '1fr').join(' ') }"
+  >
     <template v-for="(step, index) in steps.map((e, i) => ({ ...e, stepIndex: i }))">
       <div v-if="index == 0"></div>
       <hr
@@ -46,23 +49,13 @@
   </div>
   <div class="d-flex justify-content-end">
     <div class="me-1">
-      <Button v-if="currentStepIndex > 0" :class="backClass" @click="currentStepIndex--">
+      <Button v-if="currentStepIndex > 0" :class="backClass" @click="previous">
         {{ backText }}
       </Button>
     </div>
     <div>
       <Tooltip :tooltip="tooltipNext" direction="left">
-        <Button
-          v-if="currentStepIndex < steps.length - 1"
-          :class="continueClass"
-          :disabled="disableNext"
-          @click="
-            () => {
-              next();
-              currentStepIndex++;
-            }
-          "
-        >
+        <Button v-if="currentStepIndex < steps.length - 1" :class="continueClass" :disabled="disableNext" @click="next">
           {{ continueText }}
         </Button>
       </Tooltip>
@@ -76,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watch, watchEffect } from 'vue';
+import { ref, toRefs, VNodeRef, watch, watchEffect } from 'vue';
 import Button from './Button.vue';
 import Tooltip from './Tooltip.vue';
 
@@ -86,7 +79,6 @@ const props = withDefaults(
   defineProps<{
     steps: { iconName: string; title?: string }[];
     currentStep?: number;
-    title?: string;
     onNext?: () => void;
     disableNext?: boolean;
     tooltipNext?: string;
@@ -94,6 +86,7 @@ const props = withDefaults(
     tooltipSubmit?: string;
     showStepIndices?: boolean;
     initialStepIndex?: number;
+    initialMaxReachedStep?: number;
     showCompletionBtn?: boolean;
     titleClass?: string;
     iconClass?: string;
@@ -108,6 +101,7 @@ const props = withDefaults(
   }>(),
   {
     currentStep: 0,
+    initialMaxReachedStep: 0,
     disableNext: false,
     showCompletionBtn: true,
     showStepIndices: false,
@@ -126,7 +120,6 @@ const props = withDefaults(
 const {
   steps,
   currentStep,
-  title,
   showStepIndices,
   initialStepIndex,
   onNext,
@@ -141,18 +134,27 @@ const {
   backClass,
   iconBgColors,
   getIconColorFunction,
+  initialMaxReachedStep,
 } = toRefs(props);
 
 const currentStepIndex = ref(initialStepIndex.value);
-const maxReachedStep = ref(0);
+const maxReachedStep = ref(initialMaxReachedStep.value);
 watch(currentStep, newCurrentStep => (currentStepIndex.value = newCurrentStep));
 watch(currentStepIndex, newcurrentStepIndex => emit('update:currentStep', newcurrentStepIndex));
 watchEffect(() => {
   maxReachedStep.value = Math.max(maxReachedStep.value, currentStepIndex.value);
 });
+
+const stepSelectorElem = ref<HTMLDivElement>();
 function next() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
   if (onNext?.value) onNext.value();
+  currentStepIndex.value++;
+  console.log(stepSelectorElem.value);
+  setTimeout(() => stepSelectorElem.value?.scrollIntoView(), 70);
+}
+function previous() {
+  currentStepIndex.value--;
+  setTimeout(() => stepSelectorElem.value?.scrollIntoView(), 70);
 }
 function getIconColor(stepIndex: number, offset = 0) {
   if (getIconColorFunction?.value) {
