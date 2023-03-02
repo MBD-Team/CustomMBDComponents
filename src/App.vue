@@ -1,4 +1,5 @@
 <template>
+  <Button href="/">test</Button>
   <div style="margin: 100px" v-for="i in 10">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius dignissimos quis, excepturi quae, atque deserunt impedit repellat non nihil
     illo ratione aliquid rem. Quidem odio hic deleniti possimus. Incidunt?

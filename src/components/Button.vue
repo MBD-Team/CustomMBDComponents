@@ -4,10 +4,10 @@
     :href="href"
     v-bind="$attrs"
     :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
-    class=""
+    class="d-flex align-items-center justify-content-center"
     :class="class"
   >
-    <div class="d-flex align-items-center justify-content-center h-100"><slot></slot></div>
+    <slot></slot>
   </a>
   <button
     v-else
@@ -65,6 +65,7 @@ const { spinnerColor, spinnerSize } = toRefs(props);
 <style scoped lang="scss">
 button,
 a {
+  width: fit-content;
   box-shadow: none !important;
   min-height: 2.5rem;
   padding-inline: 0.8rem;
