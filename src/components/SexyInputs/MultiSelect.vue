@@ -37,7 +37,10 @@
       <!-- /label for select -->
       <!-- options for select -->
       <div class="simple-typeahead-list" :class="listClass" :style="[checkButton || sideInputType ? `width:${inputWidth}` : '']" v-if="isListVisible">
-        <div class="scroll" :style="selected.length > 0 ? 'border-bottom:2px solid black' : ''">
+        <div v-if="loading" class="text-center p-2">
+          <Spinner size="1.5rem"></Spinner>
+        </div>
+        <div v-else class="scroll" :style="selected.length > 0 ? 'border-bottom:2px solid black' : ''">
           <div
             class="simple-typeahead-list-item"
             :class="listItemClass(item)"
@@ -54,7 +57,7 @@
             {{ noElementMessage }}
           </div>
         </div>
-        <div class="d-flex flex-column" v-if="selected.length > 0">
+        <div class="d-flex flex-column" v-if="selected.length > 0 && !loading">
           <div class="simple-typeahead-list-item" style="border-top: 2px solid black" @mousedown.prevent @click.stop="">{{ selectedTitle }}</div>
           <div
             v-for="e of selected.slice(-5).reverse()"
@@ -138,6 +141,7 @@
  */
 export default {
   inheritAttrs: false,
+  components: { Spinner },
 };
 </script>
 <script setup lang="ts">
@@ -145,6 +149,7 @@ import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Checkbox from './Checkbox.vue';
+import Spinner from '../Spinner.vue';
 
 type Any = any;
 interface Option extends Any {}
@@ -208,6 +213,7 @@ const props = withDefaults(
     backgroundColor?: string;
     autoClearOff?: boolean;
     selectedTitle?: string;
+    loading?: boolean;
   }>(),
   {
     placeholder: '',
@@ -227,6 +233,7 @@ const props = withDefaults(
     name: '',
     showSelected: true,
     backgroundColor: '#f8fafc',
+    loading: false,
   }
 );
 const {

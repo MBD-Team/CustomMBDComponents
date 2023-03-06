@@ -41,7 +41,10 @@
         :style="checkButton || sideInputType ? `width:${inputWidth}` : ''"
         v-if="isListVisible"
       >
-        <div class="scroll rounded-2">
+        <div v-if="loading" class="text-center p-2">
+          <Spinner size="1.5rem"></Spinner>
+        </div>
+        <div v-else class="scroll rounded-2">
           <div
             class="simple-typeahead-list-item"
             :class="listItemClass(item)"
@@ -93,12 +96,14 @@
  */
 export default {
   inheritAttrs: false,
+  components: { Spinner },
 };
 </script>
 <script setup lang="ts">
 import { computed, ref, toRefs, useSlots, useAttrs } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
+import Spinner from '../Spinner.vue';
 
 type Any = any;
 interface Option extends Any {}
@@ -157,6 +162,7 @@ const props = withDefaults(
     optionProjection?: (option: Option) => string;
     listItemClass?: (option: Option) => string;
     matchFromStart?: boolean;
+    loading?: boolean;
   }>(),
   {
     placeholder: '',
@@ -172,6 +178,7 @@ const props = withDefaults(
     optionProjection: (e: Option) => e + '',
     listItemClass: () => '',
     name: '',
+    loading: false,
   }
 );
 const {

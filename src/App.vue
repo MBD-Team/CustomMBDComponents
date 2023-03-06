@@ -1,4 +1,6 @@
 <template>
+  <SelectInput v-model="date" :options="options" :loading="true"></SelectInput>
+  <MultiSelectInput v-model="date" :selected="list" :options="options" :loading="true"></MultiSelectInput>
   <Button href="/">test</Button>
   <div style="margin: 100px" v-for="i in 10">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius dignissimos quis, excepturi quae, atque deserunt impedit repellat non nihil
@@ -75,7 +77,7 @@ const text = ref('alertMessage');
 const showAlert = ref(true);
 
 const options = [1, 2, 3];
-const list = ref<number[]>([]);
+const list = ref<number[]>([1]);
 const selected = ref([]);
 const date = ref('');
 const number = ref(0);
