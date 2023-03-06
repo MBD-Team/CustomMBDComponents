@@ -3,7 +3,7 @@
   <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
-      <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
+      <div v-if="checkIcon && (isListVisible || modelValue || searchText)" class="icon">
         <slot name="icon"></slot>
       </div>
       <!-- /icon -->

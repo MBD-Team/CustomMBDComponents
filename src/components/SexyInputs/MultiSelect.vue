@@ -3,7 +3,7 @@
   <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
     <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
       <!-- icon -->
-      <div v-if="checkIcon && (isListVisible || modelValue)" class="icon">
+      <div v-if="checkIcon && (isListVisible || modelValue || searchText)" class="icon">
         <slot name="icon"></slot>
       </div>
       <!-- /icon -->
@@ -21,9 +21,9 @@
             : '',
           checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
         ]"
-        :class="{ dirty: modelValue }"
+        :class="{ dirty: modelValue || searchText }"
         type="text"
-        :value="optionProjection(modelValue) || modelValue"
+        :value="optionProjection(modelValue) || modelValue || searchText"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
@@ -186,7 +186,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     disabled?: boolean;
-    modelValue: string;
+    modelValue?: string;
     /**
      * Option is inferred from `options` prop
      */
@@ -235,6 +235,7 @@ const props = withDefaults(
     showSelected: true,
     backgroundColor: '#f8fafc',
     loading: false,
+    modelValue: '',
   }
 );
 const {
@@ -264,6 +265,7 @@ const {
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 const isListVisible = ref(false);
+const searchText = ref('');
 const document = window.document;
 
 const borderColorComputed = computed(() => {
@@ -280,11 +282,11 @@ const filteredItems = computed(() => {
   //options that are still possible
   let regexp: RegExp;
   try {
-    if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value, 'i');
+    if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value || searchText.value, 'i');
     else regexp = new RegExp(modelValue.value, 'i');
   } catch {
-    if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-    else regexp = new RegExp(modelValue.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+    if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+    else regexp = new RegExp((modelValue.value || searchText.value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
   }
   let array: Option[] = [];
   try {
@@ -322,10 +324,10 @@ function onBlur() {
   //is executed when the selectInput is no longer focused
   isListVisible.value = false;
 
-  if (options?.value.find(e => e == modelValue.value))
+  if (options?.value.find(e => e == modelValue.value || searchText.value))
     emit(
       'selectItem',
-      options?.value.find(e => e == modelValue.value)
+      options?.value.find(e => e == modelValue.value || searchText.value)
     );
 
   emit('onBlur', {
@@ -335,7 +337,11 @@ function onBlur() {
 }
 async function selectItem(item: Option) {
   //will be executed when an option is selected
-  if (!selected.value.some(e => keyExtractor.value(e) == keyExtractor.value(item))) {
+  if (
+    !selected.value.some(e => {
+      return keyExtractor.value(e) == keyExtractor.value(item);
+    })
+  ) {
     if (!autoClearOff.value) updateValue('');
     emit('update:selected', [...selected.value, item]);
     emit('selectItem', item);
@@ -355,16 +361,21 @@ function boldMatchText(text: string) {
   //makes the text you entered in searchInput bold in options
   let regexp: RegExp;
   try {
-    regexp = new RegExp(`(${modelValue.value})`, 'ig');
+    regexp = new RegExp(`(${modelValue.value || searchText.value})`, 'ig');
   } catch {
-    regexp = new RegExp(`(${modelValue.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig');
+    regexp = new RegExp(`(${(modelValue.value || searchText.value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig');
   }
 
   return text.toString().replace(regexp, '<strong>$1</strong>');
 }
 function updateValue(event: any) {
-  if (typeof event == 'string' || typeof event == 'number') emit('update:modelValue', event + '');
-  else emit('update:modelValue', event.target.value);
+  if (typeof event == 'string' || typeof event == 'number') {
+    emit('update:modelValue', event + '');
+    searchText.value = event + '';
+  } else {
+    emit('update:modelValue', event.target.value);
+    searchText.value = event.target.value;
+  }
 }
 function updateSideValue(event: any) {
   emit('update:sideInputVModel', event.target.value);

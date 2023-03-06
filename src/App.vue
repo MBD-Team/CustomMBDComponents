@@ -1,6 +1,6 @@
 <template>
   <SelectInput :options="options"></SelectInput>
-  <MultiSelectInput v-model="date" :selected="list" :options="options" :loading="true"></MultiSelectInput>
+  <MultiSelectInput v-model="date" v-model:selected="selected" :options="options"></MultiSelectInput>
   <Button href="/">test</Button>
   <div style="margin: 100px" v-for="i in 10">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius dignissimos quis, excepturi quae, atque deserunt impedit repellat non nihil
