@@ -1,5 +1,5 @@
 <template>
-  <SelectInput v-model="date" :options="options" :loading="true"></SelectInput>
+  <SelectInput :options="options"></SelectInput>
   <MultiSelectInput v-model="date" :selected="list" :options="options" :loading="true"></MultiSelectInput>
   <Button href="/">test</Button>
   <div style="margin: 100px" v-for="i in 10">

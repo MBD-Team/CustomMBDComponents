@@ -21,9 +21,9 @@
             : '',
           checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
         ]"
-        :class="{ dirty: modelValue }"
+        :class="{ dirty: modelValue || searchText }"
         type="text"
-        :value="optionProjection(modelValue) || modelValue"
+        :value="optionProjection(modelValue) || modelValue || searchText"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
@@ -137,7 +137,7 @@ const emit = defineEmits<{
 }>();
 const props = withDefaults(
   defineProps<{
-    modelValue: string;
+    modelValue?: string;
     placeholder?: string;
     backgroundColor?: string;
     /**
@@ -179,6 +179,7 @@ const props = withDefaults(
     listItemClass: () => '',
     name: '',
     loading: false,
+    modelValue: '',
   }
 );
 const {
@@ -207,6 +208,7 @@ const {
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 const isListVisible = ref(false);
+const searchText = ref('');
 const document = window.document;
 const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
@@ -222,8 +224,8 @@ const filteredItems = computed(() => {
   if (showAll.value) return options.value;
   //options that are still possible
   let regexp: RegExp;
-  if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value, 'i');
-  else regexp = new RegExp(modelValue.value, 'i');
+  if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value || searchText.value, 'i');
+  else regexp = new RegExp(modelValue.value || searchText.value, 'i');
   let array = [] as any[];
   try {
     array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
@@ -259,22 +261,22 @@ function onBlur() {
   //is executed when the selectInput is no longer focused
   isListVisible.value = false;
   if (controlInput.value) {
-    if (!filteredItems.value?.some(e => optionProjection.value(e) == modelValue.value)) {
+    if (!filteredItems.value?.some(e => optionProjection.value(e) == modelValue.value || searchText.value)) {
       updateValue('');
       return;
     }
   }
   if (selectOnBlur.value) {
-    if (options?.value.find(e => optionProjection.value(e) == modelValue.value)) {
+    if (options?.value.find(e => optionProjection.value(e) == modelValue.value || searchText.value)) {
       emit(
         'selectItem',
-        options?.value.find(e => optionProjection.value(e) == modelValue.value)
+        options?.value.find(e => optionProjection.value(e) == modelValue.value || searchText.value)
       );
     } else {
-      if (options?.value.find(e => e == modelValue.value))
+      if (options?.value.find(e => e == modelValue.value || searchText.value))
         emit(
           'selectItem',
-          options?.value.find(e => e == modelValue.value)
+          options?.value.find(e => e == modelValue.value || searchText.value)
         );
     }
   }
@@ -297,8 +299,13 @@ function boldMatchText(text: string) {
 }
 function updateValue(event: any) {
   //correct the value if necessary and update it
-  if (typeof event == 'string') emit('update:modelValue', event);
-  else emit('update:modelValue', event.target.value);
+  if (typeof event == 'string') {
+    emit('update:modelValue', event);
+    searchText.value = event;
+  } else {
+    emit('update:modelValue', event.target.value);
+    searchText.value = event.target.value;
+  }
 }
 function updateSideValue(event: any) {
   //update the sideInput value
