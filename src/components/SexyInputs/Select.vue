@@ -169,7 +169,7 @@ const props = withDefaults(
     backgroundColor: '#f8fafc',
     sideWidth: 20,
     matchFromStart: false,
-    optionProjection: (e: Option) => e + '',
+    optionProjection: (e: Option) => (e ?? '') + '',
     listItemClass: () => '',
     name: '',
   }
