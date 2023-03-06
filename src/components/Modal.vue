@@ -5,8 +5,10 @@
         <div
           class="mbd-modal-wrapper"
           @mousedown.self="
-            showModal = false;
-            resetError();
+            if (!disableBackdropClose) {
+              showModal = false;
+              resetError();
+            }
           "
         >
           <div class="mbd-modal-dialog" :style="{ maxWidth: modalWidth + 'px' }" role="document">
@@ -109,11 +111,13 @@ const props = withDefaults(
     negative?: ButtonProp;
     modalWidth?: number;
     destructive?: boolean;
+    disableBackdropClose?: boolean;
   }>(),
   {
     modelValue: undefined,
     modalWidth: 800,
     destructive: false,
+    disableBackdropClose: false,
   }
 );
 const { modelValue, title, affirm: affirmProp, negative: negativeProp, affirmAlt: affirmAltProp, modalWidth } = toRefs(props);
