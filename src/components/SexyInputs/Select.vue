@@ -89,7 +89,7 @@
  * const text = ref('')
  * ```
  * ```html
- * <SelectInput  v-model="text" :options="options"></SelectInput>
+ * <SelectInput  v-model="text" :options="options" :loading="true"></SelectInput>
  *
  * <SelectInput  v-model="text" :options="options" :optionProjection="(e)=>e"></SelectInput>
  * ```

@@ -135,6 +135,7 @@
         v-model="text"
         v-model:selected="list"
         :options="options"
+        :loading="true"
       ></MultiSelectInput>
  *
  * ```
