@@ -12,7 +12,7 @@
   >
     <button
       @click="dismiss()"
-      v-if="closeBtn && dissmissable"
+      v-if="closeBtn && dismissable"
       style="float: right"
       type="button"
       class="btn-close shadow-none"
@@ -29,7 +29,7 @@ const emit = defineEmits(['update:modelValue']);
 const props = withDefaults(
   defineProps<{
     class?: string;
-    dissmissable?: boolean;
+    dismissable?: boolean;
     timer?: number;
     closeBtn?: boolean;
     modelValue: boolean;
@@ -37,11 +37,11 @@ const props = withDefaults(
   {
     class: 'alert-primary',
     timer: 0,
-    dissmissable: true,
+    dismissable: true,
     closeBtn: true,
   }
 );
-const { class: alertClass, timer, dissmissable, closeBtn, modelValue } = toRefs(props);
+const { class: alertClass, timer, dismissable, closeBtn, modelValue } = toRefs(props);
 
 function updateValue(value: boolean) {
   emit('update:modelValue', value);
@@ -59,7 +59,7 @@ watchEffect(() => {
 });
 
 function dismiss() {
-  if (dissmissable.value) {
+  if (dismissable.value) {
     updateValue(false);
     clearTimeout(timeout);
   }

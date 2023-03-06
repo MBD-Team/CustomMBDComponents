@@ -1,44 +1,4 @@
-<template>
-  <SelectInput :options="options"></SelectInput>
-  <MultiSelectInput v-model="date" v-model:selected="selected" :options="options"></MultiSelectInput>
-  <Button href="/">test</Button>
-  <div style="margin: 100px" v-for="i in 10">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius dignissimos quis, excepturi quae, atque deserunt impedit repellat non nihil
-    illo ratione aliquid rem. Quidem odio hic deleniti possimus. Incidunt?
-  </div>
-  <Wizard
-    title="test"
-    :steps="[{ iconName: 'map-marked-alt', title: 'step 1' }, { iconName: 'futbol' }, { iconName: 'building' }, { iconName: 'people-arrows' }]"
-    :showStepIndices="false"
-    :initialStepIndex="0"
-    :initialMaxReachedStep="3"
-    :onSubmit="() => {}"
-    :showCompletionBtn="false"
-    :disableNext="false"
-  >
-    <template
-      v-for="(step, index) in [
-        { content: 'test 1' },
-        { content: 'testtets 2' },
-        { content: 'test 3' },
-        { content: 'testtets 4' },
-        { content: 'test 5' },
-        { content: 'testtets 6' },
-      ]"
-      #[`step${index}`]
-    >
-      <div>
-        <div>
-          <div style="margin: 100px" v-for="i in 10">
-            {{ step.content }}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius dignissimos quis, excepturi quae, atque deserunt impedit repellat non
-            nihil illo ratione aliquid rem. Quidem odio hic deleniti possimus. Incidunt?
-          </div>
-        </div>
-      </div>
-    </template>
-  </Wizard>
-</template>
+<template><Message v-model:error="text" dismissable></Message></template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';

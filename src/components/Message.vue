@@ -5,6 +5,8 @@
       :model-value="hasValue(message.content)"
       @update:model-value="emit(`update:${message.name}`, '')"
       :class="`alert alert-${message.class}`"
+      :dismissable="dismissable"
+      :close-btn="dismissable"
     >
       <template v-if="typeof message.content == 'string'">{{ message.content }}</template>
       <div v-else style="white-space: pre-wrap">{{ Object.values(message.content || {}).join('\n') }}</div>
@@ -14,12 +16,16 @@
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import Alert from './Alert.vue';
-const props = defineProps<{
-  error?: string | Object;
-  success?: string | Object;
-  warning?: string | Object;
-  info?: string | Object;
-}>();
+const props = withDefaults(
+  defineProps<{
+    error?: string | Object;
+    success?: string | Object;
+    warning?: string | Object;
+    info?: string | Object;
+    dismissable?: boolean;
+  }>(),
+  { dismissable: true }
+);
 const { error, success, warning, info } = toRefs(props);
 
 const emit = defineEmits(['update:error', 'update:success', 'update:warning', 'update:info']);
@@ -44,7 +50,7 @@ function hasValue(prop: string | Object | undefined) {
  * how to use:
  * ```html
  * <!-- all v-models are optional -->
- *   <Message v-model:success="success" v-model:error="error" v-model:warning="warning" v-model:info="info"/>
+ *   <Message v-model:success="success" v-model:error="error" v-model:warning="warning" v-model:info="info" :dismissable="false"/>
  * ```
  */
 export default {};
