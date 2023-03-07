@@ -224,7 +224,7 @@ const filteredItems = computed(() => {
   if (showAll.value) return options.value;
   //options that are still possible
   let regexp: RegExp;
-  if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value || searchText.value, 'i');
+  if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value), 'i');
   else regexp = new RegExp(modelValue.value || searchText.value, 'i');
   let array = [] as any[];
   try {
@@ -261,22 +261,22 @@ function onBlur() {
   //is executed when the selectInput is no longer focused
   isListVisible.value = false;
   if (controlInput.value) {
-    if (!filteredItems.value?.some(e => optionProjection.value(e) == modelValue.value || searchText.value)) {
+    if (!filteredItems.value?.some(e => optionProjection.value(e) == (modelValue.value || searchText.value))) {
       updateValue('');
       return;
     }
   }
   if (selectOnBlur.value) {
-    if (options?.value.find(e => optionProjection.value(e) == modelValue.value || searchText.value)) {
+    if (options?.value.find(e => optionProjection.value(e) == (modelValue.value || searchText.value))) {
       emit(
         'selectItem',
-        options?.value.find(e => optionProjection.value(e) == modelValue.value || searchText.value)
+        options?.value.find(e => optionProjection.value(e) == (modelValue.value || searchText.value))
       );
     } else {
-      if (options?.value.find(e => e == modelValue.value || searchText.value))
+      if (options?.value.find(e => e == (modelValue.value || searchText.value)))
         emit(
           'selectItem',
-          options?.value.find(e => e == modelValue.value || searchText.value)
+          options?.value.find(e => e == (modelValue.value || searchText.value))
         );
     }
   }

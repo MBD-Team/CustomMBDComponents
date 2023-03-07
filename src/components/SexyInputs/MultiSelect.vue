@@ -282,7 +282,7 @@ const filteredItems = computed(() => {
   //options that are still possible
   let regexp: RegExp;
   try {
-    if (matchFromStart.value) regexp = new RegExp('^' + modelValue.value || searchText.value, 'i');
+    if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value), 'i');
     else regexp = new RegExp(modelValue.value, 'i');
   } catch {
     if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
@@ -324,10 +324,10 @@ function onBlur() {
   //is executed when the selectInput is no longer focused
   isListVisible.value = false;
 
-  if (options?.value.find(e => e == modelValue.value || searchText.value))
+  if (options?.value.find(e => e == (modelValue.value || searchText.value)))
     emit(
       'selectItem',
-      options?.value.find(e => e == modelValue.value || searchText.value)
+      options?.value.find(e => e == (modelValue.value || searchText.value))
     );
 
   emit('onBlur', {
