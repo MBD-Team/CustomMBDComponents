@@ -23,7 +23,7 @@
         ]"
         :class="{ dirty: modelValue || searchText }"
         type="text"
-        :value="optionProjection(modelValue) || modelValue || searchText"
+        :value="modelValue || searchText"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
