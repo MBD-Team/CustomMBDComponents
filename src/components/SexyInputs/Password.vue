@@ -128,4 +128,9 @@ input.sideInput {
   width: v-bind(sideWidthComputed) !important;
   border-color: v-bind(borderColorComputed);
 }
+
+// hide password reveal button in edge
+::-ms-reveal {
+  display: none;
+}
 </style>
