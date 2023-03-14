@@ -35,14 +35,15 @@
               >
                 <slot name="footer"></slot>
                 <template
-                  v-for="([btn, defaultClass], index) in ([[negative,'btn btn-secondary'], [affirmAlt,'btn btn-warning'],[affirm,'btn btn-primary']] as const)"
+                  v-for="([btn, defaultClass]) in ([[negative,'btn btn-secondary'], [affirmAlt,'btn btn-warning'],[affirm,'btn btn-primary']] as const)"
                 >
                   <div v-if="btn.prop?.text">
                     <Button
                       style="height: 2rem; font-size: 1rem"
                       class="border-0"
                       :loading="btn.loading"
-                      :class="`${btn.class || defaultClass}`"
+                      :class="`${btn.prop.class || defaultClass}`"
+                      :disabled="!!btn.prop.disabled"
                       @click.stop="
                         () => {
                           btnFunc(btn);
