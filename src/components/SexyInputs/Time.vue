@@ -15,7 +15,6 @@
       @focus="isInputFocus = true"
       @blur="isInputFocus = false"
       autocomplete="off"
-      required
     />
     <!-- placeholder -->
     <label class="text" :class="labelClass" v-if="placeholder">
