@@ -226,10 +226,10 @@ const filteredItems = computed(() => {
   let regexp: RegExp;
   if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value), 'i');
   else regexp = new RegExp(modelValue.value || searchText.value, 'i');
-  let array = [] as any[];
+  let array: Option[] = [];
   try {
     array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
-    if (!array.length) array = array.concat(options.value?.filter((item: any) => item.match(regexp)));
+    if (!array.length) array = array.concat(options.value?.filter(item => item.match(regexp)));
   } catch {
     array = [];
   }

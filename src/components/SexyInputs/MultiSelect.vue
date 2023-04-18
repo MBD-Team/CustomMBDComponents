@@ -192,6 +192,7 @@ const props = withDefaults(
      */
     options: Option[];
     selected: Option[];
+    showAll?: boolean;
     placeholder?: string;
     noElementMessage?: string;
     listClass?: string;
@@ -235,12 +236,14 @@ const props = withDefaults(
     showSelected: true,
     backgroundColor: '#f8fafc',
     loading: false,
+    showAll: false,
     modelValue: '',
   }
 );
 const {
   disabled,
   modelValue,
+  showAll,
   noElementMessage,
   listClass,
   error,
@@ -279,19 +282,15 @@ const checkButton = computed(() => {
 });
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
+  if (showAll.value) return options.value;
   //options that are still possible
   let regexp: RegExp;
-  try {
-    if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value), 'i');
-    else regexp = new RegExp(modelValue.value, 'i');
-  } catch {
-    if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-    else regexp = new RegExp((modelValue.value || searchText.value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-  }
+  if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value), 'i');
+  else regexp = new RegExp(modelValue.value || searchText.value, 'i');
   let array: Option[] = [];
   try {
-    array = options.value?.filter(item => (optionProjection.value?.(item) + '').match(regexp));
-    if (!array.length) array = options.value?.filter(item => (item + '').match(regexp));
+    array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
+    if (!array.length) array = array.concat(options.value?.filter(item => item.match(regexp)));
   } catch {
     array = [];
   }
