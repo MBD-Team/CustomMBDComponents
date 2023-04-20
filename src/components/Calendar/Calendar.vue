@@ -192,19 +192,21 @@ import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } f
 function log(a: any) {
   console.log(a);
 }
-const props = defineProps<{
-  displayHours: [number, number];
-  groups: Group[];
-  events: Event[];
-  hash?: string;
-}>();
+const props =
+  defineProps<{
+    displayHours: [number, number];
+    groups: Group[];
+    events: Event[];
+    hash?: string;
+  }>();
 const { hash, events, groups: groupsProp, displayHours } = toRefs(props);
 
-const emit = defineEmits<{
-  (e: 'update:groups', value: Group[]): void;
-  (e: 'eventClicked', value: Event): void;
-  (e: 'timeClicked', value: DateTime): void;
-}>();
+const emit =
+  defineEmits<{
+    (e: 'update:groups', value: Group[]): void;
+    (e: 'eventClicked', value: Event): void;
+    (e: 'timeClicked', value: DateTime): void;
+  }>();
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 
@@ -246,9 +248,17 @@ const filterQuery = ref('');
 const filteredEvents = computed(() =>
   eventsWithColor.value
     .filter(e => groups.value.filter(g => g.checked).some(g => g.id == e.group_id))
-    .filter(e => e.name.includes(filterQuery.value))
+    .filter(e => isSubsequence(filterQuery.value, e.name))
     .sort((a, b) => (a.start > b.start ? 1 : -1))
 );
+
+function isSubsequence(search: string, str: string) {
+  search = search.replace(/\W/g, '').toLowerCase();
+  str = str.replace(/\W/g, '').toLowerCase();
+  let searchIndex = 0;
+  for (let strindex = 0; strindex < str.length && searchIndex < search.length; strindex++) if (search[searchIndex] === str[strindex]) searchIndex++;
+  return searchIndex === search.length;
+}
 
 const getEventsForDay = (day: DateTime) =>
   filteredEvents.value
