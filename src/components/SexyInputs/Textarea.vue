@@ -134,10 +134,18 @@ function updateValue(event: any) {
     background-color: inherit;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
-    padding: 0 0.3rem;
+    padding-inline: 0.3rem;
     color: black;
     transform: translate(0, -0.9rem);
     height: 0.9rem;
+  }
+}
+textarea[required] + label {
+  padding-right: 0.5rem !important;
+  &::after {
+    content: '*';
+    position: relative;
+    left: 0.3rem;
   }
 }
 </style>
