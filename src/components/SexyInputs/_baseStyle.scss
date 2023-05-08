@@ -64,6 +64,7 @@
 }
 
 // add * to input label if the input is required
+textarea[required] + label,
 input[required] + label {
   padding-right: 0.5rem !important;
   &::after {
