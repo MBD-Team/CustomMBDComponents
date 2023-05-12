@@ -9,7 +9,9 @@
     <!-- preview -->
     <div class="mt-1 py-1" :class="fileClass(modelValue)" style="border: 1px solid black; border-radius: 0.5rem" v-if="modelValue && preview">
       <div class="text-center">{{ modelValue.name }}</div>
-      <div class="d-flex justify-content-center"><img :src="loadFile(modelValue)" style="max-height: 5rem; max-width: 100%" alt="" /></div>
+      <div class="d-flex justify-content-center">
+        <img :src="loadFile(modelValue)" :style="{ maxHeight: previewHeight }" style="max-width: 100%" alt="" />
+      </div>
     </div>
     <!-- /preview -->
     <!-- error -->
@@ -53,6 +55,7 @@ const props = withDefaults(
     placeholder?: string;
     borderColor?: string;
     preview?: boolean;
+    previewHeight?: string;
     fileClass?: Function;
     backgroundColor?: string;
   }>(),
@@ -66,6 +69,7 @@ const props = withDefaults(
     },
     name: '',
     backgroundColor: '#f8fafc',
+    previewHeight: '5rem',
   }
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, preview, name } = toRefs(props);
