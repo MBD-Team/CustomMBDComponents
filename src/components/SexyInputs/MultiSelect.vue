@@ -49,7 +49,7 @@
             @mousedown.prevent
             @click.stop="selectItem(item)"
           >
-            <Checkbox :value="selected.some(e => keyExtractor(e) == keyExtractor(item))">
+            <Checkbox :value="selected.some(e => keyExtractor(e) == keyExtractor(item))" @click="selectItem(item)">
               <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
             </Checkbox>
           </div>

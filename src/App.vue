@@ -1,4 +1,6 @@
-<template><Message v-model:error="text" dismissable></Message></template>
+<template>
+  <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
+</template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
@@ -36,7 +38,7 @@ import Wizard from './components/Wizard.vue';
 const text = ref('alertMessage');
 const showAlert = ref(true);
 
-const options = [1, 2, 3];
+const options = ['1', '2', '3'];
 const list = ref<number[]>([1]);
 const selected = ref([]);
 const date = ref('');
