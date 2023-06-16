@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain mt-3" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
     <input v-bind="$attrs" class="form-control shadow-none" type="file" @input="updateValue" style="padding-left: none" autocomplete="off" />
     <!-- placeholder -->
     <label class="text" :class="labelClass" v-if="placeholder">
