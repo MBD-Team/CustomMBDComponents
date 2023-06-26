@@ -9,7 +9,6 @@
       <!-- /icon -->
       <input
         v-bind="attrs"
-        v-if="(listWidth = document.getElementById(id)?.getBoundingClientRect().width + 'px') || true"
         :id="id"
         class="simple-typeahead-input form-control shadow-none"
         :style="[
@@ -100,7 +99,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, ref, toRefs, useSlots, useAttrs } from 'vue';
+import { computed, ref, toRefs, useSlots, useAttrs, onMounted } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Spinner from '../Spinner.vue';
@@ -249,7 +248,6 @@ function onFocus() {
   //is executed when the selectInput is focussed
   isListVisible.value = true;
   setTimeout(() => {
-    listWidth.value = document.getElementById(id.value)?.getBoundingClientRect().width + 'px';
     document.getElementById('scroll' + id.value)?.scrollIntoView();
   }, 0);
   emit('onFocus', {
@@ -313,6 +311,11 @@ function updateSideValue(event: any) {
 }
 const position = ref('');
 const listWidth = ref('');
+function outputsize() {
+  listWidth.value = document.getElementById(id.value)?.getBoundingClientRect().width + 'px';
+}
+outputsize();
+onMounted(() => new ResizeObserver(outputsize).observe(document.getElementById(id.value)));
 </script>
 <style scoped lang="scss">
 @use 'typeAheadStyle';

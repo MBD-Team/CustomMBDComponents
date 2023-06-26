@@ -2,6 +2,9 @@
   <div class="p-5">
     <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
   </div>
+  <div v-for="i of 50">
+    <TextInput v-model="text"></TextInput>
+  </div>
 </template>
 
 <script lang="ts" setup>
