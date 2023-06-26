@@ -46,8 +46,14 @@
         </div>
         <div v-else :style="selected.length > 0 ? '' : ''">
           <!-- chips -->
-          <div class="py-1 d-flex flex-wrap" style="border-bottom: 1px solid black">
-            <div v-for="item of selected" class="chip rounded px-2 border border-dark m-1" @click.stop="selectItem(item)" @mousedown.prevent>
+          <div class="py-1 d-flex flex-wrap" style="border-bottom: 1px solid black; cursor: default" @mousedown.prevent>
+            <div
+              v-for="item of selected"
+              class="chip rounded px-2 border border-dark m-1"
+              style="cursor: pointer"
+              @click.stop="selectItem(item)"
+              @mousedown.prevent
+            >
               {{ optionProjection(item) }}
               <i class="fa fa-trash"></i>
             </div>
