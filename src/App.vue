@@ -38,7 +38,7 @@ import Wizard from './components/Wizard.vue';
 const text = ref('alertMessage');
 const showAlert = ref(true);
 
-const options = ['1', '2', '3'];
+const options = [];
 const list = ref<number[]>([1]);
 const selected = ref([]);
 const date = ref('');
@@ -53,7 +53,9 @@ const sections = ref(
     { title: 'Section2', content: 'test' },
   ].map((e, i) => ({ ...e, hash: e.title + i }))
 );
-
+for (let i = 0; i < 100; i++) {
+  options.push(Math.random() + '');
+}
 const log = console.log;
 </script>
 
