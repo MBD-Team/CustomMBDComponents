@@ -1,7 +1,7 @@
 <template>
   <div :id="'scroll' + id"></div>
   <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
-    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
+    <div class="simple-typeahead input-contain">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue || searchText)" class="icon">
         <slot name="icon"></slot>
@@ -36,7 +36,7 @@
       <!-- /label for select -->
       <!-- options for select -->
       <div
-        class="simple-typeahead-list p-0"
+        class="simple-typeahead-list shadow p-0"
         :class="listClass"
         :style="checkButton || sideInputType ? `width:${inputWidth}` : ''"
         v-if="isListVisible"

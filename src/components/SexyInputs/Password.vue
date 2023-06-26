@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon && (isInputFocus || modelValue)" class="icon">
       <slot></slot>
@@ -23,7 +23,7 @@
     </label>
     <!-- /placeholder -->
     <!-- sideButton -->
-    <button class="sideInput" type="button" @click="viewPassword = !viewPassword" :class="btnClass">
+    <button class="sideInput" type="button" @click="viewPassword = !viewPassword" :class="btnClass" :style="{ backgroundColor: backgroundColor }">
       <template v-if="!viewPassword">
         <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
           <path

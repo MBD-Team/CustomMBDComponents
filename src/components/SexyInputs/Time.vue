@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon" class="icon">
       <slot name="icon"></slot>

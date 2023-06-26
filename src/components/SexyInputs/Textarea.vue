@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <textarea
       v-bind="$attrs"
       class="form-control shadow-none"

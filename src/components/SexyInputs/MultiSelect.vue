@@ -1,7 +1,7 @@
 <template>
   <div :id="'scroll' + id"></div>
   <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
-    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
+    <div class="simple-typeahead input-contain">
       <!-- icon -->
       <div v-if="checkIcon && (isListVisible || modelValue || searchText)" class="icon">
         <slot name="icon"></slot>
@@ -36,11 +36,16 @@
       </label>
       <!-- /label for select -->
       <!-- options for select -->
-      <div class="simple-typeahead-list" :class="listClass" :style="[checkButton || sideInputType ? `width:${inputWidth}` : '']" v-if="isListVisible">
+      <div
+        class="simple-typeahead-list shadow"
+        :class="listClass"
+        :style="[checkButton || sideInputType ? `width:${inputWidth}` : '']"
+        v-if="isListVisible"
+      >
         <div v-if="loading" class="text-center p-2">
           <Spinner size="1.5rem"></Spinner>
         </div>
-        <div v-else :style="selected.length > 0 ? 'border-bottom:2px solid black' : ''">
+        <div v-else :style="selected.length > 0 ? '' : ''">
           <!-- chips -->
           <div class="py-1 d-flex flex-wrap" style="border-bottom: 1px solid black">
             <div v-for="item of selected" class="chip rounded px-2 border border-dark m-1" @click.stop="selectItem(item)" @mousedown.prevent>

@@ -1,5 +1,7 @@
 <template>
-  <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
+  <div class="p-5">
+    <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
+  </div>
 </template>
 
 <script lang="ts" setup>

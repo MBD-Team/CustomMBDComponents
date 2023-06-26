@@ -5,10 +5,10 @@
 
   .simple-typeahead-list {
     .scroll {
-      max-height: 60vh;
+      max-height: 64vh;
       overflow-y: scroll;
       @media (min-width: 900px) {
-        max-height: 30vh;
+        max-height: 32vh;
       }
       &::-webkit-scrollbar-track {
         border-radius: 0 0 0.5rem 0;
@@ -31,6 +31,7 @@
     background-color: #fafafa;
     border-radius: 0 0 0.5rem 0.5rem;
     border: 2px solid;
+    overflow: hidden;
     border-color: v-bind(borderColorComputed);
     border-top: none;
     cursor: pointer;
