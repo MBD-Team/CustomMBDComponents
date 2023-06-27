@@ -87,9 +87,7 @@ const props = withDefaults(
 );
 const { fileArray, error, errorColor, borderColor, preview, multiFileClass, name } = toRefs(props);
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 
 onMounted(() => {
   buttonWidth.value = document.getElementById(id.value + 'button')?.clientWidth;

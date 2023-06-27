@@ -67,9 +67,7 @@ const props = withDefaults(
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, name, backgroundColor } = toRefs(props);
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 function updateValue(event: any) {
   emit('update:modelValue', event.target.value);
 }

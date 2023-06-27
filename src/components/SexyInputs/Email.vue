@@ -117,15 +117,9 @@ const {
 const isInputFocus = ref(false);
 const slots = useSlots();
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
-const checkButton = computed(() => {
-  return !!slots.button;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
+const checkButton = computed(() => !!slots.button);
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 
 function updateValue(event: any) {

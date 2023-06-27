@@ -97,12 +97,8 @@ onMounted(() => {
 const isInputFocus = ref(false);
 const slots = useSlots();
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
 function updateValue(event: any) {
   if (typeof event == 'string') emit('update:modelValue', event);
   else emit('update:modelValue', event.target.value);

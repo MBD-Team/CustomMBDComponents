@@ -96,12 +96,8 @@ const id = ref(JSON.stringify(Math.random()));
 const isInputFocus = ref(false);
 const slots = useSlots();
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
 
 const inputWidth = computed(() => {
   let width = 100;

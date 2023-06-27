@@ -47,9 +47,7 @@ const buttonCount = computed(() => options.value?.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
 }
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 function updateValue(value: any) {
   if (disabled.value) return;
   emit('update:modelValue', value);
