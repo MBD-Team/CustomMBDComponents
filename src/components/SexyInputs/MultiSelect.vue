@@ -30,7 +30,7 @@
           <div v-if="loading" class="text-center p-2">
             <Spinner size="1.5rem"></Spinner>
           </div>
-          <div v-else :style="selected.length > 0 ? '' : ''">
+          <div v-else>
             <!-- chips -->
             <div class="py-1 d-flex flex-wrap" style="border-bottom: 1px solid black; cursor: default" @mousedown.prevent>
               <div
@@ -63,7 +63,12 @@
                 </Checkbox>
               </div>
               <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
-                {{ noElementMessage }}
+                <div v-if="!checkNoElementMessage">
+                  {{ noElementMessage }}
+                </div>
+                <div v-else>
+                  <slot name="noElementMessage"></slot>
+                </div>
               </div>
             </div>
           </div>
@@ -130,7 +135,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, toRefs, useSlots } from 'vue';
+import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Checkbox from './Checkbox.vue';
@@ -252,15 +257,11 @@ const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 const searchText = ref(modelValue.value || '');
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
-const checkButton = computed(() => {
-  return !!slots.button;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
+const checkButton = computed(() => !!slots.button);
+const checkNoElementMessage = computed(() => !!slots.noElementMessage);
+
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
   if (showAll.value) return options.value;

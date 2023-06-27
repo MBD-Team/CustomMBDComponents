@@ -2,6 +2,9 @@
   <div class="p-5">
     <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine">
       <template #button><Button :side-button="true">speichern</Button></template>
+      <template #noElementMessage>
+        <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model="text"></SelectInput>
+      </template>
     </MultiSelectInput>
     <SelectInput
       :options="options"

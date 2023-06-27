@@ -42,7 +42,12 @@
             </div>
 
             <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
-              {{ noElementMessage }}
+              <div v-if="!checkNoElementMessage">
+                {{ noElementMessage }}
+              </div>
+              <div v-else>
+                <slot name="noElementMessage"></slot>
+              </div>
             </div>
           </div>
         </div>
@@ -206,17 +211,13 @@ const {
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 
-const searchText = ref(modelValue.value||"");
+const searchText = ref(modelValue.value || '');
 const document = window.document;
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
-const checkButton = computed(() => {
-  return !!slots.button;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
+const checkButton = computed(() => !!slots.button);
+const checkNoElementMessage = computed(() => !!slots.noElementMessage);
+
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
   if (showAll.value) return options.value;
