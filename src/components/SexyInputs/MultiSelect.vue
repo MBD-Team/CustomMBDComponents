@@ -1,6 +1,5 @@
 <template>
   <Modal :title="placeholder">
-    {{ checkButton }}
     <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
       <div class="simple-typeahead input-contain">
         <!-- icon -->
