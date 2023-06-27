@@ -9,6 +9,7 @@
       placeholder="wähle sportverein"
       v-model:sideInputVModel="number"
       :side-input-type="'number'"
+      v-model="text"
     ></SelectInput>
     <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model:sideInputVModel="number"></SelectInput>
     <TextInput v-model="text" placeholder="test"></TextInput>

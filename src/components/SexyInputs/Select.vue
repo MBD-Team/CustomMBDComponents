@@ -206,7 +206,7 @@ const {
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
 
-const searchText = ref('');
+const searchText = ref(modelValue.value||"");
 const document = window.document;
 const borderColorComputed = computed(() => {
   return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
