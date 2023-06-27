@@ -77,6 +77,7 @@
         <input
           v-if="sideInputType"
           class="sideInput"
+          :style="`width:${sideWidthComputed}`"
           :type="sideInputType"
           :class="sideInputClass"
           :maxlength="sideInputMaxLength"
@@ -368,6 +369,7 @@ input {
 .sideButtonSelect,
 .sideInput {
   left: v-bind(inputWidth);
+  border-radius: 0 0.5rem 0 0 !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);

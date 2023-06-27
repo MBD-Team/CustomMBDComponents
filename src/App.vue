@@ -3,9 +3,14 @@
     <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine">
       <template #button><Button :side-button="true">speichern</Button></template>
     </MultiSelectInput>
-    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein">
-      <template #button><Button :side-button="true">speichern</Button></template>
-    </SelectInput>
+    <SelectInput
+      :options="options"
+      v-model:selected="selected"
+      placeholder="wähle sportverein"
+      v-model:sideInputVModel="number"
+      :side-input-type="'number'"
+    ></SelectInput>
+    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model:sideInputVModel="number"></SelectInput>
     <TextInput v-model="text" placeholder="test"></TextInput>
   </div>
   <div v-for="i of 50">

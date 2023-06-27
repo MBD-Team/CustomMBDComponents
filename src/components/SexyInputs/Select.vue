@@ -59,12 +59,19 @@
           :maxlength="sideInputMaxLength"
           @input="updateSideValue"
           :value="sideInputVModel"
+          :style="`width:${sideWidthComputed}`"
         />
         <!-- /sideInput -->
       </div>
     </div>
     <template #button>
-      <Text @click="onOpenModal" :placeholder="placeholder" v-model="searchText"></Text>
+      <Text
+        @click="onOpenModal"
+        :placeholder="placeholder"
+        v-model="searchText"
+        :side-input-type="sideInputType"
+        :side-input-v-model="sideInputVModel"
+      ></Text>
     </template>
   </Modal>
   <!-- error -->
@@ -278,7 +285,7 @@ async function selectItem(item: any) {
   await updateValue(optionProjection.value(item));
   document.getElementById(id.value)?.blur();
   if (!selectOnBlur) emit('selectItem', item);
-  isModalOpen.value = false;
+  if (!sideInputType?.value) isModalOpen.value = false;
 }
 
 function boldMatchText(text: string) {
@@ -315,7 +322,7 @@ input {
 .sideButton,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed) !important;
+  border-radius: 0 0.5rem 0 0 !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);
