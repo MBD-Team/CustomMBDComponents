@@ -1,6 +1,8 @@
 <template>
   <div class="p-5">
-    <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
+    <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine"></MultiSelectInput>
+    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein"></SelectInput>
+    <TextInput v-model="text" placeholder="test"></TextInput>
   </div>
   <div v-for="i of 50">
     <TextInput v-model="text"></TextInput>
