@@ -131,7 +131,7 @@ function updateValue(event: any) {
   }
   textarea:focus + .text,
   textarea.dirty + .text {
-    background-color: inherit;
+    background-color: v-bind(backgroundColor);
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding-inline: 0.3rem;

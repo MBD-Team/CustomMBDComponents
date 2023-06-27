@@ -11,9 +11,9 @@
           v-bind="attrs"
           :id="id"
           class="simple-typeahead-input form-control shadow-none"
+          style="border-radius: 0.5rem 0.5rem 0 0; border-width: 2px"
           :style="[
-            checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0.5rem; width:${inputWidth}` : '',
-            'border-radius: 0.5rem 0.5rem 0 0;border-width: 2px ',
+            checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0rem; width:${inputWidth}` : '',
             checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
           ]"
           :class="{ dirty: modelValue || searchText }"
@@ -48,7 +48,7 @@
         </div>
         <!-- /options for select -->
         <!-- sideButton -->
-        <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+        <div class="sideButtonSelect" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
         <!-- /sideButton -->
         <!-- sideInput -->
         <input

@@ -1,11 +1,17 @@
 <template>
   <div class="p-5">
-    <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine"></MultiSelectInput>
-    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein"></SelectInput>
+    <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine">
+      <template #button><Button :side-button="true">speichern</Button></template>
+    </MultiSelectInput>
+    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein">
+      <template #button><Button :side-button="true">speichern</Button></template>
+    </SelectInput>
     <TextInput v-model="text" placeholder="test"></TextInput>
   </div>
   <div v-for="i of 50">
-    <TextInput v-model="text"></TextInput>
+    <TextInput v-model="text">
+      <template #button><Button :side-button="true">speichern</Button></template>
+    </TextInput>
   </div>
 </template>
 

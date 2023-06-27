@@ -104,7 +104,7 @@ input.sideInput:focus {
   }
   input:focus + .text,
   input + .text {
-    background-color: inherit;
+    background-color: v-bind(backgroundColor);
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;

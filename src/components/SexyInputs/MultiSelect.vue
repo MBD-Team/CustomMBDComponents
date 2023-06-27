@@ -1,5 +1,6 @@
 <template>
   <Modal :title="placeholder">
+    {{ checkButton }}
     <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
       <div class="simple-typeahead input-contain">
         <!-- icon -->
@@ -11,9 +12,9 @@
           v-bind="$attrs"
           :id="id"
           class="simple-typeahead-input form-control shadow-none"
+          style="border-radius: 0.5rem 0.5rem 0 0; border-width: 2px"
           :style="[
-            checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0.5rem; width:${inputWidth}` : '',
-            'border-radius: 0.5rem 0.5rem 0 0;border-width: 2px',
+            checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0rem; width:${inputWidth}` : '',
             checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
           ]"
           :class="{ dirty: modelValue || searchText }"
@@ -70,7 +71,7 @@
         </div>
         <!-- /options for select -->
         <!-- sideButton -->
-        <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
+        <div class="sideButtonSelect" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
         <!-- /sideButton -->
         <!-- sideInput -->
         <input
@@ -364,10 +365,9 @@ input {
   background-color: v-bind(backgroundColor);
   border-color: v-bind(borderColorComputed);
 }
-.sideButton,
+.sideButtonSelect,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed) !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);
