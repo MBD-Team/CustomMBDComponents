@@ -9,15 +9,15 @@
   border-style: solid;
   border-left: none;
   padding-top: 0 !important;
-  background-color: inherit;
+  background-color: v-bind(backgroundColor);
   &:focus {
     border: 2px solid;
     border-color: v-bind(borderColorComputed);
   }
 }
+.sideButtonSelect,
 .sideButton,
 .sideInput {
-  align-items: center;
   text-align: center;
   position: absolute;
   padding: 0;

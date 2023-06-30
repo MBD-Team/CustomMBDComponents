@@ -1,128 +1,117 @@
 <template>
-  <div :id="'scroll' + id"></div>
-  <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
-    <div class="simple-typeahead input-contain" :style="{ backgroundColor: backgroundColor }">
-      <!-- icon -->
-      <div v-if="checkIcon && (isListVisible || modelValue || searchText)" class="icon">
-        <slot name="icon"></slot>
+  <Modal :title="placeholder">
+    <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
+      <div class="simple-typeahead input-contain">
+        <!-- icon -->
+        <div v-if="checkIcon && (modelValue || searchText)" class="icon">
+          <slot name="icon"></slot>
+        </div>
+        <!-- /icon -->
+        <input
+          v-bind="$attrs"
+          :id="id"
+          class="simple-typeahead-input form-control shadow-none"
+          style="border-radius: 0.5rem 0.5rem 0 0; border-width: 2px"
+          :style="[
+            checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0rem; width:${inputWidth}` : '',
+            checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
+          ]"
+          :class="{ dirty: modelValue || searchText }"
+          type="text"
+          :value="modelValue || searchText"
+          @input="onInput"
+          @focus="onFocus"
+          @blur="onBlur"
+          autocomplete="off"
+          :disabled="disabled"
+        />
+        <!-- options for select -->
+        <div class="simple-typeahead-list shadow" :class="listClass" :style="[checkButton || sideInputType ? `width:${inputWidth}` : '']">
+          <div v-if="loading" class="text-center p-2">
+            <Spinner size="1.5rem"></Spinner>
+          </div>
+          <div v-else>
+            <!-- chips -->
+            <div class="py-1 d-flex flex-wrap" style="border-bottom: 1px solid black; cursor: default" @mousedown.prevent>
+              <div
+                v-for="item of selected"
+                class="chip rounded px-2 border border-dark m-1"
+                style="cursor: pointer"
+                @click.stop="selectItem(item)"
+                @mousedown.prevent
+              >
+                {{ optionProjection(item) }}
+                <i class="fa fa-trash"></i>
+              </div>
+            </div>
+
+            <div class="scroll">
+              <div
+                class="simple-typeahead-list-item"
+                :class="listItemClass(item)"
+                v-for="item in filteredItems"
+                :key="Math.random()"
+                @mousedown.prevent
+                @click.stop="selectItem(item)"
+              >
+                <Checkbox :value="selected.some(e => keyExtractor(e) == keyExtractor(item))" @click="selectItem(item)">
+                  <span
+                    class="simple-typeahead-list-item-text"
+                    :data-text="optionProjection(item)"
+                    v-html="boldMatchText(optionProjection(item))"
+                  ></span>
+                </Checkbox>
+              </div>
+              <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
+                <div v-if="!checkNoElementMessage">
+                  {{ noElementMessage }}
+                </div>
+                <div v-else>
+                  <slot name="noElementMessage"></slot>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /options for select -->
+        <!-- sideButton -->
+        <div class="sideButtonSelect" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
+        <!-- /sideButton -->
+        <!-- sideInput -->
+        <input
+          v-if="sideInputType"
+          class="sideInput"
+          :style="`width:${sideWidthComputed}`"
+          :type="sideInputType"
+          :class="sideInputClass"
+          :maxlength="sideInputMaxLength"
+          @input="updateSideValue"
+          :value="sideInputVModel"
+        />
+        <!-- /sideInput -->
       </div>
-      <!-- /icon -->
-      <input
-        v-bind="$attrs"
-        v-if="(listWidth = document.getElementById(id)?.getBoundingClientRect().width + 'px') || true"
-        :id="id"
-        class="simple-typeahead-input form-control shadow-none"
-        :style="[
-          checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0.5rem; width:${inputWidth}` : '',
-          isListVisible
-            ? checkButton || sideInputType
-              ? 'border-radius: 0.5rem 0 0 0;border-width: 2px'
-              : 'border-radius: 0.5rem 0.5rem 0 0;border-width: 2px'
-            : '',
-          checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
-        ]"
-        :class="{ dirty: modelValue || searchText }"
-        type="text"
-        :value="modelValue || searchText"
-        @input="onInput"
-        @focus="onFocus"
-        @blur="onBlur"
-        autocomplete="off"
-        :disabled="disabled"
-      />
-      <!-- label for select -->
-      <label class="text" :class="labelClass" v-if="placeholder">
-        {{ placeholder }}
-      </label>
-      <!-- /label for select -->
-      <!-- options for select -->
-      <div class="simple-typeahead-list" :class="listClass" :style="[checkButton || sideInputType ? `width:${inputWidth}` : '']" v-if="isListVisible">
-        <div v-if="loading" class="text-center p-2">
-          <Spinner size="1.5rem"></Spinner>
-        </div>
-        <div v-else class="scroll" :style="selected.length > 0 ? 'border-bottom:2px solid black' : ''">
-          <div
-            class="simple-typeahead-list-item"
-            :class="listItemClass(item)"
-            v-for="item in filteredItems"
-            :key="Math.random()"
-            @mousedown.prevent
-            @click.stop="selectItem(item)"
-          >
-            <Checkbox :value="selected.some(e => keyExtractor(e) == keyExtractor(item))" @click="selectItem(item)">
-              <span class="simple-typeahead-list-item-text" :data-text="optionProjection(item)" v-html="boldMatchText(optionProjection(item))"></span>
-            </Checkbox>
-          </div>
-          <div v-if="!filteredItems?.length" class="simple-typeahead-list-item" :class="listItemClass(noElementMessage)">
-            {{ noElementMessage }}
-          </div>
-        </div>
-        <div class="d-flex flex-column" v-if="selected.length > 0 && !loading">
-          <div class="simple-typeahead-list-item" style="border-top: 2px solid black" @mousedown.prevent @click.stop="">{{ selectedTitle }}</div>
-          <div
-            v-for="e of selected.slice(-5).reverse()"
-            class="simple-typeahead-list-item d-flex justify-content-between"
-            :class="listItemClass(e)"
-            @mousedown.prevent
-            @click.stop="selectItem(e)"
-          >
-            {{ optionProjection(e) }}
-            <span style="cursor: pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                <path
-                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                />
-                <path
-                  fill-rule="evenodd"
-                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-      <!-- /options for select -->
-      <!-- sideButton -->
-      <button class="sideButton" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></button>
-      <!-- /sideButton -->
-      <!-- sideInput -->
-      <input
-        v-if="sideInputType"
-        class="sideInput"
-        :type="sideInputType"
-        :class="sideInputClass"
-        :maxlength="sideInputMaxLength"
-        @input="updateSideValue"
-        :value="sideInputVModel"
-      />
-      <!-- /sideInput -->
     </div>
-    <!-- error -->
-    <Error :error="error" :error-color="errorColor" :name="name" />
-    <!-- /error -->
-    <!-- multiSelect list -->
+    <template #button>
+      <Button @click="onOpenModal" class="default" type="button">{{ placeholder }}</Button>
+    </template>
+  </Modal>
+  <!-- error -->
+  <Error :error="error" :error-color="errorColor" :name="name" />
+  <!-- /error -->
+  <!-- multiSelect list -->
+  <div v-if="showSelected" class="py-1 d-flex flex-wrap" style="cursor: default" @mousedown.prevent>
     <div
-      v-if="showSelected"
-      v-for="multi of selected"
-      :key="Math.random()"
-      class="mt-1 d-flex justify-content-between px-2"
-      :class="multiSelectClass(multi)"
+      v-for="item of selected"
+      class="chip rounded px-2 border border-dark m-1"
+      style="cursor: pointer"
+      @click.stop="selectItem(item)"
+      @mousedown.prevent
     >
-      {{ optionProjection(options.find(e => keyExtractor(e) == keyExtractor(multi))) }}
-      <span @click="deleteItem(multi)" style="cursor: pointer" v-if="!disabled">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-          <path
-            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-          />
-        </svg>
-      </span>
+      {{ optionProjection(item) }}
+      <i class="fa fa-trash"></i>
     </div>
-    <!-- /multiSelect list -->
   </div>
+  <!-- /multiSelect list -->
 </template>
 <script lang="ts">
 /**
@@ -151,10 +140,11 @@ import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Checkbox from './Checkbox.vue';
 import Spinner from '../Spinner.vue';
+import Modal from '../Modal.vue';
+import Button from '../Button.vue';
 
 type Any = any;
 interface Option extends Any {}
-
 const emit = defineEmits<{
   (e: 'update:selected', selected: Option[]): void;
   (e: 'update:modelValue', modelValue: string): void;
@@ -199,7 +189,6 @@ const props = withDefaults(
     name?: string;
     error?: InputError;
     errorColor?: string;
-    labelClass?: string;
     sideWidth?: number;
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
@@ -248,7 +237,6 @@ const {
   listClass,
   error,
   errorColor,
-  labelClass,
   sideWidth,
   sideInputType,
   sideInputClass,
@@ -267,19 +255,13 @@ const {
 } = toRefs(props);
 const id = ref(JSON.stringify(Math.random()));
 const slots = useSlots();
-const isListVisible = ref(false);
-const searchText = ref('');
-const document = window.document;
+const searchText = ref(modelValue.value || '');
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
-const checkButton = computed(() => {
-  return !!slots.button;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
+const checkButton = computed(() => !!slots.button);
+const checkNoElementMessage = computed(() => !!slots.noElementMessage);
+
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
   if (showAll.value) return options.value;
@@ -297,7 +279,9 @@ const filteredItems = computed(() => {
   if (array.length > 50) return array.slice(0, 50);
   else return array;
 });
-
+function onOpenModal() {
+  setTimeout(() => document.getElementById(id.value)?.focus(), 0);
+}
 function onInput(event: Event) {
   //is executed when something is entered in selectInput.
   updateValue(event);
@@ -308,11 +292,6 @@ function onInput(event: Event) {
 }
 function onFocus() {
   //is executed when the selectInput is focussed
-  isListVisible.value = true;
-  setTimeout(() => {
-    listWidth.value = document.getElementById(id.value)?.getBoundingClientRect().width + 'px';
-    document.getElementById('scroll' + id.value)?.scrollIntoView();
-  }, 0);
   emit('onFocus', {
     modelValue: modelValue.value,
     options: filteredItems.value,
@@ -321,8 +300,6 @@ function onFocus() {
 
 function onBlur() {
   //is executed when the selectInput is no longer focused
-  isListVisible.value = false;
-
   if (options?.value.find(e => e == (modelValue.value || searchText.value)))
     emit(
       'selectItem',
@@ -389,10 +366,10 @@ input {
   background-color: v-bind(backgroundColor);
   border-color: v-bind(borderColorComputed);
 }
-.sideButton,
+.sideButtonSelect,
 .sideInput {
   left: v-bind(inputWidth);
-  width: v-bind(sideWidthComputed) !important;
+  border-radius: 0 0.5rem 0 0 !important;
 }
 input.sideInput:focus {
   border-color: v-bind(borderColorComputed);

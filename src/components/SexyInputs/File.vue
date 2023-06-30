@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <input v-bind="$attrs" class="form-control shadow-none" type="file" @input="updateValue" style="padding-left: none" autocomplete="off" />
     <!-- placeholder -->
     <label class="text" :class="labelClass" v-if="placeholder">
@@ -74,9 +74,7 @@ const props = withDefaults(
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, preview, name } = toRefs(props);
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 
 function updateValue(event: any) {
   emit('update:modelValue', Object.values(event.target.files)[0]);
@@ -104,7 +102,7 @@ input.sideInput:focus {
   }
   input:focus + .text,
   input + .text {
-    background-color: inherit;
+    background-color: v-bind(backgroundColor);
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;

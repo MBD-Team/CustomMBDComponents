@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <textarea
       v-bind="$attrs"
       class="form-control shadow-none"
@@ -67,9 +67,7 @@ const props = withDefaults(
 );
 const { modelValue, error, errorColor, labelClass, placeholder, borderColor, name, backgroundColor } = toRefs(props);
 
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 function updateValue(event: any) {
   emit('update:modelValue', event.target.value);
 }
@@ -131,7 +129,7 @@ function updateValue(event: any) {
   }
   textarea:focus + .text,
   textarea.dirty + .text {
-    background-color: inherit;
+    background-color: v-bind(backgroundColor);
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding-inline: 0.3rem;

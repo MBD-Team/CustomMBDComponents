@@ -95,4 +95,9 @@ a {
   background-color: #f8fafc;
   border: 1px solid black;
 }
+.sideButtonSelect {
+  > button {
+    border-radius: 0 0.5rem 0 0 !important;
+  }
+}
 </style>

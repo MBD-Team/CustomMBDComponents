@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain" :style="{ backgroundColor: backgroundColor }" :class="placeholder ? 'mt-3' : ''">
+  <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <!-- icon -->
     <div v-if="checkIcon" class="icon">
       <slot></slot>
@@ -88,12 +88,8 @@ onMounted(() => {
 
 const isInputFocus = ref(false);
 const slots = useSlots();
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
-const checkIcon = computed(() => {
-  return !!slots.icon;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
+const checkIcon = computed(() => !!slots.icon);
 function updateValue(event: any) {
   if (typeof event == 'string') emit('update:modelValue', event);
   else emit('update:modelValue', event.target.value);
@@ -128,7 +124,7 @@ input {
     display: flex;
     pointer-events: none;
     margin: 0 0.6rem;
-    background-color: inherit;
+    background-color: v-bind(backgroundColor);
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     font-size: 0.9rem;
     padding: 0 0.3rem;

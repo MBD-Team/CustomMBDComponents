@@ -52,9 +52,7 @@ const { modelValue, error, errorColor, borderColor, name, value } = toRefs(props
 function updateValue() {
   emit('update:modelValue', !modelValue.value);
 }
-const borderColorComputed = computed(() => {
-  return getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value;
-});
+const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 </script>
 <style scoped lang="scss">
 @use 'checkBoxStyle';

@@ -1,5 +1,27 @@
 <template>
-  <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
+  <div class="p-5">
+    <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine">
+      <template #button><Button :side-button="true">speichern</Button></template>
+      <template #noElementMessage>
+        <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model="text"></SelectInput>
+      </template>
+    </MultiSelectInput>
+    <SelectInput
+      :options="options"
+      v-model:selected="selected"
+      placeholder="wähle sportverein"
+      v-model:sideInputVModel="number"
+      :side-input-type="'number'"
+      v-model="text"
+    ></SelectInput>
+    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model:sideInputVModel="number"></SelectInput>
+    <TextInput v-model="text" placeholder="test"></TextInput>
+  </div>
+  <div v-for="i of 50">
+    <TextInput v-model="text">
+      <template #button><Button :side-button="true">speichern</Button></template>
+    </TextInput>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -38,7 +60,7 @@ import Wizard from './components/Wizard.vue';
 const text = ref('alertMessage');
 const showAlert = ref(true);
 
-const options = ['1', '2', '3'];
+const options = [];
 const list = ref<number[]>([1]);
 const selected = ref([]);
 const date = ref('');
@@ -53,7 +75,9 @@ const sections = ref(
     { title: 'Section2', content: 'test' },
   ].map((e, i) => ({ ...e, hash: e.title + i }))
 );
-
+for (let i = 0; i < 100; i++) {
+  options.push(Math.random() + '');
+}
 const log = console.log;
 </script>
 
