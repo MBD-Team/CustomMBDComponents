@@ -4,7 +4,7 @@
     :href="href"
     v-bind="$attrs"
     :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
-    class="d-flex align-items-center justify-content-center"
+    class="d-flex align-items-center justify-content-center flex-wrap"
     :class="class"
   >
     <slot></slot>
