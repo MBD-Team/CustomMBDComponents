@@ -2,8 +2,8 @@
   <div class="input-contain" :class="placeholder ? 'mt-3' : ''">
     <input v-bind="$attrs" class="form-control shadow-none" type="file" @input="updateValue" style="padding-left: none" autocomplete="off" />
     <!-- placeholder -->
-    <label class="text" :class="labelClass" v-if="placeholder">
-      {{ placeholder }}
+    <label class="text" style="max-width: 70%" :class="labelClass" v-if="placeholder">
+      <div class="text-truncate">{{ placeholder }}</div>
     </label>
     <!-- /placeholder -->
     <!-- preview -->

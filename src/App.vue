@@ -8,6 +8,7 @@
         </Button>
       </template>
     </TextInput>
+    <MultiFileInput :fileArray="list">fgdfgdfdfh gkjl</MultiFileInput>
   </div>
 </template>
 

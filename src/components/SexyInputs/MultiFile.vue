@@ -125,7 +125,7 @@ function loadFile(file: any) {
 }
 
 button {
-  height: 2.5rem;
+  min-height: 2.5rem;
   width: 100%;
   background: white;
   text-decoration: none;
