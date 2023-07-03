@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <TextInput v-model="text" placeholder="fghkcdfjugi ghrtzuhdklfx-gz">
-      <template #button>
-        <Button sideButton>
-          <i class="fa fa-save me-2"></i>
-          speichern
-        </Button>
-      </template>
-    </TextInput>
-    <MultiFileInput :fileArray="list">fgdfgdfdfh gkjl</MultiFileInput>
+  <div class="card">
+    <Wizard
+      :steps="[
+        { iconName: 'image' },
+        { iconName: 'calendar' },
+        { iconName: 'volleyball-ball' },
+        { iconName: 'map-marked-alt' },
+        { iconName: 'clock' },
+        { iconName: 'info' },
+        { iconName: 'flag-checkered' },
+      ]"
+    ></Wizard>
   </div>
 </template>
 

@@ -11,7 +11,8 @@
         v-else
         class="rounded"
         :class="getIconColor(step.stepIndex, 1)"
-        style="position: relative; left: -50%; height: 8px; margin-block: calc(calc(50px - 8px) / 2)"
+        style="position: relative; left: -50%; height: 8px"
+        :style="`margin-block:${((isMobile ? 30 : 50) - 8) / 2}px;`"
       />
     </template>
   </div>
@@ -26,13 +27,14 @@
         class="rounded-circle d-flex align-items-center justify-content-center mx-auto"
         :class="[getIconColor(step.stepIndex), iconClass]"
         :style="{
-          width: '50px',
-          height: '50px',
+          width: isMobile ? '30px' : '50px',
+          height: isMobile ? '30px' : '50px',
+          fontSize: isMobile ? '1rem' : '2rem',
           filter: step.stepIndex > currentStepIndex && step.stepIndex <= maxReachedStep ? ' grayscale(50%)' : 'grayscale(0%)',
         }"
         :role="step.stepIndex <= maxReachedStep ? 'button' : ''"
       >
-        <i :class="`fas fa-${step.iconName} fa-2x`"></i>
+        <i :class="['fas', `fa-${step.iconName}`]"></i>
       </div>
       <div :class="`text-center ${showStepIndices ? '' : 'd-none'}`">
         {{ step.stepIndex + 1 }}
@@ -72,6 +74,11 @@
 import { ref, toRefs, VNodeRef, watch, watchEffect } from 'vue';
 import Button from './Button.vue';
 import Tooltip from './Tooltip.vue';
+const isMobile = ref(false);
+
+new ResizeObserver(() => {
+  isMobile.value = window.innerWidth < 70 * steps.value.length;
+}).observe(document.body);
 
 const emit = defineEmits(['update:currentStep']);
 
@@ -149,7 +156,6 @@ const stepSelectorElem = ref<HTMLDivElement>();
 function next() {
   if (onNext?.value) onNext.value();
   currentStepIndex.value++;
-  console.log(stepSelectorElem.value);
   setTimeout(() => stepSelectorElem.value?.scrollIntoView(), 70);
 }
 function previous() {
