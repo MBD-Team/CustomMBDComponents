@@ -3,19 +3,13 @@
     v-if="href"
     :href="href"
     v-bind="$attrs"
-    :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
+    :style="sideButton ? sideButtonStyle : ''"
     class="d-flex align-items-center justify-content-center flex-wrap"
     :class="class"
   >
     <slot></slot>
   </a>
-  <button
-    v-else
-    v-bind="$attrs"
-    :disabled="loading || disabled"
-    :style="sideButton ? 'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;' : ''"
-    :class="class"
-  >
+  <button v-else v-bind="$attrs" :disabled="loading || disabled" :style="sideButton ? sideButtonStyle : ''" :class="class">
     <Spinner v-if="loading" :color="spinnerColor" class="me-2" :size="spinnerSize"></Spinner>
     <slot></slot>
   </button>
@@ -61,6 +55,8 @@ const props = withDefaults(
   }
 );
 const { spinnerColor, spinnerSize } = toRefs(props);
+const sideButtonStyle =
+  'border-left:none; width:100%; padding:none;border-radius: 0 0.5rem 0.5rem 0;border-width: 1px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;';
 </script>
 <style scoped lang="scss">
 button,

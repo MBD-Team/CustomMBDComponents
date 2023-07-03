@@ -1,25 +1,12 @@
 <template>
-  <div class="p-5">
-    <MultiSelectInput :options="options" v-model:selected="selected" placeholder="wähle sportvereine">
-      <template #button><Button :side-button="true">speichern</Button></template>
-      <template #noElementMessage>
-        <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model="text"></SelectInput>
+  <div>
+    <TextInput v-model="text" placeholder="fghkcdfjugi ghrtzuhdklfx-gz">
+      <template #button>
+        <Button sideButton>
+          <i class="fa fa-save me-2"></i>
+          speichern
+        </Button>
       </template>
-    </MultiSelectInput>
-    <SelectInput
-      :options="options"
-      v-model:selected="selected"
-      placeholder="wähle sportverein"
-      v-model:sideInputVModel="number"
-      :side-input-type="'number'"
-      v-model="text"
-    ></SelectInput>
-    <SelectInput :options="options" v-model:selected="selected" placeholder="wähle sportverein" v-model:sideInputVModel="number"></SelectInput>
-    <TextInput v-model="text" placeholder="test"></TextInput>
-  </div>
-  <div v-for="i of 50">
-    <TextInput v-model="text">
-      <template #button><Button :side-button="true">speichern</Button></template>
     </TextInput>
   </div>
 </template>
@@ -57,7 +44,7 @@ import Spinner from './components/Spinner.vue';
 import Tooltip from './components/Tooltip.vue';
 import Wizard from './components/Wizard.vue';
 
-const text = ref('alertMessage');
+const text = ref('alert Message');
 const showAlert = ref(true);
 
 const options = [];
