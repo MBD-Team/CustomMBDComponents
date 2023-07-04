@@ -1,14 +1,14 @@
 <template>
-  <div class="card">
+  <div class="card w-100">
     <Wizard
       :steps="[
-        { iconName: 'image' },
-        { iconName: 'calendar' },
-        { iconName: 'volleyball-ball' },
-        { iconName: 'map-marked-alt' },
-        { iconName: 'clock' },
-        { iconName: 'info' },
-        { iconName: 'flag-checkered' },
+        { iconName: 'image', title: 'dgfdfdfdfdfjkfgfg' },
+        { iconName: 'calendar', title: 'dgfdfdfdfdfjkfgfg' },
+        { iconName: 'volleyball-ball', title: 'dgfdfdfdfdfjkfgfg' },
+        { iconName: 'map-marked-alt', title: 'dgfdfdfdfdfjkfgfg' },
+        { iconName: 'clock', title: 'dgfdfdfdfdfjkfgfg' },
+        { iconName: 'info', title: 'dgfdfdfdfdfjkfgfg' },
+        { iconName: 'flag-checkered', title: 'dgfdfdfdfdfjkfgfg' },
       ]"
     ></Wizard>
   </div>

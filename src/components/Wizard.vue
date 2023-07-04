@@ -1,7 +1,7 @@
 <template>
   <div
     ref="stepSelectorElem"
-    class="d-grid w-100"
+    class="d-grid"
     style="margin-top: -20px; padding-top: 20px"
     :style="{ height: 0, gridTemplateColumns: steps.map(_ => '1fr').join(' ') }"
   >
@@ -16,7 +16,7 @@
       />
     </template>
   </div>
-  <div class="d-grid w-100" :style="{ gridTemplateColumns: steps.map(_ => '1fr').join(' ') }">
+  <div class="d-grid" :style="{ gridTemplateColumns: steps.map(_ => '1fr').join(' ') }">
     <div
       v-for="step in steps.map((e, i) => ({ ...e, stepIndex: i }))"
       :key="step.stepIndex"
@@ -39,7 +39,7 @@
       <div :class="`text-center ${showStepIndices ? '' : 'd-none'}`">
         {{ step.stepIndex + 1 }}
       </div>
-      <div class="text-center">
+      <div class="text-center text-truncate" :style="`max-width: ${maxWidth}px`">
         {{ step.title }}
       </div>
     </div>
@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, VNodeRef, watch, watchEffect } from 'vue';
+import { onMounted, ref, toRefs, watch, watchEffect } from 'vue';
 import Button from './Button.vue';
 import Tooltip from './Tooltip.vue';
 const isMobile = ref(false);
@@ -153,6 +153,14 @@ watchEffect(() => {
 });
 
 const stepSelectorElem = ref<HTMLDivElement>();
+const maxWidth = ref(0);
+onMounted(() => {
+  new ResizeObserver(() => {
+    if (stepSelectorElem.value) {
+      maxWidth.value = stepSelectorElem.value?.offsetWidth / (steps.value.length * 1.2);
+    }
+  }).observe(stepSelectorElem.value);
+});
 function next() {
   if (onNext?.value) onNext.value();
   currentStepIndex.value++;
