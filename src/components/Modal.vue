@@ -183,7 +183,7 @@ function resetError() {
 .mbd-modal-body {
   padding: 1rem;
   overflow: auto;
-  max-height: calc(80vh - 57px * 2);
+  max-height: calc(90vh - 57px * 2);
 }
 .mbd-modal-footer {
   display: flex;
