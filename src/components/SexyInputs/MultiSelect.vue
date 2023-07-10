@@ -92,7 +92,7 @@
       </div>
     </div>
     <template #button>
-      <Button @click="onOpenModal" class="default" type="button">{{ placeholder }}</Button>
+      <Button :disabled="disabled" @click="onOpenModal" class="default" type="button">{{ placeholder }}</Button>
     </template>
   </Modal>
   <!-- error -->

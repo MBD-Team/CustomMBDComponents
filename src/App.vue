@@ -1,9 +1,8 @@
 <template>
   <div class="card w-100">
-    <DropdownButton break-point="md">
-      <Button class="btn btn-primary me-2">Test</Button>
-      <Button>Test1</Button>
-    </DropdownButton>
+    <SelectInput :options="options" placeholder="test" :disabled="true"></SelectInput>
+    <TextInput disabled v-model="text"></TextInput>
+    <MultiSelectInput :options="options" placeholder="test" disabled v-model:selected="selected"></MultiSelectInput>
   </div>
 </template>
 
@@ -44,7 +43,7 @@ import Wizard from './components/Wizard.vue';
 const text = ref('alert Message');
 const showAlert = ref(true);
 
-const options = [];
+const options = ['test'];
 const list = ref<number[]>([1]);
 const selected = ref([]);
 const date = ref('');

@@ -8,7 +8,7 @@
         </div>
         <!-- /icon -->
         <input
-          v-bind="attrs"
+          v-bind="$attrs"
           :id="id"
           class="simple-typeahead-input form-control shadow-none"
           style="border-radius: 0.5rem 0.5rem 0 0; border-width: 2px"
@@ -70,13 +70,15 @@
       </div>
     </div>
     <template #button>
-      <Text
-        @click="onOpenModal"
-        :placeholder="placeholder"
-        v-model="searchText"
-        :side-input-type="sideInputType"
-        :side-input-v-model="sideInputVModel"
-      ></Text>
+      <div @click.stop="disabled ? () => {} : onOpenModal">
+        <Text
+          :disabled="disabled"
+          :placeholder="placeholder"
+          v-model="searchText"
+          :side-input-type="sideInputType"
+          :side-input-v-model="sideInputVModel"
+        ></Text>
+      </div>
     </template>
   </Modal>
   <!-- error -->
@@ -101,7 +103,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, ref, toRefs, useSlots, useAttrs, onMounted } from 'vue';
+import { computed, ref, toRefs, useSlots, onMounted } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Spinner from '../Spinner.vue';
@@ -110,8 +112,6 @@ import Text from './Text.vue';
 
 type Any = any;
 interface Option extends Any {}
-
-const attrs = useAttrs();
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: string): void;
   (e: 'update:sideInputVModel', modelValue: string): void;
@@ -166,6 +166,7 @@ const props = withDefaults(
     listItemClass?: (option: Option) => string;
     matchFromStart?: boolean;
     loading?: boolean;
+    disabled?: boolean;
   }>(),
   {
     placeholder: '',
@@ -183,6 +184,7 @@ const props = withDefaults(
     name: '',
     loading: false,
     modelValue: '',
+    disabled: false,
   }
 );
 const {
