@@ -1,16 +1,9 @@
 <template>
   <div class="card w-100">
-    <Wizard
-      :steps="[
-        { iconName: 'image', title: 'dgfdfdfdfdfjkfgfg' },
-        { iconName: 'calendar', title: 'dgfdfdfdfdfjkfgfg' },
-        { iconName: 'volleyball-ball', title: 'dgfdfdfdfdfjkfgfg' },
-        { iconName: 'map-marked-alt', title: 'dgfdfdfdfdfjkfgfg' },
-        { iconName: 'clock', title: 'dgfdfdfdfdfjkfgfg' },
-        { iconName: 'info', title: 'dgfdfdfdfdfjkfgfg' },
-        { iconName: 'flag-checkered', title: 'dgfdfdfdfdfjkfgfg' },
-      ]"
-    ></Wizard>
+    <DropdownButton break-point="md">
+      <Button class="btn btn-primary me-2">Test</Button>
+      <Button>Test1</Button>
+    </DropdownButton>
   </div>
 </template>
 
@@ -37,6 +30,7 @@ import TextAreaInput from './components/SexyInputs/Textarea.vue';
 import TimeInput from './components/SexyInputs/Time.vue';
 
 import Accordion from './components/Accordion.vue';
+import DropdownButton from './components/DropdownButton.vue';
 import Alert from './components/Alert.vue';
 import Button from './components/Button.vue';
 import Carousel from './components/Carousel.vue';
