@@ -1,6 +1,7 @@
 export { default as Modal } from './src/components/Modal.vue';
 export { default as Spinner } from './src/components/Spinner.vue';
 export { default as Button } from './src/components/Button.vue';
+export { default as DropdownButton } from './src/components/DropdownButton.vue';
 export { default as Carousel } from './src/components/Carousel.vue';
 export { default as ProgressBar } from './src/components/ProgressBar.vue';
 export { default as Tooltip } from './src/components/Tooltip.vue';
