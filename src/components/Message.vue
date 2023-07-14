@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, toRefs, watch } from 'vue';
+import { computed, toRefs, watch, nextTick } from 'vue';
 import Alert from './Alert.vue';
 const props = withDefaults(
   defineProps<{
@@ -42,12 +42,14 @@ const messages = computed(
     ] as const
 );
 
-watch(messages, (oldValue, newValue) => {
+watch(messages, (newValue, oldValue) => {
   const el = document.getElementById(messageId);
   if (el) {
-    for (const message of oldValue) {
-      if (hasValue(message.content) && !hasValue(newValue.find(e => e.name == message.name)?.content)) {
-        el.scrollIntoView({ behavior: 'smooth' });
+    for (const message of newValue) {
+      if (hasValue(message.content) && message.content != oldValue.find(e => e.name == message.name)?.content) {
+        if (el.getBoundingClientRect().y > window.innerHeight || el.getBoundingClientRect().y < 56) {
+          nextTick(() => el.scrollIntoView({ behavior: 'smooth' }));
+        }
       }
     }
   }

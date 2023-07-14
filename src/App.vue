@@ -1,8 +1,17 @@
 <template>
+  <div v-for="i in 40">t</div>
   <Message v-model:success="text"></Message>
-  <div v-for="i in 100">t</div>
   <button @click="text = ''">clear</button>
   <button @click="text = 'test'">fill</button>
+  <button
+    @click="
+      text =
+        'test123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaec'
+    "
+  >
+    fill
+  </button>
+  <div v-for="i in 50">t</div>
 </template>
 
 <script lang="ts" setup>
