@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :id="messageId">
     <Alert
       v-for="message of messages"
       :model-value="hasValue(message.content)"
@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, watch } from 'vue';
 import Alert from './Alert.vue';
 const props = withDefaults(
   defineProps<{
@@ -30,6 +30,8 @@ const { error, success, warning, info } = toRefs(props);
 
 const emit = defineEmits(['update:error', 'update:success', 'update:warning', 'update:info']);
 
+const messageId = 'message-' + Math.random();
+
 const messages = computed(
   () =>
     [
@@ -39,6 +41,17 @@ const messages = computed(
       { name: 'warning', content: warning?.value, class: 'warning' },
     ] as const
 );
+
+watch(messages, (oldValue, newValue) => {
+  const el = document.getElementById(messageId);
+  if (el) {
+    for (const message of oldValue) {
+      if (hasValue(message.content) && !hasValue(newValue.find(e => e.name == message.name)?.content)) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
+});
 
 function hasValue(prop: string | Object | undefined) {
   return typeof prop === 'string' ? !!prop : !!Object.values(prop || {}).length;

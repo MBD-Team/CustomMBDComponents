@@ -1,9 +1,8 @@
 <template>
-  <div class="card w-100">
-    <SelectInput :options="options" placeholder="test" :disabled="true"></SelectInput>
-    <TextInput disabled v-model="text"></TextInput>
-    <MultiSelectInput :options="options" placeholder="test" disabled v-model:selected="selected"></MultiSelectInput>
-  </div>
+  <Message v-model:success="text"></Message>
+  <div v-for="i in 100">t</div>
+  <button @click="text = ''">clear</button>
+  <button @click="text = 'test'">fill</button>
 </template>
 
 <script lang="ts" setup>
