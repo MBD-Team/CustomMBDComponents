@@ -70,7 +70,16 @@
       </div>
     </div>
     <template #button>
-      <div @click.stop="disabled ? () => {} : onOpenModal">
+      <div v-if="disabled" @click.stop>
+        <Text
+          :disabled="disabled"
+          :placeholder="placeholder"
+          v-model="searchText"
+          :side-input-type="sideInputType"
+          :side-input-v-model="sideInputVModel"
+        ></Text>
+      </div>
+      <div v-else @click="onOpenModal">
         <Text
           :disabled="disabled"
           :placeholder="placeholder"
