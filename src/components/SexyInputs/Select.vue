@@ -9,6 +9,7 @@
         <!-- /icon -->
         <input
           v-bind="$attrs"
+          :required="required"
           :id="id"
           class="simple-typeahead-input form-control shadow-none"
           style="border-radius: 0.5rem 0.5rem 0 0; border-width: 2px"
@@ -77,6 +78,7 @@
           v-model="searchText"
           :side-input-type="sideInputType"
           :side-input-v-model="sideInputVModel"
+          :required="required"
         ></Text>
       </div>
       <div v-else @click="onOpenModal">
@@ -86,6 +88,7 @@
           v-model="searchText"
           :side-input-type="sideInputType"
           :side-input-v-model="sideInputVModel"
+          :required="required"
         ></Text>
       </div>
     </template>
@@ -176,6 +179,7 @@ const props = withDefaults(
     matchFromStart?: boolean;
     loading?: boolean;
     disabled?: boolean;
+    required?: boolean;
   }>(),
   {
     placeholder: '',
@@ -194,6 +198,7 @@ const props = withDefaults(
     loading: false,
     modelValue: '',
     disabled: false,
+    required: false,
   }
 );
 const {

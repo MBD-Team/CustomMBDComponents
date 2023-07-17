@@ -1,4 +1,5 @@
 <template>
+  <SelectInput :options="options" placeholder="rvgfho" required></SelectInput>
   <div v-for="i in 40">t</div>
   <Message v-model:success="text"></Message>
   <button @click="text = ''">clear</button>
