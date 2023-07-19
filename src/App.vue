@@ -1,18 +1,7 @@
 <template>
-  <SelectInput :options="options" placeholder="rvgfho" required></SelectInput>
-  <div v-for="i in 40">t</div>
-  <Message v-model:success="text"></Message>
-  <button @click="text = ''">clear</button>
-  <button @click="text = 'test'">fill</button>
-  <button
-    @click="
-      text =
-        'test123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaectest123<ylisdbgnfjirsbvkjiewbnraewlvgblbawvraewbva hnafawbfvguiraewbfrefi aeifwebhbubhfauibhfkbhf iwjabhgflauibrgyuibg rbaraueiwbgrebvgfluibvdsbgfbaec'
-    "
-  >
-    fill
-  </button>
-  <div v-for="i in 50">t</div>
+  <MultiSelectInput v-model="text" placeholder="test" :options="options" v-model:selected="selected">
+    <template #button><Button sideButton>test</Button></template>
+  </MultiSelectInput>
 </template>
 
 <script lang="ts" setup>

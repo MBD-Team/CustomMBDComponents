@@ -100,15 +100,8 @@
   <!-- /error -->
   <!-- multiSelect list -->
   <div v-if="showSelected" class="py-1 d-flex flex-wrap" style="cursor: default" @mousedown.prevent>
-    <div
-      v-for="item of selected"
-      class="chip rounded px-2 border border-dark m-1"
-      style="cursor: pointer"
-      @click.stop="selectItem(item)"
-      @mousedown.prevent
-    >
+    <div v-for="item of selected" class="chip rounded px-2 border border-dark m-1" style="cursor: pointer">
       {{ optionProjection(item) }}
-      <i class="fa fa-trash"></i>
     </div>
   </div>
   <!-- /multiSelect list -->
