@@ -24,7 +24,7 @@
                   "
                 ></button>
               </div>
-              <div class="mbd-modal-body" style="max-height: 80vh; overflow: auto">
+              <div class="mbd-modal-body">
                 <Message v-model:error="error" />
                 <slot></slot>
               </div>
@@ -182,6 +182,8 @@ function resetError() {
 }
 .mbd-modal-body {
   padding: 1rem;
+  overflow: auto;
+  max-height: calc(80vh - 57px * 2);
 }
 .mbd-modal-footer {
   display: flex;
