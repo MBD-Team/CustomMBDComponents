@@ -1,5 +1,5 @@
 <template>
-  <div class="input-contain">
+  <div class="input-contain" :draggable="true" @drop.prevent="previewFiles" @dragenter.prevent @dragover.prevent>
     <input hidden v-bind="$attrs" style="width: 100%" type="file" autocomplete="off" @change="previewFiles" multiple :id="id" />
     <button v-bind="$attrs" @click="clickFileInput" type="button" :id="id + 'button'"><slot></slot></button>
     <!-- error -->
@@ -17,7 +17,7 @@
       <div v-if="preview" style="grid-area: pic" class="d-flex justify-content-center">
         <img :src="loadFile(file)" style="max-height: 5rem; max-width: 100%" alt="" />
       </div>
-      <span @click="emit('deleteFile', index)" style="grid-area: trash; cursor: pointer">
+      <span @click="deleteFile(index)" style="grid-area: trash; cursor: pointer">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
           <path
             d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -65,7 +65,11 @@ export default {
 import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
-const emit = defineEmits<{ (e: 'addFile', files: File[]): void; (e: 'deleteFile', index: number): void }>();
+const emit = defineEmits<{
+  (e: 'update:fileArray', fileArray: File[]): void;
+  (e: 'addFile', files: File[]): void;
+  (e: 'deleteFile', index: number): void;
+}>();
 const props = withDefaults(
   defineProps<{
     fileArray: File[];
@@ -102,7 +106,20 @@ function onResize() {
   buttonWidth.value = document.getElementById(id.value + 'button')?.clientWidth;
 }
 function previewFiles(event: any) {
-  emit('addFile', Object.values(event.target.files) as File[]);
+  if (event.dataTransfer) {
+    emit('update:fileArray', [...fileArray.value, ...(Object.values(event.dataTransfer.files) as File[])]);
+    emit('addFile', Object.values(event.dataTransfer.files) as File[]);
+  } else {
+    emit('update:fileArray', [...fileArray.value, ...(Object.values(event.target.files) as File[])]);
+    emit('addFile', Object.values(event.target.files) as File[]);
+  }
+}
+function deleteFile(index: number) {
+  emit(
+    'update:fileArray',
+    fileArray.value.filter((_, i) => i != index)
+  );
+  emit('deleteFile', index);
 }
 function clickFileInput() {
   document.getElementById(id.value)?.click();
