@@ -1,5 +1,7 @@
 <template>
-  <MultiFileInput v-model:file-array="files" preview>files</MultiFileInput>
+  <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
+  <SelectInput :options="options"></SelectInput>
+  <Modal><template #button>hello</template></Modal>
 </template>
 
 <script lang="ts" setup>

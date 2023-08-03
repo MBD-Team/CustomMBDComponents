@@ -81,8 +81,9 @@
           :required="required"
         ></Text>
       </div>
-      <div v-else @click="onOpenModal">
+      <div v-else>
         <Text
+          @focus="onOpenModal"
           :disabled="disabled"
           :placeholder="placeholder"
           v-model="searchText"
@@ -253,6 +254,7 @@ const filteredItems = computed(() => {
 });
 const isModalOpen = ref(false);
 function onOpenModal() {
+  isModalOpen.value = true;
   setTimeout(() => document.getElementById(id.value)?.focus(), 0);
 }
 function onInput(event: Event) {

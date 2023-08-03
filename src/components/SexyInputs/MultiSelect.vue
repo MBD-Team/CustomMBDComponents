@@ -1,5 +1,5 @@
 <template>
-  <Modal :title="placeholder">
+  <Modal :title="placeholder" v-model="isModalOpen">
     <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
       <div class="simple-typeahead input-contain">
         <!-- icon -->
@@ -92,7 +92,7 @@
       </div>
     </div>
     <template #button>
-      <Button :disabled="disabled" @click="onOpenModal" class="default" type="button">{{ placeholder }}</Button>
+      <Button :disabled="disabled" @focus="onOpenModal" class="default" type="button">{{ placeholder }}</Button>
     </template>
   </Modal>
   <!-- error -->
@@ -272,7 +272,10 @@ const filteredItems = computed(() => {
   if (array.length > 50) return array.slice(0, 50);
   else return array;
 });
+const isModalOpen = ref(false);
 function onOpenModal() {
+  console.log('test');
+  isModalOpen.value = true;
   setTimeout(() => document.getElementById(id.value)?.focus(), 0);
 }
 function onInput(event: Event) {
