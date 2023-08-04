@@ -244,8 +244,10 @@ const filteredItems = computed(() => {
   if (showAll.value) return options.value;
   //options that are still possible
   let regexp: RegExp;
-  if (matchFromStart.value) regexp = new RegExp('^' + (modelValue.value || searchText.value), 'i');
-  else regexp = new RegExp(modelValue.value || searchText.value, 'i');
+  //escape all characters that have a special meaning in regular expressions
+  let escapedQuery = (modelValue.value|| searchText.value).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+  if (matchFromStart.value) regexp = new RegExp('^' + escapedQuery, 'i');
+  else regexp = new RegExp(escapedQuery, 'i');
   let array: Option[] = [];
   try {
     array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
