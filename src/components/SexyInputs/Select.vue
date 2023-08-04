@@ -90,7 +90,11 @@
           :side-input-type="sideInputType"
           :side-input-v-model="sideInputVModel"
           :required="required"
-        ></Text>
+        >
+          <template #button>
+            <slot name="button"></slot>
+          </template>
+        </Text>
       </div>
     </template>
   </Modal>

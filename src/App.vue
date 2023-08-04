@@ -1,7 +1,7 @@
 <template>
-  <MultiSelectInput :options="options" v-model:selected="selected"></MultiSelectInput>
-  <SelectInput :options="options"></SelectInput>
-  <Modal><template #button>hello</template></Modal>
+  <SelectInput :options="options">
+    <template #button><Button sideButton>test</Button></template>
+  </SelectInput>
 </template>
 
 <script lang="ts" setup>
