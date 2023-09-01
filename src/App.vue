@@ -8,6 +8,7 @@
   <MultiSelectInput show-all :options="options" v-model:selected="selected" placeholder="test" :option-projection="e => e.name"></MultiSelectInput>
 
   <Modal :affirm="'tst'"></Modal>
+  <Message v-model:error=""></Message>
 </template>
 
 <script lang="ts" setup>

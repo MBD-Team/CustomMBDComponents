@@ -3,7 +3,7 @@
     <Alert
       v-for="message of messages"
       :model-value="hasValue(message.content)"
-      @update:model-value="emit(`update:${message.name}`, '')"
+      @update:model-value="emit(`update:${message.name}` as any, '')"
       :class="`alert alert-${message.class}`"
       :dismissable="dismissable"
       :close-btn="dismissable"
@@ -13,23 +13,28 @@
     </Alert>
   </div>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" generic="TObj extends Record<string,any>">
 import { computed, toRefs, watch, nextTick } from 'vue';
 import Alert from './Alert.vue';
 
 const props = withDefaults(
   defineProps<{
-    error?: string | Object;
-    success?: string | Object;
-    warning?: string | Object;
-    info?: string | Object;
+    error?: string | TObj;
+    success?: string | TObj;
+    warning?: string | TObj;
+    info?: string | TObj;
     dismissable?: boolean;
   }>(),
   { dismissable: true }
 );
 const { error, success, warning, info } = toRefs(props);
 
-const emit = defineEmits(['update:error', 'update:success', 'update:warning', 'update:info']);
+const emit = defineEmits<{
+  'update:error': [value: string | TObj];
+  'update:success': [value: string | TObj];
+  'update:warning': [value: string | TObj];
+  'update:info': [value: string | TObj];
+}>();
 
 const messageId = 'message-' + Math.random();
 
