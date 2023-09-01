@@ -1,7 +1,13 @@
 <template>
-  <SelectInput :options="options">
+  <SelectInput :modelValue="test.name" :selected="test" :options="options" showAll :optionProjection="e => e.name" @selectItem="e => (test = e)">
     <template #button><Button sideButton>test</Button></template>
   </SelectInput>
+  {{ test }}
+
+  <NumberInput v-model="text"></NumberInput>
+  <MultiSelectInput show-all :options="options" v-model:selected="selected" placeholder="test" :option-projection="e => e.name"></MultiSelectInput>
+
+  <Modal :affirm="'tst'"></Modal>
 </template>
 
 <script lang="ts" setup>
@@ -41,7 +47,11 @@ import Wizard from './components/Wizard.vue';
 const text = ref('alert Message');
 const showAlert = ref(true);
 
-const options = ['test'];
+const test = ref({ id: 1, name: '1' });
+
+const options = Array(10)
+  .fill(0)
+  .map((_, i) => ({ name: i + '', id: i }));
 const list = ref<number[]>([1]);
 const selected = ref([]);
 const date = ref('');
@@ -56,9 +66,9 @@ const sections = ref(
     { title: 'Section2', content: 'test' },
   ].map((e, i) => ({ ...e, hash: e.title + i }))
 );
-for (let i = 0; i < 100; i++) {
-  options.push(Math.random() + '');
-}
+// for (let i = 0; i < 100; i++) {
+//   options.push(Math.random() + '');
+// }
 const log = console.log;
 </script>
 

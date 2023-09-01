@@ -4,9 +4,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs } from 'vue';
-
-const props = withDefaults(
+withDefaults(
   defineProps<{
     color?: string;
     size?: string;
@@ -15,10 +13,7 @@ const props = withDefaults(
     color: 'primary',
   }
 );
-
-const { color, size } = toRefs(props);
 </script>
-<style lang="scss" scoped></style>
 
 <script lang="ts">
 /**

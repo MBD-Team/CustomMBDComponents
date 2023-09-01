@@ -1,17 +1,7 @@
 <template>
-  <div
-    v-if="modelValue"
-    @click="
-      () => {
-        if (!closeBtn) dismiss();
-      }
-    "
-    class="alert"
-    :class="alertClass"
-    role="alert"
-  >
+  <div v-if="modelValue" @click="if (!closeBtn) dismiss();" class="alert" :class="alertClass" role="alert">
     <button
-      @click="dismiss()"
+      @click="dismiss"
       v-if="closeBtn && dismissable"
       style="float: right"
       type="button"
@@ -24,7 +14,9 @@
 <script setup lang="ts">
 import { toRefs, watchEffect } from 'vue';
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean];
+}>();
 
 const props = withDefaults(
   defineProps<{

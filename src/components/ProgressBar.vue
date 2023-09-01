@@ -20,8 +20,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { toRefs } from 'vue';
-const props = withDefaults(
+withDefaults(
   defineProps<{
     progress: number;
     maxValue: number;
@@ -41,8 +40,6 @@ const props = withDefaults(
     progressColor: 'bg-info',
   }
 );
-
-const { progress, maxValue } = toRefs(props);
 </script>
 <style lang="scss" scoped>
 .ticks {

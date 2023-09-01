@@ -92,14 +92,14 @@
  * ```
  */
 export default {};
-
-export type ButtonProp = { text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean };
 </script>
 
 <script lang="ts" setup>
 import { toRefs, ref, watch, useSlots } from 'vue';
 import Button from './Button.vue';
 import Message from './Message.vue';
+
+type ButtonProp = { text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean } & {};
 
 const slots = useSlots();
 const error = ref('');

@@ -245,7 +245,7 @@ const filteredItems = computed(() => {
   //options that are still possible
   let regexp: RegExp;
   //escape all characters that have a special meaning in regular expressions
-  let escapedQuery = (modelValue.value|| searchText.value).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+  let escapedQuery = (modelValue.value || searchText.value).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
   if (matchFromStart.value) regexp = new RegExp('^' + escapedQuery, 'i');
   else regexp = new RegExp(escapedQuery, 'i');
   let array: Option[] = [];
@@ -287,10 +287,10 @@ function onBlur() {
     }
   }
   if (selectOnBlur.value) {
-    if (options?.value.find(e => optionProjection.value(e) == (modelValue.value || searchText.value))) {
+    if (options?.value.find(e => optionProjection.value(e) == (searchText.value || modelValue.value))) {
       emit(
         'selectItem',
-        options?.value.find(e => optionProjection.value(e) == (modelValue.value || searchText.value))
+        options?.value.find(e => optionProjection.value(e) == (searchText.value || modelValue.value))
       );
     } else {
       if (options?.value.find(e => e == (modelValue.value || searchText.value)))

@@ -35,11 +35,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs } from 'vue';
-
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    items: { title: string; titleIcon?: string; hash: string; noAccordion?: boolean }[];
+    items: ({ title: string; titleIcon?: string; hash: string; noAccordion?: boolean } & {})[];
     titleClass?: string;
     itemClass?: string;
     startHash?: string;
@@ -52,7 +50,6 @@ const props = withDefaults(
     id: 'id' + JSON.stringify(Math.random()).slice(2),
   }
 );
-const { items, id } = toRefs(props);
 </script>
 <style lang="scss" scoped>
 .accordion-item:first-of-type {
