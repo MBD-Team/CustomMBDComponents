@@ -1,14 +1,5 @@
 <template>
-  <SelectInput :modelValue="test.name" :selected="test" :options="options" showAll :optionProjection="e => e.name" @selectItem="e => (test = e)">
-    <template #button><Button sideButton>test</Button></template>
-  </SelectInput>
-  {{ test }}
-
-  <NumberInput v-model="text"></NumberInput>
-  <MultiSelectInput show-all :options="options" v-model:selected="selected" placeholder="test" :option-projection="e => e.name"></MultiSelectInput>
-
-  <Modal :affirm="'tst'"></Modal>
-  <Message v-model:error=""></Message>
+  <SelectInput :modelValue="test.name" :selected="test" :options="options" showAll :optionProjection="e => e.name"></SelectInput>
 </template>
 
 <script lang="ts" setup>

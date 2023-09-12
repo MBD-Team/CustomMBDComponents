@@ -1,5 +1,6 @@
 <template>
   <Modal :title="placeholder" v-model="isModalOpen">
+    <!-- modalBody -->
     <div class="selectInput" :class="placeholder ? 'mt-3' : ''">
       <div class="simple-typeahead input-contain">
         <!-- icon -->
@@ -7,6 +8,7 @@
           <slot name="icon"></slot>
         </div>
         <!-- /icon -->
+        <!-- actual input -->
         <input
           v-bind="$attrs"
           :required="required"
@@ -14,7 +16,7 @@
           class="simple-typeahead-input form-control shadow-none"
           style="border-radius: 0.5rem 0.5rem 0 0; border-width: 2px"
           :style="[
-            checkButton || sideInputType ? `border-radius: 0.5rem 0 0 0rem; width:${inputWidth}` : '',
+            (checkButton || sideInputType) && $slots.button ? `border-radius: 0.5rem 0 0 0rem; width:${inputWidth}` : '',
             checkIcon ? 'padding-left: 1.5rem;' : 'padding-left: none;',
           ]"
           :class="{ dirty: modelValue || searchText }"
@@ -25,6 +27,7 @@
           @blur="onBlur"
           autocomplete="off"
         />
+        <!-- actual input -->
         <!-- options for select -->
         <div class="simple-typeahead-list shadow p-0" :class="listClass" :style="checkButton || sideInputType ? `width:${inputWidth}` : ''">
           <div v-if="loading" class="text-center p-2">
@@ -54,7 +57,7 @@
         </div>
         <!-- /options for select -->
         <!-- sideButton -->
-        <div class="sideButtonSelect" v-if="checkButton" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
+        <div class="sideButtonSelect" v-if="checkButton && $slots.button" :style="`width:${sideWidthComputed}`"><slot name="button"></slot></div>
         <!-- /sideButton -->
         <!-- sideInput -->
         <input
@@ -70,6 +73,8 @@
         <!-- /sideInput -->
       </div>
     </div>
+    <!-- modalBody -->
+    <!-- modalButton -->
     <template #button>
       <div v-if="disabled" @click.stop>
         <Text
@@ -91,12 +96,13 @@
           :side-input-v-model="sideInputVModel"
           :required="required"
         >
-          <template #button>
-            <slot name="button"></slot>
+          <template #button v-if="$slots.modalButton">
+            <slot name="modalButton"></slot>
           </template>
         </Text>
       </div>
     </template>
+    <!-- modalButton -->
   </Modal>
   <!-- error -->
   <Error :error="error" :error-color="errorColor" :name="name" />
