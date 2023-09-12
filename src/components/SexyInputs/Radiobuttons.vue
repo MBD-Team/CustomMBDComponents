@@ -20,16 +20,18 @@
  * FIXME: experimental
  */
 </script>
-<script setup lang="ts">
+<script setup lang="ts" generic="TVal extends string | number | boolean">
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import Tooltip from '../Tooltip.vue';
 import { getErrorMessage, InputError } from './Index';
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+  'update:modelValue': [value: TVal];
+}>();
 const props = withDefaults(
   defineProps<{
-    modelValue: string | number | boolean;
-    options: { text: string; value: string | number | boolean; tooltip?: string }[];
+    modelValue: TVal;
+    options: { text: string; value: TVal; tooltip?: string }[];
     row?: boolean;
     name?: string;
     error?: InputError;
@@ -49,7 +51,7 @@ const id = ref(JSON.stringify(Math.random()));
 function updateValue(event: any) {
   emit('update:modelValue', event?.target.value);
 }
-const number = computed(() => {
+const buttonCount = computed(() => {
   return options.value.length;
 });
 const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
@@ -61,7 +63,7 @@ const borderColorComputed = computed(() => (getErrorMessage(error.value, name.va
 }
 .row {
   display: grid;
-  grid-template-columns: repeat(v-bind(number), 1fr);
+  grid-template-columns: repeat(v-bind(buttonCount), 1fr);
 }
 .round input[type='radio'] {
   visibility: hidden;

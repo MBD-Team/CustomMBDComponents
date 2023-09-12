@@ -74,7 +74,10 @@ export default {
 import { computed, ref, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
-const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
+const emit = defineEmits<{
+  'update:modelValue': [value: string];
+  'update:sideInputVModel': [value: string];
+}>();
 const props = withDefaults(
   defineProps<{
     modelValue: string;

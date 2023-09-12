@@ -41,10 +41,12 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, toRefs, useSlots } from 'vue';
+import { computed, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+  'update:modelValue': [value: File | null];
+}>();
 const props = withDefaults(
   defineProps<{
     modelValue: File | null;
@@ -56,7 +58,7 @@ const props = withDefaults(
     borderColor?: string;
     preview?: boolean;
     previewHeight?: string;
-    fileClass?: Function;
+    fileClass?: (item: File) => string;
     backgroundColor?: string;
   }>(),
   {
@@ -64,7 +66,7 @@ const props = withDefaults(
     error: '',
     errorColor: 'red',
     preview: false,
-    fileClass: (item: any) => {
+    fileClass: (item: File) => {
       return '';
     },
     name: '',
@@ -77,9 +79,9 @@ const { modelValue, error, errorColor, labelClass, placeholder, borderColor, pre
 const borderColorComputed = computed(() => (getErrorMessage(error.value, name.value) ? errorColor?.value : borderColor?.value));
 
 function updateValue(event: any) {
-  emit('update:modelValue', Object.values(event.target.files)[0]);
+  emit('update:modelValue', Object.values(event.target.files)[0] as File | null);
 }
-function loadFile(file: any) {
+function loadFile(file: File) {
   return URL.createObjectURL(file);
 }
 </script>

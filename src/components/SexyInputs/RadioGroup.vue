@@ -1,11 +1,12 @@
 <template>
-  <div class="buttonGroup">
+  <div class="buttonGroup" :style="`grid-template-columns: repeat(${buttonCount}, 1fr)`">
     <button
       v-for="option of options"
       class="button shadow-none"
       v-bind="$attrs"
       type="button"
       :class="modelValue == option.value ? activeClass : defaultClass"
+      :style="`border-color:${borderColorComputed}`"
       @click="updateValue(option.value)"
       :key="option.value + ''"
     >
@@ -23,14 +24,17 @@ export default {
   inheritAttrs: false,
 };
 </script>
-<script setup lang="ts">
-import { computed, ref, toRefs } from 'vue';
+<script setup lang="ts" generic="TVal extends string | number | boolean">
+import { computed, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
+const emit = defineEmits<{
+  'update:modelValue': [value: TVal];
+}>();
 const props = withDefaults(
   defineProps<{
-    options: { text: string; value: string | number | boolean }[];
-    modelValue: string | number | boolean;
+    options: { text: string; value: TVal }[];
+    modelValue: TVal;
     activeClass?: string;
     defaultClass?: string;
     name?: string;
@@ -42,8 +46,7 @@ const props = withDefaults(
   { defaultClass: 'bg-light text-dark', activeClass: 'bg-dark text-light', error: '', errorColor: 'red', name: '', disabled: false }
 );
 const { options, error, errorColor, borderColor, name, disabled } = toRefs(props);
-const emit = defineEmits(['update:modelValue']);
-const buttonCount = computed(() => options.value?.length);
+const buttonCount = computed(() => options.value.length);
 function textWithNewLines(text: string) {
   return text.replaceAll(/\n|<br>/g, '\n');
 }
@@ -55,11 +58,4 @@ function updateValue(value: any) {
 </script>
 <style lang="scss" scoped>
 @use 'groupStyle';
-
-.buttonGroup {
-  grid-template-columns: repeat(v-bind(buttonCount), 1fr);
-}
-.button {
-  border-color: v-bind(borderColorComputed);
-}
 </style>

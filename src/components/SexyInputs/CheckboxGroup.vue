@@ -22,13 +22,13 @@ export default {
   inheritAttrs: false,
 };
 </script>
-<script setup lang="ts">
-import { computed, ref, toRefs } from 'vue';
+<script setup lang="ts" generic="TVal extends  string | number | boolean">
+import { computed, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
 const props = withDefaults(
   defineProps<{
-    options: { text: string; value: string | number | boolean; active: boolean }[];
+    options: { text: string; value: TVal; active: boolean }[];
     activeClass?: string;
     defaultClass?: string;
     name?: string;

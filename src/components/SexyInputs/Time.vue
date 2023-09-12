@@ -52,7 +52,9 @@ export default {
 import { computed, onMounted, ref, toRefs, useSlots } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+  'update:modelValue': [value: string];
+}>();
 const props = withDefaults(
   defineProps<{
     modelValue: string | null;
