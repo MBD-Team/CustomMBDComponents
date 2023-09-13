@@ -10,7 +10,12 @@ export { default as Alert } from './src/components/Alert.vue';
 export { default as Accordion } from './src/components/Accordion.vue';
 export { default as Message } from './src/components/Message.vue';
 export { default as Calendar } from './src/components/Calendar/Calendar.vue';
-export type { Group as CalendarGroup, Event as CalendarEvent, WeekEvent as CalendarWeekEvent, Column as CalendarColumn } from './src/components/Calendar/types';
+export type {
+  Group as CalendarGroup,
+  Event as CalendarEvent,
+  WeekEvent as CalendarWeekEvent,
+  Column as CalendarColumn,
+} from './src/components/Calendar/types';
 
 export { default as EmailInput } from './src/components/SexyInputs/Email.vue';
 export { default as SearchInput } from './src/components/SexyInputs/Search.vue';
@@ -31,5 +36,6 @@ export { default as RadioGroup } from './src/components/SexyInputs/RadioGroup.vu
 export { default as CheckboxGroup } from './src/components/SexyInputs/CheckboxGroup.vue';
 export { default as ButtonGroup } from './src/components/SexyInputs/ButtonGroup.vue';
 
+export { default as groupBy } from './src/utils/groupBy';
 export { handleClick } from './src/utils/clickHandler';
 export { chunk } from './src/utils/chunk';
