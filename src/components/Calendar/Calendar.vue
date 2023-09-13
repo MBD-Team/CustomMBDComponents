@@ -14,14 +14,10 @@
         <div class="d-none d-sm-flex align-items-center" style="font-size: 20px">{{ currentDayReadable }}</div>
       </div>
       <div class="d-none d-sm-block mb-2">
-        <ButtonGroup
-          v-model="mode"
-          :options="{ day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', agenda: 'Agenda' }"
-          name="type"
-        ></ButtonGroup>
+        <ButtonGroup v-model="mode" :options="viewOptionsLong" name="type"></ButtonGroup>
       </div>
       <div class="d-block d-sm-none mb-2 w-100">
-        <ButtonGroup v-model="mode" :options="{ day: 'T.', week: 'W.', month: 'M.', year: 'J.', agenda: 'A.' }" name="type"></ButtonGroup>
+        <ButtonGroup v-model="mode" :options="viewOptionsShort" name="type"></ButtonGroup>
       </div>
     </div>
     <div class="d-flex flex-row position-relative" style="height: 0px; flex: 1">
@@ -192,21 +188,39 @@ import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } f
 function log(a: any) {
   console.log(a);
 }
-const props =
+
+const allViewOptions = { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', agenda: 'Agenda' } as const;
+
+const props = withDefaults(
   defineProps<{
     displayHours: [number, number];
     groups: Group[];
     events: Event[];
     hash?: string;
-  }>();
-const { hash, events, groups: groupsProp, displayHours } = toRefs(props);
+    viewOptions?: Record<keyof typeof allViewOptions, boolean>;
+  }>(),
+  {
+    viewOptions: () => ({ day: true, week: true, month: true, year: true, agenda: true }),
+  }
+);
+const { hash, events, groups: groupsProp, displayHours, viewOptions } = toRefs(props);
 
-const emit =
-  defineEmits<{
-    (e: 'update:groups', value: Group[]): void;
-    (e: 'eventClicked', value: Event): void;
-    (e: 'timeClicked', value: DateTime): void;
-  }>();
+const viewOptionsShort = computed(() =>
+  Object.fromEntries(
+    Object.entries(allViewOptions)
+      .filter(([k, _]) => viewOptions.value[k as keyof typeof allViewOptions])
+      .map(([k, v]) => [k, v[0] + '.'])
+  )
+);
+const viewOptionsLong = computed(() =>
+  Object.fromEntries(Object.entries(allViewOptions).filter(([k, _]) => viewOptions.value[k as keyof typeof allViewOptions]))
+);
+
+const emit = defineEmits<{
+  (e: 'update:groups', value: Group[]): void;
+  (e: 'eventClicked', value: Event): void;
+  (e: 'timeClicked', value: DateTime): void;
+}>();
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 

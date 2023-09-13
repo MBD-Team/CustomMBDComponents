@@ -1,5 +1,10 @@
 <template>
-  <SelectInput :modelValue="test.name" :selected="test" :options="options" showAll :optionProjection="e => e.name"></SelectInput>
+  <Calendar
+    :displayHours="[1, 15]"
+    :events="[]"
+    :groups="[]"
+    :viewOptions="{ day: true, week: true, month: true, year: false, agenda: false }"
+  ></Calendar>
 </template>
 
 <script lang="ts" setup>
