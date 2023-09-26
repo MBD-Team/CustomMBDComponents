@@ -1,0 +1,18 @@
+export type AutocompleteOptions =
+  | 'off'
+  | 'on'
+  | 'name'
+  | 'given-name'
+  | 'additional-name'
+  | 'family-name'
+  | 'email'
+  | 'username'
+  | 'new-password'
+  | 'current-password'
+  | 'street-address'
+  | 'country'
+  | 'country-name'
+  | 'postal-code'
+  | 'bday'
+  | 'tel'
+  | (string & {});

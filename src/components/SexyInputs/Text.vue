@@ -18,7 +18,7 @@
       ]"
       @focus="isInputFocus = true"
       @blur="isInputFocus = false"
-      autocomplete="off"
+      :autocomplete="autocomplete"
     />
     <!-- placeholder -->
     <label class="text" :style="`max-width:${90 - sideWidth}%`" :class="labelClass" v-if="placeholder">
@@ -74,6 +74,7 @@ export default {
 import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
+import { AutocompleteOptions } from './types';
 const emit = defineEmits(['update:modelValue', 'update:sideInputVModel']);
 const props = withDefaults(
   defineProps<{
@@ -90,6 +91,7 @@ const props = withDefaults(
     placeholder?: string;
     borderColor?: string;
     backgroundColor?: string;
+    autocomplete?: AutocompleteOptions;
   }>(),
   {
     error: '',
@@ -98,6 +100,7 @@ const props = withDefaults(
     name: '',
     backgroundColor: '#f8fafc',
     placeholder: '',
+    autocomplete: 'off',
   }
 );
 const {
