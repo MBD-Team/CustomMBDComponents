@@ -1,8 +1,8 @@
 <template>
   <Calendar
-    :displayHours="[1, 15]"
-    :events="[]"
-    :groups="[]"
+    :displayHours="[0, 24]"
+    :events="calendarEvents"
+    :groups="[{ name: 'test', id: 1, checked: true }]"
     :viewOptions="{ day: true, week: true, month: true, year: false, agenda: false }"
   ></Calendar>
 </template>
@@ -63,6 +63,15 @@ const sections = ref(
     { title: 'Section2', content: 'test' },
   ].map((e, i) => ({ ...e, hash: e.title + i }))
 );
+const calendarEvents = ref([
+  {
+    start: '2023-09-25 08:00:00',
+    end: '2024-10-27 10:00:00',
+    name: 'test',
+    id: 1,
+    group_id: 1,
+  },
+]);
 // for (let i = 0; i < 100; i++) {
 //   options.push(Math.random() + '');
 // }

@@ -100,24 +100,22 @@ import { DateTime } from 'luxon';
 import { defineProps, toRefs, defineEmits, computed } from 'vue';
 import { Event } from './types';
 
-const props =
-  defineProps<{
-    month: DateTime;
-    controllable?: boolean;
-    big?: boolean;
-    events: Event[];
-  }>();
+const props = defineProps<{
+  month: DateTime;
+  controllable?: boolean;
+  big?: boolean;
+  events: Event[];
+}>();
 const { events, month, big, controllable } = toRefs(props);
 
-const emit =
-  defineEmits<{
-    (e: 'previous'): void;
-    (e: 'next'): void;
-    (e: 'dayPressed', value: DateTime): void;
-    (e: 'weekPressed', value: DateTime): void;
-    (e: 'monthPressed'): void;
-    (e: 'eventClicked', value: Event): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'previous'): void;
+  (e: 'next'): void;
+  (e: 'dayPressed', value: DateTime): void;
+  (e: 'weekPressed', value: DateTime): void;
+  (e: 'monthPressed'): void;
+  (e: 'eventClicked', value: Event): void;
+}>();
 
 const weekdayHeader = computed(() =>
   Array(7)
@@ -131,7 +129,7 @@ const weekdayHeader = computed(() =>
 );
 
 function getDayEvents(date: DateTime) {
-  return events.value.filter(e => date.startOf('day').equals(DateTime.fromFormat(e.start.split(' ')[0], 'yyyy-LL-dd').startOf('day')));
+  return events.value.filter(e => date.toFormat('yyyy-LL-dd') >= e.start.split(' ')[0] && date.toFormat('yyyy-LL-dd') <= e.end.split(' ')[0]);
 }
 function getOccupancyColor(date: DateTime) {
   const number = getDayEvents(date).length;

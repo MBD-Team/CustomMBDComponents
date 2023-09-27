@@ -276,18 +276,29 @@ function isSubsequence(search: string, str: string) {
 
 const getEventsForDay = (day: DateTime) =>
   filteredEvents.value
-    .filter(e => day.toFormat('yyyy-LL-dd') == e.start.split(' ')[0])
+    .filter(e => day.toFormat('yyyy-LL-dd') >= e.start.split(' ')[0] && day.toFormat('yyyy-LL-dd') <= e.end.split(' ')[0])
     .map(e => ({
       ...e,
-      start: e.start.split(' ')[1],
-      end: e.end.split(' ')[1],
+      start: getStartTime(day, e),
+      end: getEndTime(day, e),
     }));
-
+function getStartTime(day: DateTime, event: Event) {
+  const formatedDay = day.toFormat('yyyy-LL-dd');
+  if (event.start.split(' ')[0] < formatedDay) return '00:00:00';
+  return event.start.split(' ')[1];
+}
+function getEndTime(day: DateTime, event: Event) {
+  const formatedDay = day.toFormat('yyyy-LL-dd');
+  if (event.end.split(' ')[0] > formatedDay) return '24:00:00';
+  return event.end.split(' ')[1];
+}
 const getFutureEvents = (day: DateTime) =>
   filteredEvents.value.filter(e => day.startOf('day') <= DateTime.fromFormat(e.start.split(' ')[0], 'yyyy-LL-dd').startOf('day'));
 
 const getEventsForMonth = (day: DateTime) =>
-  filteredEvents.value.filter(e => day.startOf('month').equals(DateTime.fromFormat(e.start.split(' ')[0], 'yyyy-LL-dd').startOf('month')));
+  filteredEvents.value.filter(
+    e => day.toFormat('yyyy-LL') >= e.start.split(' ')[0].slice(0, -3) && day.toFormat('yyyy-LL') <= e.end.split(' ')[0].slice(0, -3)
+  );
 
 if (hash?.value) {
   const hashMode = window.location.hash.substring(1).split(':')[1];
