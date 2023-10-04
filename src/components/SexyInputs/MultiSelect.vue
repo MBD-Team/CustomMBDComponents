@@ -127,7 +127,7 @@ export default {
   components: { Spinner },
 };
 </script>
-<script setup lang="ts">
+<script setup lang="ts" generic="TOpt">
 import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
@@ -136,45 +136,37 @@ import Spinner from '../Spinner.vue';
 import Modal from '../Modal.vue';
 import Button from '../Button.vue';
 
-type Any = any;
-interface Option extends Any {}
 const emit = defineEmits<{
-  (e: 'update:selected', selected: Option[]): void;
-  (e: 'update:modelValue', modelValue: string): void;
-  (e: 'update:sideInputVModel', modelValue: string): void;
-  (
-    e: 'onInput',
+  'update:selected': [selected: TOpt[]];
+  'update:modelValue': [modelValue: string];
+  'update:sideInputVModel': [modelValue: string];
+  selectItem: [option: TOpt];
+  deleteItem: [option: TOpt];
+  onInput: [
     selectable: {
       modelValue: string;
-      options: Option[];
+      options: TOpt[];
     }
-  ): void;
-  (
-    e: 'onFocus',
+  ];
+  onFocus: [
     selectable: {
       modelValue: string;
-      options: Option[];
+      options: TOpt[];
     }
-  ): void;
-  (e: 'selectItem', option: Option): void;
-  (
-    e: 'onBlur',
+  ];
+  onBlur: [
     selectable: {
       modelValue: string;
-      options: Option[];
+      options: TOpt[];
     }
-  ): void;
-  (e: 'deleteItem', option: Option): void;
+  ];
 }>();
 const props = withDefaults(
   defineProps<{
     disabled?: boolean;
     modelValue?: string;
-    /**
-     * Option is inferred from `options` prop
-     */
-    options: Option[];
-    selected: Option[];
+    options: TOpt[];
+    selected: TOpt[];
     showAll?: boolean;
     placeholder?: string;
     noElementMessage?: string;
@@ -188,12 +180,12 @@ const props = withDefaults(
     sideInputMaxLength?: string;
     sideInputVModel?: string;
     borderColor?: string;
-    optionProjection?: (option: Option) => string;
-    listItemClass?: (option: Option) => string;
-    multiSelectClass?: (option: Option) => string;
+    optionProjection?: (option: TOpt) => string;
+    listItemClass?: (e: any) => string;
+    multiSelectClass?: (option: TOpt) => string;
     matchFromStart?: boolean;
     showSelected?: boolean;
-    keyExtractor?: (option: Option) => string;
+    keyExtractor?: (option: TOpt) => string;
     backgroundColor?: string;
     autoClearOff?: boolean;
     selectedTitle?: string;
@@ -210,10 +202,10 @@ const props = withDefaults(
     autoClearOff: false,
     errorColor: 'red',
     sideWidth: 20,
-    optionProjection: (o: Option) => o,
+    optionProjection: (option: TOpt) => JSON.stringify(option),
     listItemClass: () => '',
     multiSelectClass: () => '',
-    keyExtractor: (o: Option) => JSON.stringify(o),
+    keyExtractor: (option: TOpt) => JSON.stringify(option),
     name: '',
     showSelected: true,
     backgroundColor: '#f8fafc',
@@ -264,10 +256,10 @@ const filteredItems = computed(() => {
   let regexp: RegExp;
   if (matchFromStart.value) regexp = new RegExp('^' + escapedQuery, 'i');
   else regexp = new RegExp(escapedQuery, 'i');
-  let array: Option[] = [];
+  let array: TOpt[] = [];
   try {
     array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
-    if (!array.length) array = array.concat(options.value?.filter(item => item.match(regexp)));
+    if (!array.length) array = array.concat(options.value?.filter(item => optionProjection.value?.(item).match(regexp)));
   } catch {
     array = [];
   }
@@ -280,37 +272,34 @@ function onOpenModal() {
   isModalOpen.value = true;
   setTimeout(() => document.getElementById(id.value)?.focus(), 0);
 }
+/** is executed when something is entered in selectInput. */
 function onInput(event: Event) {
-  //is executed when something is entered in selectInput.
   updateValue(event);
   emit('onInput', {
     modelValue: modelValue.value,
     options: filteredItems.value,
   });
 }
+/** is executed when the selectInput is focussed */
 function onFocus() {
-  //is executed when the selectInput is focussed
   emit('onFocus', {
     modelValue: modelValue.value,
     options: filteredItems.value,
   });
 }
 
+/** is executed when the selectInput is no longer focused */
 function onBlur() {
-  //is executed when the selectInput is no longer focused
   if (options?.value.find(e => e == (modelValue.value || searchText.value)))
-    emit(
-      'selectItem',
-      options?.value.find(e => e == (modelValue.value || searchText.value))
-    );
+    emit('selectItem', options?.value.find(e => e == (modelValue.value || searchText.value))!);
 
   emit('onBlur', {
     modelValue: modelValue.value,
     options: filteredItems.value,
   });
 }
-async function selectItem(item: Option) {
-  //will be executed when an option is selected
+/** will be executed when an option is selected */
+async function selectItem(item: TOpt) {
   if (
     !selected.value.some(e => {
       return keyExtractor.value(e) == keyExtractor.value(item);
@@ -323,7 +312,7 @@ async function selectItem(item: Option) {
     deleteItem(item);
   }
 }
-function deleteItem(item: Option) {
+function deleteItem(item: TOpt) {
   emit(
     'update:selected',
     selected.value.filter(e => keyExtractor.value(e) != keyExtractor.value(item))
@@ -331,8 +320,8 @@ function deleteItem(item: Option) {
   emit('deleteItem', item);
 }
 
+/** makes the text you entered in searchInput bold in options */
 function boldMatchText(text: string) {
-  //makes the text you entered in searchInput bold in options
   let regexp: RegExp;
   try {
     regexp = new RegExp(`(${modelValue.value || searchText.value})`, 'ig');

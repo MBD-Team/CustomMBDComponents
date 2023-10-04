@@ -1,6 +1,6 @@
 .buttonGroup {
   display: grid;
-  grid-template-columns: repeat(v-bind(buttonCount), 1fr);
+  // grid-template-columns: repeat(v-bind(buttonCount), 1fr);
   white-space: pre-line;
   :first-child {
     border-radius: 0.5rem 0 0 0.5rem;

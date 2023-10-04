@@ -66,9 +66,9 @@ import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
 const emit = defineEmits<{
-  (e: 'update:fileArray', fileArray: File[]): void;
-  (e: 'addFile', files: File[]): void;
-  (e: 'deleteFile', index: number): void;
+  'update:fileArray': [fileArray: File[]];
+  addFile: [files: File[]];
+  deleteFile: [index: number];
 }>();
 const props = withDefaults(
   defineProps<{

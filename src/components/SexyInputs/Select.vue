@@ -125,51 +125,44 @@ export default {
   components: { Spinner },
 };
 </script>
-<script setup lang="ts">
-import { computed, ref, toRefs, useSlots, onMounted } from 'vue';
+<script setup lang="ts" generic="TOpt">
+import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Spinner from '../Spinner.vue';
 import Modal from '../Modal.vue';
 import Text from './Text.vue';
 
-type Any = any;
-interface Option extends Any {}
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: string): void;
-  (e: 'update:sideInputVModel', modelValue: string): void;
-  (
-    e: 'onInput',
+  'update:modelValue': [modelValue: string];
+  'update:sideInputVModel': [modelValue: string];
+  selectItem: [option: TOpt];
+  onInput: [
     selectable: {
       modelValue: string;
-      options: Option[];
+      options: TOpt[];
     }
-  ): void;
-  (
-    e: 'onFocus',
+  ];
+  onFocus: [
     selectable: {
       modelValue: string;
-      options: Option[];
+      options: TOpt[];
     }
-  ): void;
-  (e: 'selectItem', option: Option): void;
-  (
-    e: 'onBlur',
+  ];
+  onBlur: [
     selectable: {
       modelValue: string;
-      options: Option[];
+      options: TOpt[];
     }
-  ): void;
+  ];
 }>();
+
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
     placeholder?: string;
     backgroundColor?: string;
-    /**
-     * Option is inferred from `options` prop
-     */
-    options: Option[];
+    options: TOpt[];
     showAll?: boolean;
     controlInput?: boolean;
     selectOnBlur?: boolean;
@@ -185,8 +178,8 @@ const props = withDefaults(
     sideInputMaxLength?: string;
     sideInputVModel?: number | string;
     borderColor?: string;
-    optionProjection?: (option: Option) => string;
-    listItemClass?: (option: Option) => string;
+    optionProjection?: (option: TOpt) => string;
+    listItemClass?: (e: any) => string;
     matchFromStart?: boolean;
     loading?: boolean;
     disabled?: boolean;
@@ -203,7 +196,7 @@ const props = withDefaults(
     backgroundColor: '#f8fafc',
     sideWidth: 20,
     matchFromStart: false,
-    optionProjection: (e: Option) => (e ?? '') + '',
+    optionProjection: (e: TOpt) => (e ?? '') + '',
     listItemClass: () => '',
     name: '',
     loading: false,
@@ -212,6 +205,7 @@ const props = withDefaults(
     required: false,
   }
 );
+
 const {
   modelValue,
   backgroundColor,
@@ -254,10 +248,10 @@ const filteredItems = computed(() => {
   let escapedQuery = (modelValue.value || searchText.value).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
   if (matchFromStart.value) regexp = new RegExp('^' + escapedQuery, 'i');
   else regexp = new RegExp(escapedQuery, 'i');
-  let array: Option[] = [];
+  let array: TOpt[] = [];
   try {
     array = options.value?.filter(item => optionProjection.value?.(item).match(regexp));
-    if (!array.length) array = array.concat(options.value?.filter(item => item.match(regexp)));
+    if (!array.length) array = array.concat(options.value?.filter(item => optionProjection.value?.(item).match(regexp)));
   } catch {
     array = [];
   }
@@ -293,17 +287,11 @@ function onBlur() {
     }
   }
   if (selectOnBlur.value) {
-    if (options?.value.find(e => optionProjection.value(e) == (searchText.value || modelValue.value))) {
-      emit(
-        'selectItem',
-        options?.value.find(e => optionProjection.value(e) == (searchText.value || modelValue.value))
-      );
-    } else {
-      if (options?.value.find(e => e == (modelValue.value || searchText.value)))
-        emit(
-          'selectItem',
-          options?.value.find(e => e == (modelValue.value || searchText.value))
-        );
+    const option = options?.value.find(
+      e => optionProjection.value(e) == (searchText.value || modelValue.value) || e == (modelValue.value || searchText.value)
+    );
+    if (option) {
+      emit('selectItem', option);
     }
   }
   emit('onBlur', {

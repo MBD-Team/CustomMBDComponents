@@ -12,18 +12,18 @@
 <script lang="ts">
 /**
  * how to use:
- * ```js
+ * ```ts
  * const checked = ref(false)
- * const error = ref<string|{[key:string]:string}>('')
+ * const error = ref<string|{[key:string]:string|string[]}>('')
  * ```
  * ```html
  *
- * <CheckboxInput :v-model="checked">label</CheckboxInput>
+ * <CheckboxInput v-model="checked">label</CheckboxInput>
  *
- * <CheckboxInput :v-model="checked" :error="error" >label</CheckboxInput>
+ * <CheckboxInput v-model="checked" :error="error" >label</CheckboxInput>
  *
  * <!-- the name has to be a key of the error Object -->
- * <CheckboxInput :v-model="checked" name="checked" :error="error" textLeft errorColor="blue">label</CheckboxInput>
+ * <CheckboxInput v-model="checked" name="checked" :error="error" textLeft errorColor="blue">label</CheckboxInput>
  * ```
  */
 export default {
@@ -34,7 +34,9 @@ export default {
 import { computed, ref, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean];
+}>();
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;

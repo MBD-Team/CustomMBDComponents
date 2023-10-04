@@ -62,7 +62,11 @@ import { computed, ref, toRefs, useSlots } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 
-const emit = defineEmits(['update:modelValue', 'update:sideInputVModel', 'corrected']);
+const emit = defineEmits<{
+  'update:modelValue': [value: string];
+  'update:sideInputVModel': [value: string];
+  corrected: [];
+}>();
 const props = withDefaults(
   defineProps<{
     modelValue: string;
@@ -76,7 +80,7 @@ const props = withDefaults(
     sideInputType?: 'number' | 'text';
     sideInputClass?: string;
     sideInputMaxLength?: string;
-    sideInputVModel?: number | string;
+    sideInputVModel?: string;
     placeholder?: string;
     borderColor?: string;
   }>(),

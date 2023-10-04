@@ -1,6 +1,13 @@
 <template>
-  <div class="buttonGroup">
-    <button v-for="option of options" class="button shadow-none" type="button" v-bind="$attrs" @click="option.function()">
+  <div class="buttonGroup" :style="`grid-template-columns: repeat(${buttonCount}, 1fr)`">
+    <button
+      v-for="option of options"
+      class="button shadow-none"
+      type="button"
+      v-bind="$attrs"
+      @click="option.function"
+      :style="`border-color:${borderColorComputed}`"
+    >
       {{ textWithNewLines(option.text) }}
     </button>
   </div>
@@ -12,13 +19,13 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, ref, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import Error from './common/Error.vue';
 import { getErrorMessage, InputError } from './Index';
 
 const props = withDefaults(
   defineProps<{
-    options: { text: string; function: Function }[];
+    options: { text: string; function: () => any }[];
     name?: string;
     error?: InputError;
     errorColor?: string;
@@ -35,10 +42,4 @@ const borderColorComputed = computed(() => (getErrorMessage(error.value, name.va
 </script>
 <style lang="scss" scoped>
 @use 'groupStyle';
-.buttonGroup {
-  grid-template-columns: repeat(v-bind(buttonCount), 1fr);
-}
-.button {
-  border-color: v-bind(borderColorComputed);
-}
 </style>
