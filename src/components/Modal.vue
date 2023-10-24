@@ -99,7 +99,7 @@ import { toRefs, ref, watch, useSlots } from 'vue';
 import Button from './Button.vue';
 import Message from './Message.vue';
 
-type ButtonProp = { text: string; action?: () => Promise<void> | void; class?: string; disabled?: boolean } & {};
+type ButtonProp = { text: string; action?: () => Promise<any> | any; class?: string; disabled?: boolean } & {};
 
 const slots = useSlots();
 const error = ref('');
