@@ -87,6 +87,7 @@
               <div class="h2 d-none d-sm-block fw-normal p-2 rounded-circle" :class="getDayClasses(date, 'num')">
                 <div class="d-flex justify-content-center">{{ date.day }}</div>
               </div>
+              <div><slot name="subHeaderSlot"></slot></div>
             </div>
           </div>
           <!-- date content -->
