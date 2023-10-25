@@ -39,6 +39,25 @@
         <div class="m-2">
           <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
         </div>
+        <template v-if="columnsProp">
+          <button style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true))">
+            Alle auswählen
+          </button>
+          <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
+            <div
+              class="p-1 ps-2"
+              v-for="(column, index) of columns"
+              :key="column.id + ''"
+              @click="column.checked = !column.checked"
+              @dblclick="columns.forEach(g => (g.checked = false)), (column.checked = true)"
+              style="user-select: none"
+            >
+              <input class="form-check-input" type="checkbox" v-model="column.checked" />
+              <label class="form-check-label ms-3" for="flexCheckDefault">{{ column.name }}</label>
+            </div>
+          </div>
+          <hr class="my-2" />
+        </template>
         <GroupSelector v-model="groups" :groupColors="groupColors" />
       </div>
       <div
@@ -88,6 +107,17 @@
                 <div class="d-flex justify-content-center">{{ date.day }}</div>
               </div>
               <slot name="subHeaderSlot" :date="date"></slot>
+              <!-- print the column headers-->
+              <div v-if="columnsProp" class="d-flex flex-row align-self-stretch">
+                <div
+                  v-for="column in columns.filter(c => c.checked)"
+                  :key="column.id || 'null'"
+                  class="flex-grow-1 flex-column text-muted text-center"
+                  style="width: 0px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                >
+                  {{ column.name }}
+                </div>
+              </div>
             </div>
           </div>
           <!-- date content -->
@@ -103,16 +133,22 @@
               :style="{ '--num-of-hours': displayHours[1] - displayHours[0] }"
               :key="date.toISODate()"
               class="w-100 day-background position-relative overflow-hidden"
-              @click="
-                emit(
-                  'timeClicked',
-                  date.plus({
-                    hours:
-                      Math.floor(
-                        (($event.offsetY / ($event.target as any).offsetHeight) * (displayHours[1] - displayHours[0]) + displayHours[0]) * 4
-                      ) / 4,
-                  })
-                )
+              @click=" ($event)=>{
+                  const date = date.plus({
+                      hours:
+                        Math.floor(
+                          (($event.offsetY / ($event.target as any).offsetHeight) * (displayHours[1] - displayHours[0]) + displayHours[0]) * 4
+                        ) / 4,
+                    })
+                  emit('timeClicked', date)
+                  if (columnsProp)
+                    emit(
+                      'timeClickedWithColumn',{
+                        date,
+                        column_id: columns[Math.floor(($event.offsetX / ($event.target as any).offsetWidth) * columns.length)].id!,
+                      }
+                    )
+                }
               "
             >
               <DayEvents
@@ -121,6 +157,7 @@
                 :end="displayHours[1]"
                 :events="getEventsForDay(date)"
                 :isToday="DateTime.now().startOf('day').equals(date)"
+                :columns="columnsProp && columns.filter(c => c.checked)"
               ></DayEvents>
             </div>
           </div>
@@ -176,7 +213,7 @@
 <script lang="ts" setup>
 import { DateTime } from 'luxon';
 import GroupSelector from './GroupSelector.vue';
-import type { Event, Group } from './types';
+import type { Event, Group, Column } from './types';
 
 import { computed, defineEmits, defineProps, ref, toRefs, useSlots, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';
@@ -194,7 +231,8 @@ const props = withDefaults(
   defineProps<{
     displayHours: [number, number];
     groups: Group[];
-    events: Event[];
+    columns?: Column[];
+    events: (Event & {column_id:number})[];
     hash?: string;
     viewOptions?: Record<keyof typeof allViewOptions, boolean>;
   }>(),
@@ -202,7 +240,7 @@ const props = withDefaults(
     viewOptions: () => ({ day: true, week: true, month: true, year: true, agenda: true }),
   }
 );
-const { hash, events, groups: groupsProp, displayHours, viewOptions } = toRefs(props);
+const { hash, events, groups: groupsProp, columns: columnsProp, displayHours, viewOptions } = toRefs(props);
 
 const viewOptionsShort = computed(() =>
   Object.fromEntries(
@@ -217,11 +255,14 @@ const viewOptionsLong = computed(() =>
 
 const emit = defineEmits<{
   'update:groups': [value: Group[]];
+  'update:columns': [value: Column[]];
   eventClicked: [value: Event];
   timeClicked: [value: DateTime];
+  timeClickedWithColumn: [value: { date: DateTime; column_id: number }];
 }>();
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
+let columns = computed({ get: () => columnsProp?.value || [], set: (columns: Column[]) => emit('update:columns', columns) });
 
 let toggle = ref(false);
 let backdropActive = ref(false);
