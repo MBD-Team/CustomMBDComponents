@@ -87,7 +87,9 @@
               <div class="h2 d-none d-sm-block fw-normal p-2 rounded-circle" :class="getDayClasses(date, 'num')">
                 <div class="d-flex justify-content-center">{{ date.day }}</div>
               </div>
-              <slot name="subHeaderSlot"></slot>
+              <div v-if="$slots.subHeaderSlot" @click.stop="emit('dayClicked', date)">
+                <slot name="subHeaderSlot"></slot>
+              </div>
             </div>
           </div>
           <!-- date content -->
@@ -178,7 +180,7 @@ import { DateTime } from 'luxon';
 import GroupSelector from './GroupSelector.vue';
 import type { Event, Group } from './types';
 
-import { computed, defineEmits, defineProps, ref, toRefs, watchEffect } from 'vue';
+import { computed, defineEmits, defineProps, ref, toRefs, useSlots, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';
 import DayEvents from './DayEvents.vue';
 import EventAgenda from './EventAgenda.vue';
@@ -186,9 +188,7 @@ import MonthView from './MonthView.vue';
 
 import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } from './utils';
 
-function log(a: any) {
-  console.log(a);
-}
+const $slots = useSlots();
 
 const allViewOptions = { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', agenda: 'Agenda' } as const;
 
@@ -218,9 +218,10 @@ const viewOptionsLong = computed(() =>
 );
 
 const emit = defineEmits<{
-  (e: 'update:groups', value: Group[]): void;
-  (e: 'eventClicked', value: Event): void;
-  (e: 'timeClicked', value: DateTime): void;
+  'update:groups': [value: Group[]];
+  eventClicked: [value: Event];
+  timeClicked: [value: DateTime];
+  dayClicked: [value: DateTime];
 }>();
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
