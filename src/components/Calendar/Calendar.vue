@@ -87,8 +87,8 @@
               <div class="h2 d-none d-sm-block fw-normal p-2 rounded-circle" :class="getDayClasses(date, 'num')">
                 <div class="d-flex justify-content-center">{{ date.day }}</div>
               </div>
-              <div v-if="$slots.subHeaderSlot" @click.stop="emit('dayClicked', date)">
-                <slot name="subHeaderSlot"></slot>
+              <div v-if="$slots.subHeaderSlot">
+                <slot name="subHeaderSlot" :date="date"></slot>
               </div>
             </div>
           </div>
@@ -221,7 +221,6 @@ const emit = defineEmits<{
   'update:groups': [value: Group[]];
   eventClicked: [value: Event];
   timeClicked: [value: DateTime];
-  dayClicked: [value: DateTime];
 }>();
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
