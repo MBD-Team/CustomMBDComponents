@@ -3,30 +3,45 @@
     v-if="isToday"
     class="position-absolute bg-danger w-100"
     style="height: 2px; z-index: 1"
-    :style="{ top: `calc(${getHoursFraction(DateTime.now().toFormat('HH:mm'))} * 100%)` }"
+    :style="{ top: `calc(${timeStringToFraction(DateTime.now().toFormat('HH:mm'))} * 100%)` }"
   >
     <div class="bg-danger" style="height: 10px; width: 10px; border-radius: 50%; position: absolute; margin-top: -4px; margin-left: -5px"></div>
   </div>
-  <div
+  <vue-resizable
     v-for="event in mergedLayoutedEvents"
     :key="JSON.stringify(event)"
+    dragSelector="eventCard"
+    @mount="eHandler"
+    @resize:move="
+      resizingEvent!.start = timeStringToFraction(event.start) + pixelToFraction($event.top);
+      resizingEvent!.end = timeStringToFraction(event.end) + pixelToFraction($event.height - resizingEvent?.initialHeight! + $event.top);
+    "
+    @resize:start="
+      resizingEvent = { id: event.id, start: timeStringToFraction(event.start), end: timeStringToFraction(event.end), initialHeight: $event.height }
+    "
+    @resize:end="
+      emit('eventResized', { id: event.id, newStart: fractionToDateTime(resizingEvent!.start), newEnd: fractionToDateTime(resizingEvent!.end) });
+      resizingEvent = null;
+    "
+    :active="resizeableEvents ? ['b', 't'] : []"
     style="cursor: pointer"
     class="alert alert-primary p-0 border-0 rounded-0 eventCard overflow-hidden"
     :style="getEventStyle(event)!"
-    draggable="true"
     @click.stop="emit('eventClicked', event)"
   >
     <div class="eventCardContent">
       <div class="ps-2">{{ event.name }}</div>
     </div>
-  </div>
+  </vue-resizable>
 </template>
 
 <script lang="ts" setup>
 import { DateTime } from 'luxon';
-import { computed, defineProps, toRefs, defineEmits } from 'vue';
+import { computed, defineProps, toRefs, defineEmits, ref } from 'vue';
 import type { Column, Event } from './types';
 import { splitConnectedGroups } from './utils';
+
+import VueResizable from 'vue-resizable';
 
 const props = defineProps<{
   events: (Event & { column_id?: number })[];
@@ -34,11 +49,23 @@ const props = defineProps<{
   end: number;
   isToday?: boolean;
   columns?: Column[];
+  heightInPx: number;
+  resizeableEvents: boolean;
 }>();
-const { columns, events, start, end, isToday } = toRefs(props);
+const { columns, events, start, end, isToday, heightInPx } = toRefs(props);
+
+const resizingEvent = ref<{
+  id: number | number[];
+  start: number;
+  end: number;
+  initialHeight: number;
+} | null>(null);
+
+const log = console.log;
 
 const emit = defineEmits<{
   (e: 'eventClicked', value: Omit<Event, 'id'> & { id: number | number[] }): void;
+  (e: 'eventResized', value: { id: number | number[]; newStart: DateTime; newEnd: DateTime }): void;
 }>();
 const layoutedEvents = computed(() => {
   function layoutEvents<T extends Event>(events: T[]) {
@@ -111,20 +138,38 @@ const mergedLayoutedEvents = computed(() => {
     };
   });
 });
-
-function getHoursFraction(time: string) {
+function eHandler(data) {
+  console.log(data);
+}
+function fractionToDateTime(fraction: number) {
+  return DateTime.fromObject({
+    hour: Math.floor(fraction * (end.value - start.value) + start.value),
+    minute: Math.floor(((fraction * (end.value - start.value) + start.value) % 1) * 60),
+  });
+}
+function timeStringToFraction(time: string) {
   return (parseInt(time.split(':')[0]) + parseInt(time.split(':')[1]) / 60 - start.value) / (end.value - start.value);
 }
+function pixelToFraction(pixel: number) {
+  return pixel / heightInPx.value;
+}
+
 function getEventStyle(
   event: Pick<Event, 'start' | 'end' | 'color' | 'background'> & {
     groupSize: number;
     groupIndex: number;
     width: number;
+    id: number | number[];
   }
 ) {
-  let start = getHoursFraction(event.start);
-  let end = getHoursFraction(event.end);
-
+  let start = timeStringToFraction(event.start);
+  let end = timeStringToFraction(event.end);
+  let zIndex = 'unset';
+  if (JSON.stringify(event.id) == JSON.stringify(resizingEvent.value?.id)) {
+    start = resizingEvent.value!.start;
+    end = resizingEvent.value!.end;
+    zIndex = '1';
+  }
   return {
     top: `calc(${start} * 100%)`,
     left: `calc(calc(100% - ${columns ? 0 : 10}px) / ${event.groupSize / event.groupIndex})`,
@@ -132,6 +177,7 @@ function getEventStyle(
     height: `calc(${end - start} * 100%)`,
     position: 'absolute',
     fontSize: '10px',
+    zIndex,
     background:
       event.color +
       ' ' +

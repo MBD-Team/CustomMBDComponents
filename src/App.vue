@@ -1,16 +1,19 @@
 <template>
-  <div style="height:100vh">
-  <Calendar
-    :displayHours="[8, 18]"
-    :events="calendarEvents"
-    :groups="groups"
-    :columns="columns"
-    :viewOptions="{ day: true, week: true, month: true, year: false, agenda: false }"
-    @eventClicked="log"
-    @timeClicked="log"
-    @timeClickedWithColumn="log"
-  ></Calendar>
-</div>
+  <div style="height: 100vh">
+    <Calendar
+      :displayHours="[8, 18]"
+      :events="calendarEvents"
+      :groups="groups"
+      :viewOptions="{ day: true, week: true, month: true, year: false, agenda: false }"
+      @eventClicked="log"
+      @eventResized="($event)=> {const e = calendarEvents.find(e=>e.id===$event.id)!;
+                  e.start=e.start.split(' ')[0]+' '+$event.newStart.startOf('hour').toFormat('HH:mm:ss');
+                  e.end=e.end.split(' ')[0]+' '+$event.newEnd.endOf('hour').toFormat('HH:mm:ss');}"
+      @timeClicked="log"
+      @timeClickedWithColumn="log"
+      resizeableEvents
+    ></Calendar>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -69,51 +72,65 @@ const sections = ref(
     { title: 'Section2', content: 'test' },
   ].map((e, i) => ({ ...e, hash: e.title + i }))
 );
-const groups = ref([{ name: 'test', id: 1, checked: true }, { name: 'test2', id: 2, checked: true }, { name: 'test3', id: 3, checked: true }, { name: 'test4', id: 4, checked: true }])
-const columns = ref([{ name: 'test', id: 1, checked: true }, { name: 'test2', id: 2, checked: true }, { name: 'test3', id: 3, checked: true }, { name: 'test4', id: 4, checked: true }])
-const calendarEvents = ref(Array(5).fill(0).flatMap((a,i)=>[
-  {
-    start: `2023-10-${i+23} 08:00:00`,
-    end: `2023-10-${i+23} 10:00:00`,
-    name: 'test',
-    id: i*10,
-    group_id: 1,
-    column_id:1,
-  },
-  {
-    start: `2023-10-${i+23} 12:00:00`,
-    end: `2023-10-${i+23} 17:00:00`,
-    name: 'test',
-    id: i*10+1,
-    group_id: 2,
-    column_id:2,
-  },
-  {
-    start: `2023-10-${i+23} 10:00:00`,
-    end: `2023-10-${i+23} 13:00:00`,
-    name: 'test',
-    id: i*10+2,
-    group_id: 3,
-    column_id:3,
-  },
-  
-  {
-    start: `2023-10-${i+23} 12:00:00`,
-    end: `2023-10-${i+23} 15:00:00`,
-    name: 'test',
-    id: i*10+3,
-    group_id: 4,
-    column_id:4,
-  },
-  {
-    start: `2023-10-${i+23} 09:00:00`,
-    end: `2023-10-${i+23} 10:00:00`,
-    name: 'test',
-    id: i*10+4,
-    group_id: 2,
-    column_id:2,
-  },
-]));
+const groups = ref([
+  { name: 'test', id: 1, checked: true },
+  { name: 'test2', id: 2, checked: true },
+  { name: 'test3', id: 3, checked: true },
+  { name: 'test4', id: 4, checked: true },
+]);
+const columns = ref([
+  { name: 'test', id: 1, checked: true },
+  { name: 'test2', id: 2, checked: true },
+  { name: 'test3', id: 3, checked: true },
+  { name: 'test4', id: 4, checked: true },
+]);
+const calendarEvents = ref(
+  Array(5)
+    .fill(0)
+    .flatMap((a, i) => [
+      {
+        start: `2023-10-${i + 23} 08:00:00`,
+        end: `2023-10-${i + 23} 10:00:00`,
+        name: 'test',
+        id: i * 10,
+        group_id: 1,
+        column_id: 1,
+      },
+      {
+        start: `2023-10-${i + 23} 12:00:00`,
+        end: `2023-10-${i + 23} 17:00:00`,
+        name: 'test',
+        id: i * 10 + 1,
+        group_id: 2,
+        column_id: 2,
+      },
+      {
+        start: `2023-10-${i + 23} 10:00:00`,
+        end: `2023-10-${i + 23} 13:00:00`,
+        name: 'test',
+        id: i * 10 + 2,
+        group_id: 3,
+        column_id: 3,
+      },
+
+      {
+        start: `2023-10-${i + 23} 12:00:00`,
+        end: `2023-10-${i + 23} 15:00:00`,
+        name: 'test',
+        id: i * 10 + 3,
+        group_id: 4,
+        column_id: 4,
+      },
+      {
+        start: `2023-10-${i + 23} 09:00:00`,
+        end: `2023-10-${i + 23} 10:00:00`,
+        name: 'test',
+        id: i * 10 + 4,
+        group_id: 2,
+        column_id: 2,
+      },
+    ])
+);
 // for (let i = 0; i < 100; i++) {
 //   options.push(Math.random() + '');
 // }

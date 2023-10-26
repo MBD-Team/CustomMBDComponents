@@ -40,7 +40,11 @@
           <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
         </div>
         <template v-if="columnsProp">
-          <button style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true))">
+          <button
+            style="padding-left: 3.75rem; padding-right: 3.75rem"
+            class="btn btn-secondary m-2"
+            @click="columns.forEach(c => (c.checked = true))"
+          >
             Alle auswählen
           </button>
           <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
@@ -94,7 +98,7 @@
           >
             <div
               v-for="date of currentWeek"
-              :key="date.toISODate()"
+              :key="date.toISODate() || 'null'"
               style="width: 0px; cursor: pointer"
               class="d-flex flex-grow-1 flex-column align-items-center"
               @click="(currentDay = date), (mode = 'day')"
@@ -129,22 +133,23 @@
             </div>
 
             <div
-              v-for="date of currentWeek"
+              v-for="(date, index) of currentWeek"
               :style="{ '--num-of-hours': displayHours[1] - displayHours[0] }"
-              :key="date.toISODate()"
+              :key="date.toISODate() || 'null'"
               class="w-100 day-background position-relative overflow-hidden"
+              ref="dayEventsContainers"
               @click=" ($event)=>{
-                  const date = date.plus({
+                  const dateClicked = date.plus({
                       hours:
                         Math.floor(
                           (($event.offsetY / ($event.target as any).offsetHeight) * (displayHours[1] - displayHours[0]) + displayHours[0]) * 4
                         ) / 4,
                     })
-                  emit('timeClicked', date)
+                  emit('timeClicked', dateClicked)
                   if (columnsProp)
                     emit(
                       'timeClickedWithColumn',{
-                        date,
+                        date:dateClicked,
                         column_id: columns[Math.floor(($event.offsetX / ($event.target as any).offsetWidth) * columns.length)].id!,
                       }
                     )
@@ -153,11 +158,14 @@
             >
               <DayEvents
                 @event-clicked="emit('eventClicked', $event)"
+                @event-resized="emit('eventResized', $event)"
                 :start="displayHours[0]"
                 :end="displayHours[1]"
                 :events="getEventsForDay(date)"
                 :isToday="DateTime.now().startOf('day').equals(date)"
                 :columns="columnsProp && columns.filter(c => c.checked)"
+                :heightInPx="dayEventsContainers[index]?.clientHeight"
+                :resizeableEvents="resizeableEvents"
               ></DayEvents>
             </div>
           </div>
@@ -225,6 +233,8 @@ import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } f
 
 const $slots = useSlots();
 
+const dayEventsContainers = ref<HTMLElement[]>([]);
+
 const allViewOptions = { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', agenda: 'Agenda' } as const;
 
 const props = withDefaults(
@@ -232,12 +242,14 @@ const props = withDefaults(
     displayHours: [number, number];
     groups: Group[];
     columns?: Column[];
-    events: (Event & {column_id:number})[];
+    events: (Event & { column_id: number })[];
     hash?: string;
     viewOptions?: Record<keyof typeof allViewOptions, boolean>;
+    resizeableEvents?: boolean;
   }>(),
   {
     viewOptions: () => ({ day: true, week: true, month: true, year: true, agenda: true }),
+    resizeableEvents: () => false,
   }
 );
 const { hash, events, groups: groupsProp, columns: columnsProp, displayHours, viewOptions } = toRefs(props);
@@ -256,7 +268,8 @@ const viewOptionsLong = computed(() =>
 const emit = defineEmits<{
   'update:groups': [value: Group[]];
   'update:columns': [value: Column[]];
-  eventClicked: [value: Event];
+  eventClicked: [value: Omit<Event, 'id'> & { id: number | number[] }];
+  eventResized: [value: { id: number | number[]; newStart: DateTime; newEnd: DateTime }];
   timeClicked: [value: DateTime];
   timeClickedWithColumn: [value: { date: DateTime; column_id: number }];
 }>();
