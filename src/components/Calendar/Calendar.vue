@@ -165,7 +165,6 @@
                 :isToday="DateTime.now().startOf('day').equals(date)"
                 :columns="columnsProp && columns.filter(c => c.checked)"
                 :heightInPx="dayEventsContainers[index]?.clientHeight"
-                :resizeableEvents="resizeableEvents"
               ></DayEvents>
             </div>
           </div>
@@ -221,7 +220,7 @@
 <script lang="ts" setup>
 import { DateTime } from 'luxon';
 import GroupSelector from './GroupSelector.vue';
-import type { Event, Group, Column } from './types';
+import type { Event, Group, Column, Prettify } from './types';
 
 import { computed, defineEmits, defineProps, ref, toRefs, useSlots, watchEffect } from 'vue';
 import ButtonGroup from './ButtonGroup.vue';
@@ -231,7 +230,8 @@ import MonthView from './MonthView.vue';
 
 import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } from './utils';
 
-const $slots = useSlots();
+import VueResizable from 'vue-resizable';
+VueResizable;
 
 const dayEventsContainers = ref<HTMLElement[]>([]);
 
@@ -242,14 +242,12 @@ const props = withDefaults(
     displayHours: [number, number];
     groups: Group[];
     columns?: Column[];
-    events: (Event & { column_id: number })[];
+    events: Prettify<Event & { column_id: number }>[];
     hash?: string;
     viewOptions?: Record<keyof typeof allViewOptions, boolean>;
-    resizeableEvents?: boolean;
   }>(),
   {
     viewOptions: () => ({ day: true, week: true, month: true, year: true, agenda: true }),
-    resizeableEvents: () => false,
   }
 );
 const { hash, events, groups: groupsProp, columns: columnsProp, displayHours, viewOptions } = toRefs(props);

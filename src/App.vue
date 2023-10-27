@@ -4,14 +4,14 @@
       :displayHours="[8, 18]"
       :events="calendarEvents"
       :groups="groups"
+      :columns="columns"
       :viewOptions="{ day: true, week: true, month: true, year: false, agenda: false }"
-      @eventClicked="log"
-      @eventResized="($event)=> {const e = calendarEvents.find(e=>e.id===$event.id)!;
+      @eventClicked="e => log('eventClicked', e)"
+      @eventResized="($event)=> {const e = calendarEvents.find(e=>e.id===$event.id)!;log('eventResized', e)
                   e.start=e.start.split(' ')[0]+' '+$event.newStart.startOf('hour').toFormat('HH:mm:ss');
                   e.end=e.end.split(' ')[0]+' '+$event.newEnd.endOf('hour').toFormat('HH:mm:ss');}"
-      @timeClicked="log"
-      @timeClickedWithColumn="log"
-      resizeableEvents
+      @timeClicked="e => log('timeClicked', e)"
+      @timeClickedWithColumn="e => log('timeClickedWithColumn', e)"
     ></Calendar>
   </div>
 </template>
@@ -95,6 +95,7 @@ const calendarEvents = ref(
         id: i * 10,
         group_id: 1,
         column_id: 1,
+        isResizable: true,
       },
       {
         start: `2023-10-${i + 23} 12:00:00`,

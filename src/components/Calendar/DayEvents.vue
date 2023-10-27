@@ -11,7 +11,6 @@
     v-for="event in mergedLayoutedEvents"
     :key="JSON.stringify(event)"
     dragSelector="eventCard"
-    @mount="eHandler"
     @resize:move="
       resizingEvent!.start = timeStringToFraction(event.start) + pixelToFraction($event.top);
       resizingEvent!.end = timeStringToFraction(event.end) + pixelToFraction($event.height - resizingEvent?.initialHeight! + $event.top);
@@ -23,7 +22,7 @@
       emit('eventResized', { id: event.id, newStart: fractionToDateTime(resizingEvent!.start), newEnd: fractionToDateTime(resizingEvent!.end) });
       resizingEvent = null;
     "
-    :active="resizeableEvents ? ['b', 't'] : []"
+    :active="event.isResizable ? ['b', 't'] : []"
     style="cursor: pointer"
     class="alert alert-primary p-0 border-0 rounded-0 eventCard overflow-hidden"
     :style="getEventStyle(event)!"
@@ -50,7 +49,6 @@ const props = defineProps<{
   isToday?: boolean;
   columns?: Column[];
   heightInPx: number;
-  resizeableEvents: boolean;
 }>();
 const { columns, events, start, end, isToday, heightInPx } = toRefs(props);
 
@@ -60,8 +58,6 @@ const resizingEvent = ref<{
   end: number;
   initialHeight: number;
 } | null>(null);
-
-const log = console.log;
 
 const emit = defineEmits<{
   (e: 'eventClicked', value: Omit<Event, 'id'> & { id: number | number[] }): void;
@@ -138,9 +134,6 @@ const mergedLayoutedEvents = computed(() => {
     };
   });
 });
-function eHandler(data) {
-  console.log(data);
-}
 function fractionToDateTime(fraction: number) {
   return DateTime.fromObject({
     hour: Math.floor(fraction * (end.value - start.value) + start.value),
