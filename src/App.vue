@@ -12,7 +12,10 @@
                   e.end=e.end.split(' ')[0]+' '+$event.newEnd.endOf('hour').toFormat('HH:mm:ss');}"
       @timeClicked="e => log('timeClicked', e)"
       @timeClickedWithColumn="e => log('timeClickedWithColumn', e)"
-    ></Calendar>
+    >
+      <template #columnSelectionHeader><div class="px-2">Mitarbeiter</div></template>
+      <template #groupSelectionHeader><div class="px-2">Abteilungen</div></template>
+    </Calendar>
   </div>
 </template>
 

@@ -40,6 +40,7 @@
           <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
         </div>
         <template v-if="columnsProp">
+          <slot name="columnSelectionHeader"></slot>
           <button
             style="padding-left: 3.75rem; padding-right: 3.75rem"
             class="btn btn-secondary m-2"
@@ -62,7 +63,7 @@
           </div>
           <hr class="my-2" />
         </template>
-        <GroupSelector v-model="groups" :groupColors="groupColors" />
+        <GroupSelector v-model="groups" :groupColors="groupColors"><slot name="groupSelectionHeader"></slot></GroupSelector>
       </div>
       <div
         v-if="isMobile && (toggle || backdropActive)"

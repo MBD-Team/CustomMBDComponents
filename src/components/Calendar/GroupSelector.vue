@@ -1,9 +1,6 @@
 <template>
-  <button
-    style="padding-left: 3.75rem; padding-right: 3.75rem"
-    class="btn btn-secondary ms-2 mb-2 me-2"
-    @click="groups.forEach(g => (g.checked = true))"
-  >
+  <slot></slot>
+  <button style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary ms-2 m-2" @click="groups.forEach(g => (g.checked = true))">
     Alle auswählen
   </button>
   <div style="max-height: 100vh; overflow: auto">
