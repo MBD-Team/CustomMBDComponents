@@ -5,13 +5,14 @@
       :events="calendarEvents"
       :groups="groups"
       :columns="columns"
-      :viewOptions="{ day: true, week: true, month: true, year: false, agenda: false }"
+      :viewOptions="{ day: true, week: true, month: true, year: true, agenda: true }"
       @eventClicked="e => log('eventClicked', e)"
       @eventResized="($event)=> {const e = calendarEvents.find(e=>e.id===$event.id)!;log('eventResized', e)
                   e.start=e.start.split(' ')[0]+' '+$event.newStart.startOf('hour').toFormat('HH:mm:ss');
                   e.end=e.end.split(' ')[0]+' '+$event.newEnd.endOf('hour').toFormat('HH:mm:ss');}"
       @timeClicked="e => log('timeClicked', e)"
       @timeClickedWithColumn="e => log('timeClickedWithColumn', e)"
+      :hour-height-px="40"
     >
       <template #columnSelectionHeader><div class="px-2">Mitarbeiter</div></template>
       <template #groupSelectionHeader><div class="px-2">Abteilungen</div></template>

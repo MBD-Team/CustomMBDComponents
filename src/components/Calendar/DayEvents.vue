@@ -28,7 +28,7 @@
     :style="getEventStyle(event)!"
     @click.stop="emit('eventClicked', event)"
   >
-    <div class="eventCardContent">
+    <div class="eventCardContent" :title="event.name">
       <div class="ps-2">{{ event.name }}</div>
     </div>
   </vue-resizable>

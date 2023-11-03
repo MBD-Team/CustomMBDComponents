@@ -51,7 +51,7 @@
           <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
             <div
               class="p-1 ps-2"
-              v-for="(column, index) of columns"
+              v-for="(column, index) of columns.filter(c => (c.id || 0) % 1 == 0)"
               :key="column.id + ''"
               @click="column.checked = !column.checked"
               @dblclick="columns.forEach(g => (g.checked = false)), (column.checked = true)"
@@ -115,6 +115,7 @@
               <!-- print the column headers-->
               <div v-if="columnsProp" class="d-flex flex-row align-self-stretch">
                 <div
+                  :title="column.name"
                   v-for="column in columns.filter(c => c.checked)"
                   :key="column.id || 'null'"
                   class="flex-grow-1 flex-column text-muted text-center"
@@ -246,12 +247,16 @@ const props = withDefaults(
     events: Prettify<Event & { column_id: number }>[];
     hash?: string;
     viewOptions?: Record<keyof typeof allViewOptions, boolean>;
+    hourHeightPx?: number;
   }>(),
   {
     viewOptions: () => ({ day: true, week: true, month: true, year: true, agenda: true }),
+    hourHeightPx: 63,
   }
 );
-const { hash, events, groups: groupsProp, columns: columnsProp, displayHours, viewOptions } = toRefs(props);
+const { hash, events, groups: groupsProp, columns: columnsProp, displayHours, viewOptions, hourHeightPx } = toRefs(props);
+
+const hourHeightPxRef = computed(() => (hourHeightPx.value < 28 ? 28 : hourHeightPx.value) + 'px');
 
 const viewOptionsShort = computed(() =>
   Object.fromEntries(
@@ -365,4 +370,7 @@ const getDayClasses = useGetDayClasses(currentDay);
 
 <style scoped lang="scss">
 @use 'common';
+div {
+  --hour-height: v-bind('hourHeightPxRef');
+}
 </style>
