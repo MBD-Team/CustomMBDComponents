@@ -13,6 +13,7 @@
         </div>
         <div class="d-none d-sm-flex align-items-center" style="font-size: 20px">{{ currentDayReadable }}</div>
       </div>
+      <div class="d-flex justify-content-center align-items-center"><slot name="headerSlot"></slot></div>
       <div class="d-none d-sm-block mb-2">
         <ButtonGroup v-model="mode" :options="viewOptionsLong" name="type"></ButtonGroup>
       </div>
