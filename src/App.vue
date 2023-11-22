@@ -88,13 +88,17 @@ const columns = ref([
   { name: 'test3', id: 3, checked: true },
   { name: 'test4', id: 4, checked: true },
 ]);
+const now = new Date();
+const year = ref(now.getFullYear());
+const month = ref(now.getMonth() + 1);
+const day = ref(now.getDate());
 const calendarEvents = ref(
   Array(5)
     .fill(0)
     .flatMap((a, i) => [
       {
-        start: `2023-10-${i + 23} 08:00:00`,
-        end: `2023-10-${i + 23} 10:00:00`,
+        start: `${year.value}-${month.value}-${i + day.value} 10:00:00`,
+        end: `${year.value}-${month.value}-${i + day.value} 12:00:00`,
         name: 'test',
         id: i * 10,
         group_id: 1,
@@ -102,37 +106,28 @@ const calendarEvents = ref(
         isResizable: true,
       },
       {
-        start: `2023-10-${i + 23} 12:00:00`,
-        end: `2023-10-${i + 23} 17:00:00`,
+        start: `${year.value}-${month.value}-${i + day.value} 12:00:00`,
+        end: `${year.value}-${month.value}-${i + day.value} 14:00:00`,
         name: 'test',
         id: i * 10 + 1,
         group_id: 2,
         column_id: 2,
       },
       {
-        start: `2023-10-${i + 23} 10:00:00`,
-        end: `2023-10-${i + 23} 13:00:00`,
+        start: `${year.value}-${month.value}-${i + day.value} 14:00:00`,
+        end: `${year.value}-${month.value}-${day.value} 16:00:00`,
         name: 'test',
         id: i * 10 + 2,
         group_id: 3,
         column_id: 3,
       },
-
       {
-        start: `2023-10-${i + 23} 12:00:00`,
-        end: `2023-10-${i + 23} 15:00:00`,
-        name: 'test',
-        id: i * 10 + 3,
-        group_id: 4,
-        column_id: 4,
-      },
-      {
-        start: `2023-10-${i + 23} 09:00:00`,
-        end: `2023-10-${i + 23} 10:00:00`,
+        start: `${year.value}-${month.value}-${i + day.value} 16:00:00`,
+        end: `${year.value}-${month.value}-${day.value} 18:00:00`,
         name: 'test',
         id: i * 10 + 4,
-        group_id: 2,
-        column_id: 2,
+        group_id: 4,
+        column_id: 4,
       },
     ])
 );

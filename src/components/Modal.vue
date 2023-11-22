@@ -31,18 +31,19 @@
               <div
                 class="mbd-modal-footer gap-2"
                 :class="destructive ? 'flex-row-reverse' : 'flex-row'"
-                v-if="affirm.prop?.text || negative.prop?.text || slots.footer"
+                v-if="affirm.prop?.text || affirm.prop?.class || negative.prop?.text || negative.prop?.title || slots.footer"
               >
                 <slot name="footer"></slot>
                 <template
                   v-for="([btn, defaultClass]) in ([[negative,'btn btn-secondary'], [affirmAlt,'btn btn-warning'],[affirm,'btn btn-primary']] as const)"
                 >
-                  <div v-if="btn.prop?.text">
+                  <div v-if="btn.prop?.text || btn.prop?.class">
                     <Button
                       style="height: 2rem; font-size: 1rem"
                       class="border-0"
                       :loading="btn.loading"
                       :class="`${btn.prop.class || defaultClass}`"
+                      :title="btn.prop.title"
                       :disabled="!!btn.prop.disabled"
                       @click.stop="
                         () => {
@@ -99,7 +100,7 @@ import { toRefs, ref, watch, useSlots } from 'vue';
 import Button from './Button.vue';
 import Message from './Message.vue';
 
-type ButtonProp = { text: string; action?: () => Promise<any> | any; class?: string; disabled?: boolean } & {};
+type ButtonProp = { text: string; action?: () => Promise<any> | any; class?: string; disabled?: boolean; title?: string } & {};
 
 const slots = useSlots();
 const error = ref('');
