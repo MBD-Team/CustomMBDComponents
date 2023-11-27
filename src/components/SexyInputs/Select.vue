@@ -181,7 +181,7 @@ const props = withDefaults(
     borderColor?: string;
     optionProjection?: (option: TOpt) => string;
     listItemClass?: (e: any) => string;
-    listItemStyle?: (e: any) => string;
+    listItemStyle?: (e: TOpt) => string;
     matchFromStart?: boolean;
     loading?: boolean;
     disabled?: boolean;
