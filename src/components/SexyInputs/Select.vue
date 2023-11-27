@@ -37,6 +37,7 @@
             <div
               class="simple-typeahead-list-item"
               :class="listItemClass(item)"
+              :style="listItemStyle(item)"
               v-for="(item, index) in filteredItems"
               :key="index"
               @mousedown.prevent
@@ -180,6 +181,7 @@ const props = withDefaults(
     borderColor?: string;
     optionProjection?: (option: TOpt) => string;
     listItemClass?: (e: any) => string;
+    listItemStyle?: (e: any) => string;
     matchFromStart?: boolean;
     loading?: boolean;
     disabled?: boolean;
@@ -198,6 +200,7 @@ const props = withDefaults(
     matchFromStart: false,
     optionProjection: (e: TOpt) => (e ?? '') + '',
     listItemClass: () => '',
+    listItemStyle: () => '',
     name: '',
     loading: false,
     modelValue: '',
