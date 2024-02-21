@@ -27,6 +27,7 @@
         id="sideControls"
       >
         <MonthView
+          v-if="!disableMonthView"
           @event-clicked="emit('eventClicked', $event)"
           @day-pressed="(currentDay = $event), (mode = 'day')"
           @week-pressed="(currentDay = $event), (mode = 'week')"
@@ -38,7 +39,7 @@
           :events="getEventsForMonth(currentMonth)"
         ></MonthView>
         <div class="m-2">
-          <input type="text" class="form-control" placeholder="Termine Suchen..." v-model="filterQuery" />
+          <input type="text" class="form-control" :placeholder="filterQueryPlaceholder" v-model="filterQuery" />
         </div>
         <template v-if="columnsProp">
           <slot name="columnSelectionHeader"></slot>
@@ -249,10 +250,13 @@ const props = withDefaults(
     hash?: string;
     viewOptions?: Record<keyof typeof allViewOptions, boolean>;
     hourHeightPx?: number;
+    disableMonthView?: boolean;
+    filterQueryPlaceholder?: string;
   }>(),
   {
     viewOptions: () => ({ day: true, week: true, month: true, year: true, agenda: true }),
     hourHeightPx: 63,
+    filterQueryPlaceholder: 'Termine Suchen...',
   }
 );
 const { hash, events, groups: groupsProp, columns: columnsProp, displayHours, viewOptions, hourHeightPx } = toRefs(props);

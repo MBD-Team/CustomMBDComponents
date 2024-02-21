@@ -1,6 +1,8 @@
 <template>
   <div style="height: 100vh">
     <Calendar
+      disableMonthView
+      filterQueryPlaceholder="Mitarbeiter Suchen..."
       :displayHours="[8, 18]"
       :events="calendarEvents"
       :groups="groups"
