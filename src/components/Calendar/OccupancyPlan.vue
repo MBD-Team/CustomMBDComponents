@@ -131,7 +131,7 @@ const weekViewScrollbarSize = useElementScrollbarSize(weekContainer);
 
 const mode = ref<'day' | 'workweek' | 'week' | 'weekend'>('workweek');
 
-const currentDay = ref(0);
+const currentDay = ref(DateTime.now().weekday);
 const currentWeek = computed(
   () =>
     ({
