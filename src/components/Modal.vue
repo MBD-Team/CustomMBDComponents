@@ -168,18 +168,11 @@ function resetError() {
 .mbd-modal-wrapper {
   display: table-cell;
 }
-
-$spacingY: 10vh;
 .mbd-modal-dialog {
   background-color: white;
   border-radius: 0.5rem;
   margin: 0 auto;
-  margin-top: $spacingY;
-}
-.mbd-modal-body {
-  padding: 1rem;
-  overflow: auto;
-  max-height: calc(100vh - 2 * $spacingY - 57px * 2);
+  margin-top: 10vh;
 }
 .mbd-modal-header {
   display: flex;
@@ -187,6 +180,11 @@ $spacingY: 10vh;
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 0.5rem 0.5rem 0 1rem;
+}
+.mbd-modal-body {
+  padding: 1rem;
+  overflow: auto;
+  max-height: calc(90vh - 57px * 2);
 }
 .mbd-modal-footer {
   display: flex;
