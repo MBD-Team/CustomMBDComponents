@@ -127,7 +127,7 @@ export default {
 };
 </script>
 <script setup lang="ts" generic="TOpt">
-import { computed, ref, toRefs, useSlots } from 'vue';
+import { computed, ref, toRefs, useSlots, watch } from 'vue';
 import { getErrorMessage, useCalcSideWidth, InputError } from './Index';
 import Error from './common/Error.vue';
 import Spinner from '../Spinner.vue';
@@ -241,6 +241,8 @@ const borderColorComputed = computed(() => (getErrorMessage(error.value, name.va
 const checkIcon = computed(() => !!slots.icon);
 const checkButton = computed(() => !!slots.button);
 const checkNoElementMessage = computed(() => !!slots.noElementMessage);
+
+watch(modelValue, () => (searchText.value = modelValue.value));
 
 const { inputWidth, sideWidthComputed } = useCalcSideWidth(sideWidth);
 const filteredItems = computed(() => {
