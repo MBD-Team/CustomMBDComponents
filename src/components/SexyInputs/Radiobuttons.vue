@@ -4,7 +4,15 @@
       <Tooltip :tooltip="option.tooltip" :direction="row ? 'bottom' : 'right'">
         <div class="d-flex mb-2">
           <div class="round">
-            <input type="radio" :name="id" :id="option.text + id" :value="option.value" @change="updateValue" :checked="modelValue == option.value" />
+            <input
+              type="radio"
+              :name="id"
+              :id="option.text + id"
+              :value="option.value"
+              @change="updateValue"
+              :checked="modelValue == option.value"
+              :disabled="disabled"
+            />
             <label :for="option.text + id"></label>
           </div>
           <label class="ms-3" :for="option.text + id" style="cursor: pointer">{{ option.text }}</label>
@@ -37,6 +45,7 @@ const props = withDefaults(
     error?: InputError;
     errorColor?: string;
     borderColor?: string;
+    disabled?: boolean;
   }>(),
   {
     row: false,
@@ -44,6 +53,7 @@ const props = withDefaults(
     errorColor: 'red',
     borderColor: '#ccc',
     name: '',
+    disabled: false,
   }
 );
 const { modelValue, options, row, error, errorColor, borderColor, name } = toRefs(props);
