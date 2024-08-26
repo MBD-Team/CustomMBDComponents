@@ -65,10 +65,11 @@
           </div>
         </div>
         <div
-          v-for="date of currentWeek"
+          v-for="(date, index) of currentWeek"
           :style="{ '--num-of-hours': displayHours[1] - displayHours[0], '--num-of-columns': columns.filter(c => c.checked).length }"
           :key="date"
           class="w-100 day-background position-relative overflow-hidden"
+          ref="dayEventsContainers"
           @click="
             emit('timeClicked', {
               weekday: date as WeekdayNumbers,
@@ -88,6 +89,7 @@
             :events="getEventsForDay(date)"
             :isToday="DateTime.now().weekday == date"
             :columns="columns.filter(c => c.checked)"
+            :heightInPx="dayEventsContainers[index]?.clientHeight"
           ></DayEvents>
         </div>
       </div>
@@ -105,7 +107,8 @@ import type { Event, Group, WeekEvent, Column } from './types';
 import { isMobile, useGetDayClasses, useGroupColors, useElementScrollbarSize } from './utils';
 import GroupSelector from './GroupSelector.vue';
 import ButtonGroup from './ButtonGroup.vue';
-const console = window.console;
+
+const dayEventsContainers = ref<HTMLElement[]>([]);
 
 const props = defineProps<{
   displayHours: [number, number];
