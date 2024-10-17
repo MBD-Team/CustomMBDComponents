@@ -10,10 +10,10 @@
   <div class="d-flex flex-grow-1">
     <div class="d-flex flex-column">
       <div class="bg-light collapse show d-flex flex-column" style="height: 0px; flex-grow: 1">
-        <button v-if="!allColumnsChecked" style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true)), (allColumnsChecked = true), console.log('ho')">
+        <button v-if="!allColumnsChecked" style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true)), (allColumnsChecked = true)">
           Alle auswählen
         </button>
-        <button v-else style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = false)), (allColumnsChecked = false), console.log('hi')">
+        <button v-else style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = false)), (allColumnsChecked = false)">
           Alle abwählen
         </button>
         <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
