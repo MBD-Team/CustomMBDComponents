@@ -10,12 +10,38 @@
   <div class="d-flex flex-grow-1">
     <div class="d-flex flex-column">
       <div class="bg-light collapse show d-flex flex-column" style="height: 0px; flex-grow: 1">
-        <button v-if="!allColumnsChecked" style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true)), (allColumnsChecked = true)">
+        <button
+          v-if="allColumnsUnchecked"
+          style="padding-left: 3.75rem; padding-right: 3.75rem"
+          class="btn btn-secondary m-2"
+          @click="columns.forEach(c => (c.checked = true))"
+        >
           Alle auswählen
         </button>
-        <button v-else style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = false)), (allColumnsChecked = false)">
+        <button
+          v-if="allColumnsChecked"
+          style="padding-left: 3.75rem; padding-right: 3.75rem"
+          class="btn btn-secondary m-2"
+          @click="columns.forEach(c => (c.checked = false))"
+        >
           Alle abwählen
         </button>
+        <div class="d-flex flex-column" v-if="!allColumnsUnchecked && !allColumnsChecked">
+          <button
+            style="padding-left: 3.75rem; padding-right: 3.75rem"
+            class="btn btn-secondary ms-2 m-2"
+            @click="columns.forEach(g => (g.checked = true))"
+          >
+            Alle auswählen
+          </button>
+          <button
+            style="padding-left: 3.75rem; padding-right: 3.75rem"
+            class="btn btn-secondary ms-2 m-2"
+            @click="columns.forEach(g => (g.checked = false))"
+          >
+            Alle abwählen
+          </button>
+        </div>
         <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
           <div
             class="p-1 ps-2"
@@ -92,7 +118,7 @@
             :events="getEventsForDay(date)"
             :isToday="DateTime.now().weekday == date"
             :columns="columns.filter(c => c.checked)"
-            :heightInPx="dayEventsContainers[index]?.clientHeight"
+            :heightInPx="dayEventsContainers[index]?.clientHeight || 1"
           ></DayEvents>
         </div>
       </div>
@@ -124,8 +150,8 @@ const { title, events, columns: columnsProp, groups: groupsProp, displayHours } 
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 let columns = computed({ get: () => columnsProp.value, set: (columns: Column[]) => emit('update:columns', columns) });
-
-const allColumnsChecked = ref(false);
+let allColumnsChecked = computed(() => columns.value.every(g => g.checked));
+let allColumnsUnchecked = computed(() => columns.value.every(g => !g.checked));
 
 const emit = defineEmits<{
   (e: 'update:groups', value: Group[]): void;
