@@ -1,7 +1,20 @@
 <template>
   <slot></slot>
-  <button style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary ms-2 m-2" @click="groups.forEach(g => (g.checked = true))">
+  <button
+    v-if="!allGroupsChecked"
+    style="padding-left: 3.75rem; padding-right: 3.75rem"
+    class="btn btn-secondary ms-2 m-2"
+    @click="groups.forEach(g => (g.checked = true)), emit('update:modelValue', groups)"
+  >
     Alle auswählen
+  </button>
+  <button
+    v-if="!allGroupsUnchecked"
+    style="padding-left: 3.75rem; padding-right: 3.75rem"
+    class="btn btn-secondary ms-2 m-2"
+    @click="groups.forEach(g => (g.checked = false)), emit('update:modelValue', groups)"
+  >
+    Alle abwählen
   </button>
   <div style="max-height: 100vh; overflow: auto">
     <div
@@ -19,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { Group } from './types';
 
 const emit = defineEmits<{
@@ -32,4 +45,7 @@ const props = defineProps<{
 }>();
 const { modelValue: group, groupColors } = toRefs(props);
 let groups = computed({ get: () => group.value, set: groups => emit('update:modelValue', groups) });
+
+let allGroupsChecked = computed(() => groups.value.every(g => g.checked));
+let allGroupsUnchecked = computed(() => groups.value.every(g => !g.checked));
 </script>

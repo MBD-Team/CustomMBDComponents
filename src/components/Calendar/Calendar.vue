@@ -44,11 +44,20 @@
         <template v-if="columnsProp">
           <slot name="columnSelectionHeader"></slot>
           <button
+            v-if="!allColumnsChecked"
             style="padding-left: 3.75rem; padding-right: 3.75rem"
             class="btn btn-secondary m-2"
             @click="columns.forEach(c => (c.checked = true))"
           >
             Alle auswählen
+          </button>
+          <button
+            v-if="!allColumnsUnchecked"
+            style="padding-left: 3.75rem; padding-right: 3.75rem"
+            class="btn btn-secondary m-2"
+            @click="columns.forEach(c => (c.checked = false))"
+          >
+            Alle abwählen
           </button>
           <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
             <div
@@ -168,7 +177,7 @@
                 :events="getEventsForDay(date)"
                 :isToday="DateTime.now().startOf('day').equals(date)"
                 :columns="columnsProp && columns.filter(c => c.checked)"
-                :heightInPx="dayEventsContainers[index]?.clientHeight"
+                :heightInPx="dayEventsContainers[index]?.clientHeight || 1"
               ></DayEvents>
             </div>
           </div>
@@ -285,7 +294,10 @@ const emit = defineEmits<{
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 let columns = computed({ get: () => columnsProp?.value || [], set: (columns: Column[]) => emit('update:columns', columns) });
+let allColumnsChecked = computed(() => columns.value.every(g => g.checked));
+let allColumnsUnchecked = computed(() => columns.value.every(g => !g.checked));
 
+const groupColors = useGroupColors(groups);
 let toggle = ref(false);
 let backdropActive = ref(false);
 watchEffect(() => {
@@ -312,8 +324,6 @@ const currentYear = computed(() => currentDay.value.startOf('year'));
 const currentDayReadable = computed(() =>
   currentDay.value.toFormat({ day: 'dd. LLLL, yyyy', week: 'LLLL, yyyy', month: 'LLLL, yyyy', year: 'yyyy' }[timeFrame.value])
 );
-
-const groupColors = useGroupColors(groups);
 
 const eventsWithColor = computed(() =>
   events.value.map(e => ({ ...e, color: e.color || groupColors.value[groups.value.findIndex(g => g.id == e.group_id)] }))

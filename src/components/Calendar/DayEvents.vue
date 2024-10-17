@@ -50,6 +50,7 @@ const props = defineProps<{
   columns?: Column[];
   heightInPx: number;
 }>();
+
 const { columns, events, start, end, isToday, heightInPx } = toRefs(props);
 
 const resizingEvent = ref<{
