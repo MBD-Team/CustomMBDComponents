@@ -1,7 +1,7 @@
 <template>
   <slot></slot>
   <button
-    v-if="allGroupsUnchecked"
+    v-if="!allGroupsChecked"
     style="padding-left: 3.75rem; padding-right: 3.75rem"
     class="btn btn-secondary ms-2 m-2"
     @click="groups.forEach(g => (g.checked = true)), emit('update:modelValue', groups)"
@@ -9,29 +9,13 @@
     Alle auswählen
   </button>
   <button
-    v-if="allGroupsChecked"
+    v-if="!allGroupsUnchecked"
     style="padding-left: 3.75rem; padding-right: 3.75rem"
     class="btn btn-secondary ms-2 m-2"
     @click="groups.forEach(g => (g.checked = false)), emit('update:modelValue', groups)"
   >
     Alle abwählen
   </button>
-  <div class="d-flex flex-column" v-if="!allGroupsUnchecked && !allGroupsChecked">
-    <button
-      style="padding-left: 3.75rem; padding-right: 3.75rem"
-      class="btn btn-secondary ms-2 m-2"
-      @click="groups.forEach(g => (g.checked = true)), emit('update:modelValue', groups)"
-    >
-      Alle auswählen
-    </button>
-    <button
-      style="padding-left: 3.75rem; padding-right: 3.75rem"
-      class="btn btn-secondary ms-2 m-2"
-      @click="groups.forEach(g => (g.checked = false)), emit('update:modelValue', groups)"
-    >
-      Alle abwählen
-    </button>
-  </div>
   <div style="max-height: 100vh; overflow: auto">
     <div
       class="p-1 ps-2"
