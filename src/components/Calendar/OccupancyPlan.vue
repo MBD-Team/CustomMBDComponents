@@ -11,7 +11,7 @@
     <div class="d-flex flex-column">
       <div class="bg-light collapse show d-flex flex-column" style="height: 0px; flex-grow: 1">
         <button
-          v-if="allColumnsUnchecked"
+          v-if="!allColumnsChecked"
           style="padding-left: 3.75rem; padding-right: 3.75rem"
           class="btn btn-secondary m-2"
           @click="columns.forEach(c => (c.checked = true))"
@@ -19,29 +19,13 @@
           Alle auswählen
         </button>
         <button
-          v-if="allColumnsChecked"
+          v-if="!allColumnsUnchecked"
           style="padding-left: 3.75rem; padding-right: 3.75rem"
           class="btn btn-secondary m-2"
           @click="columns.forEach(c => (c.checked = false))"
         >
           Alle abwählen
         </button>
-        <div class="d-flex flex-column" v-if="!allColumnsUnchecked && !allColumnsChecked">
-          <button
-            style="padding-left: 3.75rem; padding-right: 3.75rem"
-            class="btn btn-secondary ms-2 m-2"
-            @click="columns.forEach(g => (g.checked = true))"
-          >
-            Alle auswählen
-          </button>
-          <button
-            style="padding-left: 3.75rem; padding-right: 3.75rem"
-            class="btn btn-secondary ms-2 m-2"
-            @click="columns.forEach(g => (g.checked = false))"
-          >
-            Alle abwählen
-          </button>
-        </div>
         <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
           <div
             class="p-1 ps-2"
