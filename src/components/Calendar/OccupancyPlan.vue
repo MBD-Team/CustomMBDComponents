@@ -10,8 +10,11 @@
   <div class="d-flex flex-grow-1">
     <div class="d-flex flex-column">
       <div class="bg-light collapse show d-flex flex-column" style="height: 0px; flex-grow: 1">
-        <button style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true))">
+        <button v-if="!allColumnsChecked" style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = true)), (allColumnsChecked = true), console.log('ho')">
           Alle auswählen
+        </button>
+        <button v-else style="padding-left: 3.75rem; padding-right: 3.75rem" class="btn btn-secondary m-2" @click="columns.forEach(c => (c.checked = false)), (allColumnsChecked = false), console.log('hi')">
+          Alle abwählen
         </button>
         <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
           <div
@@ -121,6 +124,8 @@ const { title, events, columns: columnsProp, groups: groupsProp, displayHours } 
 
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 let columns = computed({ get: () => columnsProp.value, set: (columns: Column[]) => emit('update:columns', columns) });
+
+const allColumnsChecked = ref(false);
 
 const emit = defineEmits<{
   (e: 'update:groups', value: Group[]): void;

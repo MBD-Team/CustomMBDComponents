@@ -42,14 +42,14 @@ import { splitConnectedGroups } from './utils';
 
 import VueResizable from 'vue-resizable';
 
-const props = defineProps<{
+const props = withDefault{defineProps<{
   events: (Event & { column_id?: number })[];
   start: number;
   end: number;
   isToday?: boolean;
   columns?: Column[];
   heightInPx: number;
-}>();
+}>(),{heightInPx: 1}};
 const { columns, events, start, end, isToday, heightInPx } = toRefs(props);
 
 const resizingEvent = ref<{

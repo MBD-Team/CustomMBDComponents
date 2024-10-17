@@ -44,12 +44,21 @@
         <template v-if="columnsProp">
           <slot name="columnSelectionHeader"></slot>
           <button
-            style="padding-left: 3.75rem; padding-right: 3.75rem"
-            class="btn btn-secondary m-2"
-            @click="columns.forEach(c => (c.checked = true))"
-          >
-            Alle auswählen
-          </button>
+                    v-if="!allColumnsChecked"
+                    style="padding-left: 3.75rem; padding-right: 3.75rem"
+                    class="btn btn-secondary m-2"
+                    @click="columns.forEach(c => (c.checked = true)), (allColumnsChecked = true)"
+                >
+                    Alle auswählen
+                </button>
+                <button
+                    v-else
+                    style="padding-left: 3.75rem; padding-right: 3.75rem"
+                    class="btn btn-secondary m-2"
+                    @click="columns.forEach(c => (c.checked = false)), (allColumnsChecked = false)"
+                >
+                    Alle abwählen
+                </button>
           <div style="flex-basis: 200px; flex-grow: 1; overflow: auto">
             <div
               class="p-1 ps-2"
@@ -286,6 +295,7 @@ const emit = defineEmits<{
 let groups = computed({ get: () => groupsProp.value, set: (groups: Group[]) => emit('update:groups', groups) });
 let columns = computed({ get: () => columnsProp?.value || [], set: (columns: Column[]) => emit('update:columns', columns) });
 
+const groupColors = useGroupColors(groups);
 let toggle = ref(false);
 let backdropActive = ref(false);
 watchEffect(() => {
@@ -313,7 +323,9 @@ const currentDayReadable = computed(() =>
   currentDay.value.toFormat({ day: 'dd. LLLL, yyyy', week: 'LLLL, yyyy', month: 'LLLL, yyyy', year: 'yyyy' }[timeFrame.value])
 );
 
-const groupColors = useGroupColors(groups);
+
+
+const allColumnsChecked = ref(false);
 
 const eventsWithColor = computed(() =>
   events.value.map(e => ({ ...e, color: e.color || groupColors.value[groups.value.findIndex(g => g.id == e.group_id)] }))
