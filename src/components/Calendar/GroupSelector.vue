@@ -1,7 +1,7 @@
 <template>
   <slot></slot>
   <button
-    v-if="!allGroupsChecked"
+    :disabled="allGroupsChecked"
     style="padding-left: 3.75rem; padding-right: 3.75rem"
     class="btn btn-secondary ms-2 m-2"
     @click="groups.forEach(g => (g.checked = true)), emit('update:modelValue', groups)"
@@ -9,7 +9,7 @@
     Alle auswählen
   </button>
   <button
-    v-if="!allGroupsUnchecked"
+    :disabled="allGroupsUnchecked"
     style="padding-left: 3.75rem; padding-right: 3.75rem"
     class="btn btn-secondary ms-2 m-2"
     @click="groups.forEach(g => (g.checked = false)), emit('update:modelValue', groups)"
